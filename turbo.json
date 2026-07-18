@@ -1,0 +1,33 @@
+{
+  "$schema": "https://v2-8-13.turborepo.dev/schema.json",
+  "globalEnv": ["CI", "OPENCODE_DISABLE_SHARE"],
+  "globalPassThroughEnv": ["CI", "OPENCODE_DISABLE_SHARE"],
+  "tasks": {
+    "typecheck": {},
+    "build": {
+      "dependsOn": [],
+      "outputs": ["dist/**"]
+    },
+    "dalam#test": {
+      "dependsOn": ["^build"],
+      "outputs": [],
+      "passThroughEnv": ["*"]
+    },
+    "@uthakkan/core#test": {
+      "dependsOn": ["^build"],
+      "outputs": []
+    },
+    "@uthakkan/app#test": {
+      "dependsOn": ["^build"],
+      "outputs": []
+    },
+    "@uthakkan/ui#test": {
+      "dependsOn": ["^build"],
+      "outputs": []
+    },
+    "@uthakkan/session-ui#test": {
+      "dependsOn": ["^build"],
+      "outputs": []
+    }
+  }
+}

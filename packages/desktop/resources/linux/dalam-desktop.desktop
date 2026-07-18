@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Dalam
+Exec=/opt/Dalam/in.uthakkan.dalam %U
+Terminal=false
+Type=Application
+Icon=in.uthakkan.dalam
+StartupWMClass=in.uthakkan.dalam
+NoDisplay=true
+Comment=AI coding agent
+Categories=Development;

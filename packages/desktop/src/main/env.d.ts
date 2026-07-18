@@ -1,0 +1,19 @@
+interface ImportMetaEnv {
+  readonly OPENCODE_CHANNEL: string
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv
+}
+
+declare module "virtual:dalam-server" {
+  export namespace Server {
+    export const listen: typeof import("../../../dalam/dist/types/src/node").Server.listen
+    export type Listener = import("../../../dalam/dist/types/src/node").Server.Listener
+  }
+  export namespace Config {
+    export const get: typeof import("../../../dalam/dist/types/src/node").Config.get
+    export type Info = import("../../../dalam/dist/types/src/node").Config.Info
+  }
+  export const bootstrap: typeof import("../../../dalam/dist/types/src/node").bootstrap
+}
