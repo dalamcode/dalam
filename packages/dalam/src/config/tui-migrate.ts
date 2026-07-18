@@ -120,7 +120,7 @@ async function dalamFiles(input: { directories: string[]; cwd: string }) {
   for (const dir of unique(input.directories)) {
     files.push(...ConfigPaths.fileInDirectory(dir, "dalam"))
   }
-  if (Flag.OPENCODE_CONFIG) files.push(Flag.OPENCODE_CONFIG)
+  if (Flag.DALAM_CONFIG) files.push(Flag.DALAM_CONFIG)
 
   const existing = await Promise.all(
     unique(files).map(async (file) => {

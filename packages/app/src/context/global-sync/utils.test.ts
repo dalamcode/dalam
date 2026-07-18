@@ -36,8 +36,8 @@ describe("normalizeAgentList", () => {
 
 describe("directoryKey", () => {
   test("normalizes slashes", () => {
-    expect(String(directoryKey("C:\\Repos\\sst\\dalam"))).toBe("C:/Repos/sst/dalam")
-    expect(String(directoryKey("C:/Repos/sst/dalam"))).toBe("C:/Repos/sst/dalam")
+    expect(String(directoryKey("C:\\Repos\\dalamcode\\dalam"))).toBe("C:/Repos/dalamcode/dalam")
+    expect(String(directoryKey("C:/Repos/dalamcode/dalam"))).toBe("C:/Repos/dalamcode/dalam")
   })
 
   test("preserves backslashes in posix paths", () => {
@@ -45,7 +45,7 @@ describe("directoryKey", () => {
   })
 
   test("trims trailing slashes without breaking roots", () => {
-    expect(String(directoryKey("C:/Repos/sst/dalam/"))).toBe("C:/Repos/sst/dalam")
+    expect(String(directoryKey("C:/Repos/dalamcode/dalam/"))).toBe("C:/Repos/dalamcode/dalam")
     expect(String(directoryKey("C:/"))).toBe("C:/")
     expect(String(directoryKey("/"))).toBe("/")
   })

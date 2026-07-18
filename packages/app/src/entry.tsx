@@ -100,7 +100,7 @@ if (!(root instanceof HTMLElement) && import.meta.env.DEV) {
 
 const getCurrentUrl = () => {
   if (import.meta.env.DEV)
-    return `http://${import.meta.env.VITE_OPENCODE_SERVER_HOST ?? "localhost"}:${import.meta.env.VITE_OPENCODE_SERVER_PORT ?? "4096"}`
+    return `http://${import.meta.env.VITE_DALAM_SERVER_HOST ?? "localhost"}:${import.meta.env.VITE_DALAM_SERVER_PORT ?? "4096"}`
   return location.origin
 }
 

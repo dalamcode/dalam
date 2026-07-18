@@ -55,11 +55,11 @@ const APP_NAMES: Record<string, string> = {
   prod: "Dalam",
 }
 const APP_IDS: Record<string, string> = {
-  dev: "ai.dalam.desktop.dev",
-  beta: "ai.dalam.desktop.beta",
-  prod: "ai.dalam.desktop",
+  dev: "in.uthakkan.dalam.dev",
+  beta: "in.uthakkan.dalam.beta",
+  prod: "in.uthakkan.dalam",
 }
-const TEST_ONBOARDING = process.env.OPENCODE_TEST_ONBOARDING === "1"
+const TEST_ONBOARDING = process.env.DALAM_TEST_ONBOARDING === "1"
 const jsCallStackFeature = "DocumentPolicyIncludeJSCallStacksInCrashReports"
 
 let logger: ReturnType<typeof initLogging>
@@ -118,9 +118,9 @@ const main = Effect.gen(function* () {
     process.chdir(homedir())
   } catch {}
 
-  process.env.OPENCODE_DISABLE_EMBEDDED_WEB_UI = "true"
+  process.env.DALAM_DISABLE_EMBEDDED_WEB_UI = "true"
 
-  const appId = app.isPackaged ? APP_IDS[CHANNEL] : "ai.dalam.desktop.dev"
+  const appId = app.isPackaged ? APP_IDS[CHANNEL] : "in.uthakkan.dalam.dev"
   const onboardingTestRoot = ((): string | undefined => {
     if (!TEST_ONBOARDING) return
 
@@ -129,7 +129,7 @@ const main = Effect.gen(function* () {
     ;["data", "config", "cache", "state", "desktop", "session"].forEach((dir) =>
       mkdirSync(join(root, dir), { recursive: true }),
     )
-    process.env.OPENCODE_DB = ":memory:"
+    process.env.DALAM_DB = ":memory:"
     process.env.XDG_DATA_HOME = join(root, "data")
     process.env.XDG_CONFIG_HOME = join(root, "config")
     process.env.XDG_CACHE_HOME = join(root, "cache")
@@ -313,7 +313,7 @@ const main = Effect.gen(function* () {
   )
 
   const port = yield* Effect.gen(function* () {
-    const fromEnv = process.env.OPENCODE_PORT
+    const fromEnv = process.env.DALAM_PORT
     if (fromEnv) {
       const parsed = Number.parseInt(fromEnv, 10)
       if (!Number.isNaN(parsed)) return parsed

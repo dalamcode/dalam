@@ -1,4 +1,4 @@
-import { createOpencodeClient } from "@uthakkan/sdk/v2"
+import { createDalamClient } from "@uthakkan/sdk/v2"
 import type { GlobalEvent } from "@uthakkan/sdk/v2"
 import { Flag } from "@uthakkan/core/flag/flag"
 import { createSimpleContext } from "./helper"
@@ -21,7 +21,7 @@ export const { use: useSDK, provider: SDKProvider } = createSimpleContext({
     let sse: AbortController | undefined
 
     function createSDK() {
-      return createOpencodeClient({
+      return createDalamClient({
         baseUrl: props.url,
         signal: abort.signal,
         directory: props.directory,
@@ -93,7 +93,7 @@ export const { use: useSDK, provider: SDKProvider } = createSimpleContext({
             sseMaxRetryAttempts: 0,
           })
 
-          if (Flag.OPENCODE_EXPERIMENTAL_WORKSPACES) {
+          if (Flag.DALAM_EXPERIMENTAL_WORKSPACES) {
             // Start syncing workspaces, it's important to do this after
             // we've started listening to events
             await sdk.sync.start().catch(() => {})
@@ -121,7 +121,7 @@ export const { use: useSDK, provider: SDKProvider } = createSimpleContext({
         const unsub = await props.events.subscribe(handleEvent)
         onCleanup(unsub)
 
-        if (Flag.OPENCODE_EXPERIMENTAL_WORKSPACES) {
+        if (Flag.DALAM_EXPERIMENTAL_WORKSPACES) {
           // Start syncing workspaces, it's important to do this after
           // we've started listening to events
           await sdk.sync.start().catch(() => {})

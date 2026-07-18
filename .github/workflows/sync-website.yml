@@ -1,0 +1,59 @@
+name: sync-website
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - "website/**"
+      - ".github/workflows/sync-website.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - name: Setup Bun
+        uses: ./.github/actions/setup-bun
+
+      - name: Setup git committer
+        id: committer
+        uses: ./.github/actions/setup-git-committer
+        with:
+          dalam-app-id: ${{ vars.DALAM_APP_ID }}
+          dans-app-secret: ${{ secrets.DALAM_APP_SECRET }}
+
+      - name: Sync website to dalam-website repo
+        env:
+          GITHUB_TOKEN: ${{ steps.committer.outputs.token }}
+        run: |
+          # Clone the website repo
+          rm -rf /tmp/dalam-website
+          git clone https://x-access-token:${GITHUB_TOKEN}@github.com/dalamcode/dalam-website.git /tmp/dalam-website
+
+          # Copy website files
+          cp -r website/* /tmp/dalam-website/
+          cp website/_headers /tmp/dalam-website/ 2>/dev/null || true
+          cp website/_redirects /tmp/dalam-website/ 2>/dev/null || true
+
+          # Check for changes
+          cd /tmp/dalam-website
+          git config user.email "dalam@uthakkan.in"
+          git config user.name "dalam"
+
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "No website changes to sync"
+            exit 0
+          fi
+
+          # Commit and push
+          git add -A
+          git commit -m "Sync website from main repo"
+          git push origin main
+          echo "Website synced successfully"

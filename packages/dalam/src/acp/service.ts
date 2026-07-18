@@ -31,7 +31,7 @@ import {
 } from "@agentclientprotocol/sdk"
 import { InstallationVersion } from "@uthakkan/core/installation/version"
 import { AppNodeBuilder } from "@uthakkan/core/effect/app-node-builder"
-import type { AssistantMessage, Message, OpencodeClient, SessionMessageResponse } from "@uthakkan/sdk/v2"
+import type { AssistantMessage, Message, DalamClient, SessionMessageResponse } from "@uthakkan/sdk/v2"
 import { Context, Effect, Layer, ManagedRuntime } from "effect"
 import * as ACPError from "./error"
 import { buildConfigOptions, parseModelSelection } from "./config-option"
@@ -73,7 +73,7 @@ export type Interface = {
 export class Service extends Context.Service<Service, Interface>()("@dalam/ACP/Service") {}
 
 export function make(input: {
-  sdk: OpencodeClient
+  sdk: DalamClient
   connection?: ServiceConnection
   directory?: Directory.Interface
   session?: ACPSession.Interface
@@ -575,7 +575,7 @@ function makeSessionService() {
   )
 }
 
-function makeDirectoryService(sdk: OpencodeClient) {
+function makeDirectoryService(sdk: DalamClient) {
   return ManagedRuntime.make(
     AppNodeBuilder.build(Directory.node, [
       [
@@ -591,7 +591,7 @@ function makeDirectoryService(sdk: OpencodeClient) {
   ).runSync(Directory.Service.use((service) => Effect.succeed(service)))
 }
 
-function makeUsageService(sdk: OpencodeClient) {
+function makeUsageService(sdk: DalamClient) {
   const limits = new Map<string, Promise<number | undefined>>()
   const contextLimit: UsageService.Interface["contextLimit"] = Effect.fn("ACP.promptUsage.contextLimit")(
     function* (params) {
@@ -717,7 +717,7 @@ function profiledRequest<T>(name: string, fn: () => Promise<T | SdkResponse<T>>,
   return request(() => ACPProfile.measure(name, fn), service)
 }
 
-async function loadDirectorySnapshot(sdk: OpencodeClient, directory: string) {
+async function loadDirectorySnapshot(sdk: DalamClient, directory: string) {
   return ACPProfile.measure("acp.directory.load", async () => {
     const [providersResponse, agentsResponse, commandsResponse, skillsResponse, configResponse] = await Promise.all([
       ACPProfile.measure("acp.directory.provider.list", () =>
@@ -871,7 +871,7 @@ function promptErrorMessage(error: AssistantError) {
 
 function sendUsageUpdate(
   usage: UsageService.Interface | undefined,
-  sdk: OpencodeClient,
+  sdk: DalamClient,
   connection: ServiceConnection | undefined,
   sessionID: string,
   directory: string,
@@ -948,7 +948,7 @@ function sendAvailableCommands(
 }
 
 function registerMcpServers(
-  sdk: OpencodeClient,
+  sdk: DalamClient,
   registered: Map<string, Set<string>>,
   directory: string,
   sessionId: string,

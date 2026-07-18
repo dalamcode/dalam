@@ -40,7 +40,7 @@ export function resource(): { serviceName: string; serviceVersion: string; attri
     attributes: {
       ...resourceAttributes(),
       "deployment.environment.name": InstallationChannel,
-      "dalam.client": Flag.OPENCODE_CLIENT,
+      "dalam.client": Flag.DALAM_CLIENT,
       "dalam.run": runID,
       "service.instance.id": runID,
     },

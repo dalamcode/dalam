@@ -58,7 +58,7 @@ await createClient({
     },
     {
       name: "@hey-api/sdk",
-      instance: "OpencodeClient",
+      instance: "DalamClient",
       exportFromIndex: false,
       auth: false,
       paramsStructure: "flat",

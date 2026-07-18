@@ -18,9 +18,9 @@ export const GenerateCommand = {
           {
             lang: "js",
             source: [
-              `import { createOpencodeClient } from "@uthakkan/sdk`,
+              `import { createDalamClient } from "@uthakkan/sdk`,
               ``,
-              `const client = createOpencodeClient()`,
+              `const client = createDalamClient()`,
               `await client.${operation.operationId}({`,
               `  ...`,
               `})`,

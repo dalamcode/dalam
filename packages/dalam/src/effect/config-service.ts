@@ -30,8 +30,8 @@ export type ServiceClass<Self, Id extends string, Service> = Context.ServiceClas
  * class ServerAuthConfig extends ConfigService.Service<ServerAuthConfig>()(
  *   "@dalam/ServerAuthConfig",
  *   {
- *     password: Config.string("OPENCODE_SERVER_PASSWORD").pipe(Config.option),
- *     username: Config.string("OPENCODE_SERVER_USERNAME").pipe(Config.withDefault("dalam")),
+ *     password: Config.string("DALAM_SERVER_PASSWORD").pipe(Config.option),
+ *     username: Config.string("DALAM_SERVER_USERNAME").pipe(Config.withDefault("dalam")),
  *   },
  * ) {}
  *

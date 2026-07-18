@@ -100,7 +100,7 @@ beforeAll(async () => {
   }))
 
   mock.module("@uthakkan/sdk/v2/client", () => ({
-    createOpencodeClient: (input: { directory: string }) => {
+    createDalamClient: (input: { directory: string }) => {
       createdClients.push(input.directory)
       return clientFor(input.directory)
     },

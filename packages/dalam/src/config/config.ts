@@ -241,7 +241,7 @@ const layer = Layer.effect(
       let result: Info = {}
       // Seed the default global config with the schema for editor completion, but avoid writing when the user
       // explicitly routes config through env-provided paths or content.
-      if (!Flag.OPENCODE_CONFIG && !Flag.OPENCODE_CONFIG_DIR && !Flag.OPENCODE_CONFIG_CONTENT) {
+      if (!Flag.DALAM_CONFIG && !Flag.DALAM_CONFIG_DIR && !Flag.DALAM_CONFIG_CONTENT) {
         const file = globalConfigFile()
         if (!existsSync(file)) {
           yield* fs
@@ -314,7 +314,7 @@ const layer = Layer.effect(
 
         const pluginScopeForSource = Effect.fnUntraced(function* (source: string) {
           if (source.startsWith("http://") || source.startsWith("https://")) return "global"
-          if (source === "OPENCODE_CONFIG_CONTENT") return "local"
+          if (source === "DALAM_CONFIG_CONTENT") return "local"
           if (containsPath(source, ctx)) return "local"
           return "global"
         })
@@ -390,12 +390,12 @@ const layer = Layer.effect(
         const global = Object.keys(authEnv).length ? yield* loadGlobal(authEnv) : yield* getGlobal()
         yield* merge(Global.Path.config, global, "global")
 
-        if (Flag.OPENCODE_CONFIG) {
-          yield* merge(Flag.OPENCODE_CONFIG, yield* loadFile(Flag.OPENCODE_CONFIG, authEnv))
-          yield* Effect.logDebug("loaded custom config", { path: Flag.OPENCODE_CONFIG })
+        if (Flag.DALAM_CONFIG) {
+          yield* merge(Flag.DALAM_CONFIG, yield* loadFile(Flag.DALAM_CONFIG, authEnv))
+          yield* Effect.logDebug("loaded custom config", { path: Flag.DALAM_CONFIG })
         }
 
-        if (!Flag.OPENCODE_DISABLE_PROJECT_CONFIG) {
+        if (!Flag.DALAM_DISABLE_PROJECT_CONFIG) {
           for (const file of yield* ConfigPaths.files("dalam", ctx.directory, ctx.worktree).pipe(Effect.orDie)) {
             yield* merge(file, yield* loadFile(file, authEnv), "local")
           }
@@ -407,14 +407,14 @@ const layer = Layer.effect(
 
         const directories = yield* ConfigPaths.directories(ctx.directory, ctx.worktree)
 
-        if (Flag.OPENCODE_CONFIG_DIR) {
-          yield* Effect.logDebug("loading config from OPENCODE_CONFIG_DIR", { path: Flag.OPENCODE_CONFIG_DIR })
+        if (Flag.DALAM_CONFIG_DIR) {
+          yield* Effect.logDebug("loading config from DALAM_CONFIG_DIR", { path: Flag.DALAM_CONFIG_DIR })
         }
 
         const deps: Fiber.Fiber<void>[] = []
 
         for (const dir of directories) {
-          if (dir.endsWith(".dalam") || dir === Flag.OPENCODE_CONFIG_DIR) {
+          if (dir.endsWith(".dalam") || dir === Flag.DALAM_CONFIG_DIR) {
             for (const file of ["dalam.json", "dalam.jsonc"]) {
               const source = path.join(dir, file)
               yield* Effect.logDebug(`loading config from ${source}`)
@@ -457,14 +457,14 @@ const layer = Layer.effect(
           yield* mergePluginOrigins(dir, list)
         }
 
-        if (process.env.OPENCODE_CONFIG_CONTENT) {
-          const source = "OPENCODE_CONFIG_CONTENT"
-          const next = yield* loadConfig(process.env.OPENCODE_CONFIG_CONTENT, {
+        if (process.env.DALAM_CONFIG_CONTENT) {
+          const source = "DALAM_CONFIG_CONTENT"
+          const next = yield* loadConfig(process.env.DALAM_CONFIG_CONTENT, {
             dir: ctx.directory,
             source,
           })
           yield* merge(source, next, "local")
-          yield* Effect.logDebug("loaded custom config from OPENCODE_CONFIG_CONTENT")
+          yield* Effect.logDebug("loaded custom config from DALAM_CONFIG_CONTENT")
         }
 
         const managedDir = ConfigManaged.managedConfigDir()
@@ -496,11 +496,11 @@ const layer = Layer.effect(
           })
         }
 
-        if (Flag.OPENCODE_PERMISSION) {
+        if (Flag.DALAM_PERMISSION) {
           try {
-            result.permission = mergeDeep(result.permission ?? {}, JSON.parse(Flag.OPENCODE_PERMISSION))
+            result.permission = mergeDeep(result.permission ?? {}, JSON.parse(Flag.DALAM_PERMISSION))
           } catch (err) {
-            yield* Effect.logWarning("OPENCODE_PERMISSION contains invalid JSON, skipping", { err })
+            yield* Effect.logWarning("DALAM_PERMISSION contains invalid JSON, skipping", { err })
           }
         }
 
@@ -527,10 +527,10 @@ const layer = Layer.effect(
         }
 
 
-        if (Flag.OPENCODE_DISABLE_AUTOCOMPACT) {
+        if (Flag.DALAM_DISABLE_AUTOCOMPACT) {
           result.compaction = { ...result.compaction, auto: false }
         }
-        if (Flag.OPENCODE_DISABLE_PRUNE) {
+        if (Flag.DALAM_DISABLE_PRUNE) {
           result.compaction = { ...result.compaction, prune: false }
         }
 

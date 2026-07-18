@@ -16,7 +16,7 @@ describe("dalam acp skills subprocess", () => {
         yield* Effect.promise(() => Bun.write(path.join(skills, "verifier-skill", "SKILL.md"), verifierSkill))
         const acp = yield* createAcpClient(
           { dalam },
-          { OPENCODE_CONFIG_CONTENT: JSON.stringify(verifierConfig(llm.url, skills)) },
+          { DALAM_CONFIG_CONTENT: JSON.stringify(verifierConfig(llm.url, skills)) },
         )
         yield* initialize(acp)
         const session = yield* newSession(acp, home)

@@ -73,11 +73,11 @@ export class ConfigService extends Context.Service<ConfigService, Config>()("@da
 export const defaultConfigLayer = Layer.sync(ConfigService, () =>
   ConfigService.of({
     provider:
-      process.env.OPENCODE_WEBSEARCH_PROVIDER === "exa" || process.env.OPENCODE_WEBSEARCH_PROVIDER === "parallel"
-        ? process.env.OPENCODE_WEBSEARCH_PROVIDER
+      process.env.DALAM_WEBSEARCH_PROVIDER === "exa" || process.env.DALAM_WEBSEARCH_PROVIDER === "parallel"
+        ? process.env.DALAM_WEBSEARCH_PROVIDER
         : undefined,
-    enableExa: truthy("OPENCODE_EXPERIMENTAL") || truthy("OPENCODE_ENABLE_EXA") || truthy("OPENCODE_EXPERIMENTAL_EXA"),
-    enableParallel: truthy("OPENCODE_ENABLE_PARALLEL") || truthy("OPENCODE_EXPERIMENTAL_PARALLEL"),
+    enableExa: truthy("DALAM_EXPERIMENTAL") || truthy("DALAM_ENABLE_EXA") || truthy("DALAM_EXPERIMENTAL_EXA"),
+    enableParallel: truthy("DALAM_ENABLE_PARALLEL") || truthy("DALAM_EXPERIMENTAL_PARALLEL"),
     exaApiKey: process.env.EXA_API_KEY,
     parallelApiKey: process.env.PARALLEL_API_KEY,
   }),

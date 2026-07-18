@@ -5,9 +5,9 @@ import * as fs from "node:fs/promises"
 const DALAM_SERVER_DIST = "../dalam/dist/node"
 
 const channel = (() => {
-  const raw = process.env.OPENCODE_CHANNEL
+  const raw = process.env.DALAM_CHANNEL
   if (raw === "dev" || raw === "beta" || raw === "prod") return raw
-  if (process.env.OPENCODE_CHANNEL === "latest") return "prod"
+  if (process.env.DALAM_CHANNEL === "latest") return "prod"
   return "dev"
 })()
 
@@ -16,7 +16,7 @@ const nodePtyPkg = `@lydell/node-pty-${process.platform}-${process.arch}`
 export default defineConfig({
   main: {
     define: {
-      "import.meta.env.OPENCODE_CHANNEL": JSON.stringify(channel),
+      "import.meta.env.DALAM_CHANNEL": JSON.stringify(channel),
     },
     build: {
       rollupOptions: {

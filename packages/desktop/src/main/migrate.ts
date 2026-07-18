@@ -21,7 +21,7 @@ function tauriDir(id: string) {
   }
 }
 
-// The Tauri app identifier changes between dev/beta/prod builds.
+// The OLD Tauri app identifiers (used as migration source, NOT current IDs).
 const TAURI_APP_IDS: Record<string, string> = {
   dev: "ai.dalam.desktop.dev",
   beta: "ai.dalam.desktop.beta",

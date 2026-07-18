@@ -124,9 +124,9 @@ const clearEffect = (wait = false) =>
     )
 const clear = (wait = false) => Effect.runPromise(clearEffect(wait))
 // Get managed config directory from environment (set in preload.ts)
-const managedConfigDir = process.env.OPENCODE_TEST_MANAGED_CONFIG_DIR!
+const managedConfigDir = process.env.DALAM_TEST_MANAGED_CONFIG_DIR!
 const originalTestToken = process.env.TEST_TOKEN
-const originalConsoleToken = process.env.OPENCODE_CONSOLE_TOKEN
+const originalConsoleToken = process.env.DALAM_CONSOLE_TOKEN
 
 beforeEach(async () => {
   await clear(true)
@@ -136,8 +136,8 @@ afterEach(async () => {
   await fs.rm(managedConfigDir, { force: true, recursive: true }).catch(() => {})
   if (originalTestToken === undefined) delete process.env.TEST_TOKEN
   else process.env.TEST_TOKEN = originalTestToken
-  if (originalConsoleToken === undefined) delete process.env.OPENCODE_CONSOLE_TOKEN
-  else process.env.OPENCODE_CONSOLE_TOKEN = originalConsoleToken
+  if (originalConsoleToken === undefined) delete process.env.DALAM_CONSOLE_TOKEN
+  else process.env.DALAM_CONSOLE_TOKEN = originalConsoleToken
   await clear(true)
 })
 
@@ -314,12 +314,12 @@ it.effect("creates global jsonc config with schema when no global configs exist"
   ),
 )
 
-it.effect("does not create global config when OPENCODE_CONFIG_DIR is set", () =>
+it.effect("does not create global config when DALAM_CONFIG_DIR is set", () =>
   Effect.gen(function* () {
     const custom = yield* tmpdirScoped()
     yield* withGlobalConfig({}, ({ dir }) =>
       withProcessEnv(
-        "OPENCODE_CONFIG_DIR",
+        "DALAM_CONFIG_DIR",
         custom,
         Effect.gen(function* () {
           yield* Config.use.get().pipe(provideInstanceEffect(dir))
@@ -848,7 +848,7 @@ it.instance("gets config directories", () =>
   }),
 )
 
-it.effect("does not try to install dependencies in read-only OPENCODE_CONFIG_DIR", () =>
+it.effect("does not try to install dependencies in read-only DALAM_CONFIG_DIR", () =>
   Effect.gen(function* () {
     if (process.platform === "win32") return
 
@@ -858,11 +858,11 @@ it.effect("does not try to install dependencies in read-only OPENCODE_CONFIG_DIR
     yield* FSUtil.use.chmod(readonly, 0o555)
     yield* Effect.addFinalizer(() => FSUtil.use.chmod(readonly, 0o755).pipe(Effect.ignore))
 
-    yield* withProcessEnv("OPENCODE_CONFIG_DIR", readonly, Config.use.get().pipe(provideInstanceEffect(dir)))
+    yield* withProcessEnv("DALAM_CONFIG_DIR", readonly, Config.use.get().pipe(provideInstanceEffect(dir)))
   }).pipe(Effect.provide(testInstanceStoreLayer), Effect.provide(LayerNode.compile(CrossSpawnSpawner.node))),
 )
 
-it.effect("ignores an inaccessible OPENCODE_CONFIG_DIR", () =>
+it.effect("ignores an inaccessible DALAM_CONFIG_DIR", () =>
   Effect.gen(function* () {
     if (process.platform === "win32") return
 
@@ -872,29 +872,29 @@ it.effect("ignores an inaccessible OPENCODE_CONFIG_DIR", () =>
     yield* FSUtil.use.chmod(configDir, 0o000)
     yield* Effect.addFinalizer(() => FSUtil.use.chmod(configDir, 0o755).pipe(Effect.ignore))
 
-    yield* withProcessEnv("OPENCODE_CONFIG_DIR", configDir, Config.use.get().pipe(provideInstanceEffect(dir)))
+    yield* withProcessEnv("DALAM_CONFIG_DIR", configDir, Config.use.get().pipe(provideInstanceEffect(dir)))
   }).pipe(Effect.provide(testInstanceStoreLayer), Effect.provide(LayerNode.compile(CrossSpawnSpawner.node))),
 )
 
-it.effect("creates a missing OPENCODE_CONFIG_DIR", () =>
+it.effect("creates a missing DALAM_CONFIG_DIR", () =>
   Effect.gen(function* () {
     const dir = yield* tmpdirScoped()
     const configDir = path.join(dir, "configdir")
 
-    yield* withProcessEnv("OPENCODE_CONFIG_DIR", configDir, Config.use.get().pipe(provideInstanceEffect(dir)))
+    yield* withProcessEnv("DALAM_CONFIG_DIR", configDir, Config.use.get().pipe(provideInstanceEffect(dir)))
 
     expect(yield* FSUtil.use.readFileString(path.join(configDir, ".gitignore"))).toContain("node_modules")
   }).pipe(Effect.provide(testInstanceStoreLayer), Effect.provide(LayerNode.compile(CrossSpawnSpawner.node))),
 )
 
-it.effect("installs dependencies in writable OPENCODE_CONFIG_DIR", () =>
+it.effect("installs dependencies in writable DALAM_CONFIG_DIR", () =>
   Effect.gen(function* () {
     const dir = yield* tmpdirScoped()
     const configDir = path.join(dir, "configdir")
     yield* FSUtil.use.ensureDir(configDir)
 
     yield* withProcessEnv(
-      "OPENCODE_CONFIG_DIR",
+      "DALAM_CONFIG_DIR",
       configDir,
       Config.Service.use((svc) => svc.get().pipe(Effect.andThen(svc.waitForDependencies()))).pipe(
         provideInstanceEffect(dir),
@@ -965,7 +965,7 @@ it.effect("global config remains global when project config is disabled", () =>
       local: { model: "local/model" },
     },
     withProcessEnv(
-      "OPENCODE_DISABLE_PROJECT_CONFIG",
+      "DALAM_DISABLE_PROJECT_CONFIG",
       "true",
       Effect.gen(function* () {
         const config = yield* Config.use.get()
@@ -1119,7 +1119,7 @@ it.instance("migrates legacy write tool to edit permission", () =>
 )
 
 // Managed settings tests
-// Note: preload.ts sets OPENCODE_TEST_MANAGED_CONFIG which Global.Path.managedConfig uses
+// Note: preload.ts sets DALAM_TEST_MANAGED_CONFIG which Global.Path.managedConfig uses
 
 it.instance(
   "managed settings override user settings",
@@ -1746,12 +1746,12 @@ describe("deduplicatePluginOrigins", () => {
   )
 })
 
-describe("OPENCODE_DISABLE_PROJECT_CONFIG", () => {
+describe("DALAM_DISABLE_PROJECT_CONFIG", () => {
   it.instance(
     "skips project config files when flag is set",
     () =>
       withProcessEnv(
-        "OPENCODE_DISABLE_PROJECT_CONFIG",
+        "DALAM_DISABLE_PROJECT_CONFIG",
         "true",
         Effect.gen(function* () {
           const config = yield* Config.use.get()
@@ -1764,7 +1764,7 @@ describe("OPENCODE_DISABLE_PROJECT_CONFIG", () => {
 
   it.instance("skips project .dalam/ directories when flag is set", () =>
     withProcessEnv(
-      "OPENCODE_DISABLE_PROJECT_CONFIG",
+      "DALAM_DISABLE_PROJECT_CONFIG",
       "true",
       Effect.gen(function* () {
         const test = yield* TestInstance
@@ -1780,7 +1780,7 @@ describe("OPENCODE_DISABLE_PROJECT_CONFIG", () => {
 
   it.instance("still loads global config when flag is set", () =>
     withProcessEnv(
-      "OPENCODE_DISABLE_PROJECT_CONFIG",
+      "DALAM_DISABLE_PROJECT_CONFIG",
       "true",
       Effect.gen(function* () {
         const config = yield* Config.use.get()
@@ -1794,7 +1794,7 @@ describe("OPENCODE_DISABLE_PROJECT_CONFIG", () => {
     "skips relative instructions with warning when flag is set but no config dir",
     () =>
       withProcessEnvs(
-        { OPENCODE_CONFIG_DIR: undefined, OPENCODE_DISABLE_PROJECT_CONFIG: "true" },
+        { DALAM_CONFIG_DIR: undefined, DALAM_DISABLE_PROJECT_CONFIG: "true" },
         Effect.gen(function* () {
           const test = yield* TestInstance
           yield* FSUtil.use.writeWithDirs(path.join(test.directory, "CUSTOM.md"), "# Custom Instructions")
@@ -1807,12 +1807,12 @@ describe("OPENCODE_DISABLE_PROJECT_CONFIG", () => {
   )
 
   it.instance(
-    "OPENCODE_CONFIG_DIR still works when flag is set",
+    "DALAM_CONFIG_DIR still works when flag is set",
     () =>
       Effect.gen(function* () {
         const configDir = yield* tmpdirScoped({ config: { model: "configdir/model" } })
         yield* withProcessEnvs(
-          { OPENCODE_DISABLE_PROJECT_CONFIG: "true", OPENCODE_CONFIG_DIR: configDir },
+          { DALAM_DISABLE_PROJECT_CONFIG: "true", DALAM_CONFIG_DIR: configDir },
           Effect.gen(function* () {
             const config = yield* Config.use.get()
             expect(config.model).toBe("configdir/model")
@@ -1823,13 +1823,13 @@ describe("OPENCODE_DISABLE_PROJECT_CONFIG", () => {
   )
 })
 
-// Regression for #28206: malformed OPENCODE_PERMISSION JSON used to crash
+// Regression for #28206: malformed DALAM_PERMISSION JSON used to crash
 // the app on startup with an unhandled SyntaxError. Loading the config with
 // an invalid JSON value in this env var should not throw.
-describe("OPENCODE_PERMISSION env var", () => {
-  it.instance("does not crash when OPENCODE_PERMISSION contains invalid JSON", () =>
+describe("DALAM_PERMISSION env var", () => {
+  it.instance("does not crash when DALAM_PERMISSION contains invalid JSON", () =>
     withProcessEnv(
-      "OPENCODE_PERMISSION",
+      "DALAM_PERMISSION",
       "{invalid",
       Effect.gen(function* () {
         const config = yield* Config.use.get()
@@ -1840,13 +1840,13 @@ describe("OPENCODE_PERMISSION env var", () => {
   )
 })
 
-describe("OPENCODE_CONFIG_CONTENT token substitution", () => {
-  it.instance("substitutes {env:} tokens in OPENCODE_CONFIG_CONTENT", () =>
+describe("DALAM_CONFIG_CONTENT token substitution", () => {
+  it.instance("substitutes {env:} tokens in DALAM_CONFIG_CONTENT", () =>
     withProcessEnv(
       "TEST_CONFIG_VAR",
       "test_api_key_12345",
       withProcessEnv(
-        "OPENCODE_CONFIG_CONTENT",
+        "DALAM_CONFIG_CONTENT",
         JSON.stringify({
           $schema: "https://dalam.uthakkan.in/config.json",
           username: "{env:TEST_CONFIG_VAR}",
@@ -1859,12 +1859,12 @@ describe("OPENCODE_CONFIG_CONTENT token substitution", () => {
     ),
   )
 
-  it.instance("substitutes {file:} tokens in OPENCODE_CONFIG_CONTENT", () =>
+  it.instance("substitutes {file:} tokens in DALAM_CONFIG_CONTENT", () =>
     Effect.gen(function* () {
       const test = yield* TestInstance
       yield* FSUtil.use.writeWithDirs(path.join(test.directory, "api_key.txt"), "secret_key_from_file")
       yield* withProcessEnv(
-        "OPENCODE_CONFIG_CONTENT",
+        "DALAM_CONFIG_CONTENT",
         JSON.stringify({
           $schema: "https://dalam.uthakkan.in/config.json",
           username: "{file:./api_key.txt}",

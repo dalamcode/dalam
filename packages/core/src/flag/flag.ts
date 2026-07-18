@@ -1,78 +1,93 @@
 import { Config } from "effect"
 
+// Backward compatibility: copy any OPENCODE_* env vars to DALAM_* equivalents
+// if the DALAM_* version is not already set. DALAM_* always takes priority.
+function migrateEnvVars() {
+  const env = process.env
+  for (const key of Object.keys(env)) {
+    if (key.startsWith("OPENCODE_")) {
+      const dalamKey = `DALAM_${key.slice(8)}`
+      if (!(dalamKey in env)) {
+        env[dalamKey] = env[key]
+      }
+    }
+  }
+}
+migrateEnvVars()
+
 export function truthy(key: string) {
   const value = process.env[key]?.toLowerCase()
   return value === "true" || value === "1"
 }
 
-const copy = process.env["OPENCODE_EXPERIMENTAL_DISABLE_COPY_ON_SELECT"]
-const fff = process.env["OPENCODE_DISABLE_FFF"]
+const copy = process.env["DALAM_EXPERIMENTAL_DISABLE_COPY_ON_SELECT"]
+const fff = process.env["DALAM_DISABLE_FFF"]
 
 function enabledByExperimental(key: string) {
-  return process.env[key] === undefined ? truthy("OPENCODE_EXPERIMENTAL") : truthy(key)
+  return process.env[key] === undefined ? truthy("DALAM_EXPERIMENTAL") : truthy(key)
 }
 
 export const Flag = {
   OTEL_EXPORTER_OTLP_ENDPOINT: process.env["OTEL_EXPORTER_OTLP_ENDPOINT"],
   OTEL_EXPORTER_OTLP_HEADERS: process.env["OTEL_EXPORTER_OTLP_HEADERS"],
 
-  OPENCODE_AUTO_HEAP_SNAPSHOT: truthy("OPENCODE_AUTO_HEAP_SNAPSHOT"),
-  OPENCODE_GIT_BASH_PATH: process.env["OPENCODE_GIT_BASH_PATH"],
-  OPENCODE_CONFIG: process.env["OPENCODE_CONFIG"],
-  OPENCODE_CONFIG_CONTENT: process.env["OPENCODE_CONFIG_CONTENT"],
-  OPENCODE_DISABLE_AUTOUPDATE: truthy("OPENCODE_DISABLE_AUTOUPDATE"),
-  OPENCODE_ALWAYS_NOTIFY_UPDATE: truthy("OPENCODE_ALWAYS_NOTIFY_UPDATE"),
-  OPENCODE_DISABLE_PRUNE: truthy("OPENCODE_DISABLE_PRUNE"),
-  OPENCODE_DISABLE_TERMINAL_TITLE: truthy("OPENCODE_DISABLE_TERMINAL_TITLE"),
-  OPENCODE_SHOW_TTFD: truthy("OPENCODE_SHOW_TTFD"),
-  OPENCODE_DISABLE_AUTOCOMPACT: truthy("OPENCODE_DISABLE_AUTOCOMPACT"),
-  OPENCODE_DISABLE_MODELS_FETCH: truthy("OPENCODE_DISABLE_MODELS_FETCH"),
-  OPENCODE_DISABLE_MOUSE: truthy("OPENCODE_DISABLE_MOUSE"),
-  OPENCODE_FAKE_VCS: process.env["OPENCODE_FAKE_VCS"],
-  OPENCODE_SERVER_PASSWORD: process.env["OPENCODE_SERVER_PASSWORD"],
-  OPENCODE_SERVER_USERNAME: process.env["OPENCODE_SERVER_USERNAME"],
-  OPENCODE_DISABLE_FFF: fff === undefined ? process.platform === "win32" : truthy("OPENCODE_DISABLE_FFF"),
+  DALAM_AUTO_HEAP_SNAPSHOT: truthy("DALAM_AUTO_HEAP_SNAPSHOT"),
+  DALAM_GIT_BASH_PATH: process.env["DALAM_GIT_BASH_PATH"],
+  DALAM_CONFIG: process.env["DALAM_CONFIG"],
+  DALAM_CONFIG_CONTENT: process.env["DALAM_CONFIG_CONTENT"],
+  DALAM_DISABLE_AUTOUPDATE: truthy("DALAM_DISABLE_AUTOUPDATE"),
+  DALAM_ALWAYS_NOTIFY_UPDATE: truthy("DALAM_ALWAYS_NOTIFY_UPDATE"),
+  DALAM_DISABLE_PRUNE: truthy("DALAM_DISABLE_PRUNE"),
+  DALAM_DISABLE_TERMINAL_TITLE: truthy("DALAM_DISABLE_TERMINAL_TITLE"),
+  DALAM_SHOW_TTFD: truthy("DALAM_SHOW_TTFD"),
+  DALAM_DISABLE_AUTOCOMPACT: truthy("DALAM_DISABLE_AUTOCOMPACT"),
+  DALAM_DISABLE_MODELS_FETCH: truthy("DALAM_DISABLE_MODELS_FETCH"),
+  DALAM_DISABLE_MOUSE: truthy("DALAM_DISABLE_MOUSE"),
+  DALAM_FAKE_VCS: process.env["DALAM_FAKE_VCS"],
+  DALAM_SERVER_PASSWORD: process.env["DALAM_SERVER_PASSWORD"],
+  DALAM_SERVER_USERNAME: process.env["DALAM_SERVER_USERNAME"],
+  DALAM_DISABLE_FFF: fff === undefined ? process.platform === "win32" : truthy("DALAM_DISABLE_FFF"),
 
   // Experimental
-  OPENCODE_EXPERIMENTAL_FILEWATCHER: Config.boolean("OPENCODE_EXPERIMENTAL_FILEWATCHER").pipe(
+  DALAM_EXPERIMENTAL_FILEWATCHER: Config.boolean("DALAM_EXPERIMENTAL_FILEWATCHER").pipe(
     Config.withDefault(false),
   ),
-  OPENCODE_EXPERIMENTAL_DISABLE_FILEWATCHER: Config.boolean("OPENCODE_EXPERIMENTAL_DISABLE_FILEWATCHER").pipe(
+  DALAM_EXPERIMENTAL_DISABLE_FILEWATCHER: Config.boolean("DALAM_EXPERIMENTAL_DISABLE_FILEWATCHER").pipe(
     Config.withDefault(false),
   ),
-  OPENCODE_EXPERIMENTAL_DISABLE_COPY_ON_SELECT:
-    copy === undefined ? process.platform === "win32" : truthy("OPENCODE_EXPERIMENTAL_DISABLE_COPY_ON_SELECT"),
-  OPENCODE_MODELS_URL: process.env["OPENCODE_MODELS_URL"],
-  OPENCODE_MODELS_PATH: process.env["OPENCODE_MODELS_PATH"],
-  OPENCODE_DB: process.env["OPENCODE_DB"],
+  DALAM_EXPERIMENTAL_DISABLE_COPY_ON_SELECT:
+    copy === undefined ? process.platform === "win32" : truthy("DALAM_EXPERIMENTAL_DISABLE_COPY_ON_SELECT"),
+  DALAM_MODELS_URL: process.env["DALAM_MODELS_URL"],
+  DALAM_MODELS_PATH: process.env["DALAM_MODELS_PATH"],
+  DALAM_DB: process.env["DALAM_DB"],
 
-  OPENCODE_WORKSPACE_ID: process.env["OPENCODE_WORKSPACE_ID"],
-  OPENCODE_EXPERIMENTAL_WORKSPACES: enabledByExperimental("OPENCODE_EXPERIMENTAL_WORKSPACES"),
+  DALAM_WORKSPACE_ID: process.env["DALAM_WORKSPACE_ID"],
+  DALAM_EXPERIMENTAL_WORKSPACES: enabledByExperimental("DALAM_EXPERIMENTAL_WORKSPACES"),
 
   // Evaluated at access time (not module load) because tests, the CLI, and
   // external tooling set these env vars at runtime.
-  get OPENCODE_DISABLE_PROJECT_CONFIG() {
-    return truthy("OPENCODE_DISABLE_PROJECT_CONFIG")
+  get DALAM_DISABLE_PROJECT_CONFIG() {
+    return truthy("DALAM_DISABLE_PROJECT_CONFIG")
   },
-  get OPENCODE_EXPERIMENTAL_REFERENCES() {
-    return enabledByExperimental("OPENCODE_EXPERIMENTAL_REFERENCES")
+  get DALAM_EXPERIMENTAL_REFERENCES() {
+    return enabledByExperimental("DALAM_EXPERIMENTAL_REFERENCES")
   },
-  get OPENCODE_TUI_CONFIG() {
-    return process.env["OPENCODE_TUI_CONFIG"]
+  get DALAM_TUI_CONFIG() {
+    return process.env["DALAM_TUI_CONFIG"]
   },
-  get OPENCODE_CONFIG_DIR() {
-    return process.env["OPENCODE_CONFIG_DIR"]
+  get DALAM_CONFIG_DIR() {
+    return process.env["DALAM_CONFIG_DIR"]
   },
-  get OPENCODE_PURE() {
-    return truthy("OPENCODE_PURE")
+  get DALAM_PURE() {
+    return truthy("DALAM_PURE")
   },
-  get OPENCODE_PERMISSION() {
-    return process.env["OPENCODE_PERMISSION"]
+  get DALAM_PERMISSION() {
+    return process.env["DALAM_PERMISSION"]
   },
-  get OPENCODE_PLUGIN_META_FILE() {
-    return process.env["OPENCODE_PLUGIN_META_FILE"]
+  get DALAM_PLUGIN_META_FILE() {
+    return process.env["DALAM_PLUGIN_META_FILE"]
   },
-  get OPENCODE_CLIENT() {
-    return process.env["OPENCODE_CLIENT"] ?? "cli"
+  get DALAM_CLIENT() {
+    return process.env["DALAM_CLIENT"] ?? "cli"
   },
 }

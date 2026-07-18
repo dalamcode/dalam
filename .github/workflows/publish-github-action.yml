@@ -14,6 +14,7 @@ permissions:
 
 jobs:
   publish:
+    if: false # Disabled: ./github directory does not exist
     runs-on: blacksmith-4vcpu-ubuntu-2404
     steps:
       - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0
@@ -24,7 +25,7 @@ jobs:
 
       - name: Publish
         run: |
-          git config --global user.email "dalam@sst.dev"
+          git config --global user.email "dalam@uthakkan.in"
           git config --global user.name "dalam"
           ./script/publish
         working-directory: ./github

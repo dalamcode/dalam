@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
 import type { retry } from "@uthakkan/core/util/retry"
-import type { Message, OpencodeClient, Part, Session } from "@uthakkan/sdk/v2/client"
+import type { Message, DalamClient, Part, Session } from "@uthakkan/sdk/v2/client"
 import { createServerSession } from "./server-session"
 
 const session = (id: string, parentID?: string): Session => ({
@@ -81,7 +81,7 @@ function messageClient(...responses: Array<MessageResponse | Promise<MessageResp
         return responses[index++]
       },
     },
-  } as unknown as OpencodeClient
+  } as unknown as DalamClient
   return Object.assign(client, {
     requests,
     requested(count: number) {
@@ -114,7 +114,7 @@ function rootMessageClient(
         return roots[rootIndex++]
       },
     },
-  } as unknown as OpencodeClient
+  } as unknown as DalamClient
   return Object.assign(client, {
     requests,
     rootRequests,
@@ -153,7 +153,7 @@ function setup(sessions: Record<string, Session>) {
       diff: async () => ({ data: [] }),
       todo: async () => ({ data: [] }),
     },
-  } as unknown as OpencodeClient
+  } as unknown as DalamClient
   return { get, messages, store: createServerSession(client) }
 }
 

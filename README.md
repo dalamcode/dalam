@@ -2,6 +2,8 @@
 
 A local-first BYOK (Bring Your Own Key) AI coding tool.
 
+[Website](https://dalam.uthakkan.in) | [GitHub](https://github.com/dalamcode/dalam) | [npm](https://www.npmjs.com/package/@uthakkan/sdk)
+
 ## Features
 
 - **Desktop App** - Electron app for macOS, Windows, Linux
@@ -14,15 +16,30 @@ A local-first BYOK (Bring Your Own Key) AI coding tool.
 
 ## Installation
 
-### Desktop App
-Download from [Releases](https://github.com/ajmaluk/dalam/releases)
+### Homebrew (macOS/Linux)
 
-### CLI
 ```bash
-npm install -g dalam
+brew install dalamcode/tap/dalam
 ```
 
+### CLI
+
+```bash
+npm install -g @uthakkan/dalam
+```
+
+Or use the install script:
+
+```bash
+curl -fsSL https://dalam.uthakkan.in/install | bash
+```
+
+### Desktop App
+
+Download from [Releases](https://github.com/dalamcode/dalam/releases)
+
 ### VS Code Extension
+
 Search for "Dalam" in the VS Code Marketplace.
 
 ## Usage

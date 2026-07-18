@@ -8,8 +8,8 @@ import type { DalamEvent } from "../src"
 
 test("embedded client uses the real router and handlers", async () => {
   const directory = await mkdtemp(join(tmpdir(), "dalam-embedded-"))
-  const database = Flag.OPENCODE_DB
-  Flag.OPENCODE_DB = join(directory, "dalam.sqlite")
+  const database = Flag.DALAM_DB
+  Flag.DALAM_DB = join(directory, "dalam.sqlite")
   const { AbsolutePath, Agent, Location, Model, Dalam, Prompt, Provider, Session, Tool } = await import("../src")
   const sessionID = Session.ID.make(`ses_embedded_${crypto.randomUUID()}`)
   const model = Model.Ref.make({ id: Model.ID.make("embedded"), providerID: Provider.ID.make("test") })
@@ -99,15 +99,15 @@ test("embedded client uses the real router and handlers", async () => {
     })
     await Effect.runPromise(Effect.scoped(program))
   } finally {
-    Flag.OPENCODE_DB = database
+    Flag.DALAM_DB = database
     await rm(directory, { recursive: true, force: true })
   }
 })
 
 test("Location-owned runner events reach the ready global client", async () => {
   const directory = await mkdtemp(join(tmpdir(), "dalam-embedded-events-"))
-  const database = Flag.OPENCODE_DB
-  Flag.OPENCODE_DB = join(directory, "dalam.sqlite")
+  const database = Flag.DALAM_DB
+  Flag.DALAM_DB = join(directory, "dalam.sqlite")
   const { AbsolutePath, Location, Dalam, Prompt, Session } = await import("../src")
   const sessionID = Session.ID.make(`ses_embedded_${crypto.randomUUID()}`)
 
@@ -138,15 +138,15 @@ test("Location-owned runner events reach the ready global client", async () => {
     })
     await Effect.runPromise(Effect.scoped(program))
   } finally {
-    Flag.OPENCODE_DB = database
+    Flag.DALAM_DB = database
     await rm(directory, { recursive: true, force: true })
   }
 }, 10_000)
 
 test("independent embedded hosts do not share live notifications", async () => {
   const directory = await mkdtemp(join(tmpdir(), "dalam-embedded-hosts-"))
-  const database = Flag.OPENCODE_DB
-  Flag.OPENCODE_DB = join(directory, "dalam.sqlite")
+  const database = Flag.DALAM_DB
+  Flag.DALAM_DB = join(directory, "dalam.sqlite")
   const { AbsolutePath, Agent, Location, Dalam, Session } = await import("../src")
   const sessionID = Session.ID.make(`ses_embedded_${crypto.randomUUID()}`)
 
@@ -181,15 +181,15 @@ test("independent embedded hosts do not share live notifications", async () => {
     })
     await Effect.runPromise(Effect.scoped(program))
   } finally {
-    Flag.OPENCODE_DB = database
+    Flag.DALAM_DB = database
     await rm(directory, { recursive: true, force: true })
   }
 }, 10_000)
 
 test("embedded client is available as a Layer service", async () => {
   const directory = await mkdtemp(join(tmpdir(), "dalam-embedded-layer-"))
-  const database = Flag.OPENCODE_DB
-  Flag.OPENCODE_DB = join(directory, "dalam.sqlite")
+  const database = Flag.DALAM_DB
+  Flag.DALAM_DB = join(directory, "dalam.sqlite")
   const { AbsolutePath, Location, Dalam, Session } = await import("../src")
   const sessionID = Session.ID.make(`ses_embedded_${crypto.randomUUID()}`)
 
@@ -206,7 +206,7 @@ test("embedded client is available as a Layer service", async () => {
 
     expect(created.id).toBe(sessionID)
   } finally {
-    Flag.OPENCODE_DB = database
+    Flag.DALAM_DB = database
     await rm(directory, { recursive: true, force: true })
   }
 })

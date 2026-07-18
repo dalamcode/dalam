@@ -16,6 +16,7 @@ permissions:
 
 jobs:
   build:
+    if: false # Disabled: packages/containers/ does not exist
     runs-on: blacksmith-4vcpu-ubuntu-2404
     env:
       REGISTRY: ghcr.io/${{ github.repository_owner }}

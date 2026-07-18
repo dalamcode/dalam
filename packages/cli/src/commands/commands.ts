@@ -1,9 +1,7 @@
 import { Argument, Flag } from "effect/unstable/cli"
 import { Spec } from "../framework/spec"
-
-declare const OPENCODE_CLI_NAME: string | undefined
-
-export const Commands = Spec.make(typeof OPENCODE_CLI_NAME === "string" ? OPENCODE_CLI_NAME : "dalam", {
+declare const DALAM_CLI_NAME: string | undefined
+export const Commands = Spec.make(typeof DALAM_CLI_NAME === "string" ? DALAM_CLI_NAME : "dalam", {
   description: "Dalam 2.0 preview command line interface",
   commands: [
     Spec.make("api", {
