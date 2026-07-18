@@ -10,7 +10,7 @@
 /** @jsxImportSource @opentui/solid */
 import { useTerminalDimensions } from "@opentui/solid"
 import { For, Match, Show, Switch, createEffect, createMemo, createSignal, onCleanup } from "solid-js"
-import { registerOpencodeSpinner } from "@uthakkan/tui/component/register-spinner"
+import { registerDalamSpinner } from "@uthakkan/tui/component/register-spinner"
 import { createColors, createFrames } from "@uthakkan/tui/ui/spinner"
 import {
   RUN_SUBAGENT_PANEL_ROWS,
@@ -28,7 +28,7 @@ import { RunPermissionBody } from "./footer.permission"
 import { RunQuestionBody } from "./footer.question"
 import { footerWidthPolicy } from "./footer.width"
 import {
-  OPENCODE_BASE_MODE,
+  DALAM_BASE_MODE,
   formatKeyBindings,
   formatKeySequence,
   useBindings,
@@ -56,7 +56,7 @@ import type {
 import type { RunTheme } from "./theme"
 import { modelInfo } from "./variant.shared"
 
-registerOpencodeSpinner()
+registerDalamSpinner()
 
 const EMPTY_BORDER = {
   topLeft: "",
@@ -498,7 +498,7 @@ export function RunFooterView(props: RunFooterViewProps) {
   })
 
   useBindings(() => ({
-    mode: OPENCODE_BASE_MODE,
+    mode: DALAM_BASE_MODE,
     enabled: active().type === "prompt" && route().type === "composer" && !composer.visible(),
     commands: [
       {
@@ -521,7 +521,7 @@ export function RunFooterView(props: RunFooterViewProps) {
   }))
 
   useBindings(() => ({
-    mode: OPENCODE_BASE_MODE,
+    mode: DALAM_BASE_MODE,
     enabled: active().type === "prompt" && route().type === "composer" && foregroundSubagents(),
     priority: 1,
     commands: [
@@ -536,7 +536,7 @@ export function RunFooterView(props: RunFooterViewProps) {
   }))
 
   useBindings(() => ({
-    mode: OPENCODE_BASE_MODE,
+    mode: DALAM_BASE_MODE,
     enabled: active().type === "prompt" && route().type === "composer" && tabs().length > 0,
     commands: [
       {
@@ -550,7 +550,7 @@ export function RunFooterView(props: RunFooterViewProps) {
   }))
 
   useBindings(() => ({
-    mode: OPENCODE_BASE_MODE,
+    mode: DALAM_BASE_MODE,
     enabled: active().type === "prompt" && route().type === "composer" && queuedPrompts().length > 0,
     commands: [
       {

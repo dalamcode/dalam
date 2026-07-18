@@ -2,7 +2,7 @@ import fuzzysort from "fuzzysort"
 import type {
   WslInstalledDistro,
   WslOnlineDistro,
-  WslOpencodeCheck,
+  WslDalamCheck,
   WslServersPlatform,
   WslServerRuntime,
   WslServersState,
@@ -51,7 +51,7 @@ function isHiddenDistro(name: string) {
 export const wslRuntimeRetryable = (runtime: WslServerRuntime) =>
   runtime.kind === "failed" || runtime.kind === "stopped"
 
-export function wslOpencodeAction(check?: WslOpencodeCheck) {
+export function wslDalamAction(check?: WslDalamCheck) {
   if (!check) return
   if (!check.resolvedPath) return "Install Dalam"
   if (check.matchesDesktop === false) return "Update Dalam"
@@ -172,9 +172,9 @@ function addServerDistroStatus(input: {
     }
     return
   }
-  if (check.matchesDesktop === false) return { label: { key: "wsl.onboarding.updateOpencode" }, tone: "warning" }
+  if (check.matchesDesktop === false) return { label: { key: "wsl.onboarding.updateDalam" }, tone: "warning" }
   if (!check.resolvedPath) return { label: { key: "wsl.onboarding.distroStatus.dalamMissing" }, tone: "warning" }
-  if (check.error) return { label: { key: "wsl.onboarding.installOpencode" }, tone: "warning" }
+  if (check.error) return { label: { key: "wsl.onboarding.installDalam" }, tone: "warning" }
   return { label: { key: "wsl.onboarding.distroStatus.ready" }, tone: "success" }
 }
 
@@ -185,22 +185,22 @@ function checkingStatus(): DistroStatus {
 function addServerPrimaryButton(input: {
   state: WslServersState | undefined
   selectedDistro: string | null
-  dalamCheck: WslOpencodeCheck | null
+  dalamCheck: WslDalamCheck | null
   adding: boolean
   probingAddable: boolean
 }): AddServerPrimaryButton {
   const ready = !!input.selectedDistro && wslDistroReady(input.state, input.selectedDistro)
   const probingSelected = input.probingAddable && !addServerSelectedDistroSettled(input.state, input.selectedDistro)
-  const probingOpencode =
+  const probingDalam =
     probingSelected ||
     (ready &&
       (!input.dalamCheck ||
         (!!input.selectedDistro &&
           input.state?.job?.kind === "probe-addable" &&
           input.state.job.distros.includes(input.selectedDistro))))
-  const installingOpencode =
+  const installingDalam =
     input.state?.job?.kind === "install-dalam" && input.state.job.distro === input.selectedDistro
-  if (!ready || probingOpencode) {
+  if (!ready || probingDalam) {
     return {
       variant: "contrast",
       label: probingSelected ? { key: "wsl.onboarding.distroStatus.checking" } : { key: "wsl.server.add" },
@@ -210,18 +210,18 @@ function addServerPrimaryButton(input: {
       width: null,
     }
   }
-  if (!addServerOpencodeReady(input.dalamCheck)) {
+  if (!addServerDalamReady(input.dalamCheck)) {
     const update = !!input.dalamCheck?.resolvedPath && input.dalamCheck.matchesDesktop === false
     return {
       variant: "neutral",
-      label: installingOpencode
-        ? { key: "wsl.onboarding.updatingOpencode" }
+      label: installingDalam
+        ? { key: "wsl.onboarding.updatingDalam" }
         : update
-          ? { key: "wsl.onboarding.updateOpencode" }
-          : { key: "wsl.onboarding.installOpencode" },
+          ? { key: "wsl.onboarding.updateDalam" }
+          : { key: "wsl.onboarding.installDalam" },
       disabled: !!input.state?.job || input.adding,
       action: "install-dalam",
-      loading: installingOpencode,
+      loading: installingDalam,
       width: update ? "138px" : "129px",
     }
   }
@@ -235,7 +235,7 @@ function addServerPrimaryButton(input: {
   }
 }
 
-function addServerOpencodeReady(check: WslOpencodeCheck | null) {
+function addServerDalamReady(check: WslDalamCheck | null) {
   return !!check?.resolvedPath && check.matchesDesktop !== false && !check.error
 }
 

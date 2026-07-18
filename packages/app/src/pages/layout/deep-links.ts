@@ -37,14 +37,14 @@ export const collectNewSessionDeepLinks = (urls: string[]) =>
   urls.map(parseNewSessionDeepLink).filter((link): link is { directory: string; prompt?: string } => !!link)
 
 type DalamWindow = Window & {
-  __OPENCODE__?: {
+  __DALAM__?: {
     deepLinks?: string[]
   }
 }
 
 export const drainPendingDeepLinks = (target: DalamWindow) => {
-  const pending = target.__OPENCODE__?.deepLinks ?? []
+  const pending = target.__DALAM__?.deepLinks ?? []
   if (pending.length === 0) return []
-  if (target.__OPENCODE__) target.__OPENCODE__.deepLinks = []
+  if (target.__DALAM__) target.__DALAM__.deepLinks = []
   return pending
 }

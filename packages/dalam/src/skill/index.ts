@@ -29,10 +29,10 @@ const SKILL_PATTERN = "**/SKILL.md"
 // invalid config, so users hit cryptic startup errors. Loading this skill
 // when the model is asked to touch dalam's own config files gives it the
 // actual schemas instead of guesses.
-const CUSTOMIZE_OPENCODE_SKILL_NAME = "customize-dalam"
-const CUSTOMIZE_OPENCODE_SKILL_DESCRIPTION =
+const CUSTOMIZE_DALAM_SKILL_NAME = "customize-dalam"
+const CUSTOMIZE_DALAM_SKILL_DESCRIPTION =
   "Use ONLY when the user is editing or creating dalam's own configuration: dalam.json, dalam.jsonc, files under .dalam/, or files under ~/.config/dalam/. Also use when creating or fixing dalam agents, subagents, skills, plugins, MCP servers, or permission rules. Do not use for the user's own application code, or for any project that is not configuring dalam itself."
-const CUSTOMIZE_OPENCODE_SKILL_BODY = SkillPlugin.CustomizeOpencodeContent
+const CUSTOMIZE_DALAM_SKILL_BODY = SkillPlugin.CustomizeDalamContent
 
 export const Info = Schema.Struct({
   name: Schema.String,
@@ -275,11 +275,11 @@ const layer = Layer.effect(
         const s: State = { skills: {}, dirs: new Set() }
         // Register the built-in skill BEFORE disk discovery so a user-disk
         // skill with the same name can override it.
-        s.skills[CUSTOMIZE_OPENCODE_SKILL_NAME] = {
-          name: CUSTOMIZE_OPENCODE_SKILL_NAME,
-          description: CUSTOMIZE_OPENCODE_SKILL_DESCRIPTION,
+        s.skills[CUSTOMIZE_DALAM_SKILL_NAME] = {
+          name: CUSTOMIZE_DALAM_SKILL_NAME,
+          description: CUSTOMIZE_DALAM_SKILL_DESCRIPTION,
           location: "<built-in>",
-          content: CUSTOMIZE_OPENCODE_SKILL_BODY,
+          content: CUSTOMIZE_DALAM_SKILL_BODY,
         }
         yield* loadSkills(s, yield* InstanceState.get(discovered), events)
         return s

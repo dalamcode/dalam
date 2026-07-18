@@ -16,7 +16,7 @@
 // Today only `dalam.run` is fully wired. The shape supports adding more
 // builders (`dalam.serve(opts)`, `dalam.acp(opts)`, `dalam.auth(...)`)
 // without changing the fixture. Long-lived commands like `serve` will need a
-// different return shape — see the TODO at the bottom of OpencodeCli.
+// different return shape — see the TODO at the bottom of DalamCli.
 import { test, type TestOptions } from "bun:test"
 import { FSUtil } from "@uthakkan/core/fs-util"
 import { AppNodeBuilder } from "@uthakkan/core/effect/app-node-builder"
@@ -152,7 +152,7 @@ export type AcpHandle = {
   readonly exited: Promise<number>
 }
 
-export type OpencodeCli = {
+export type DalamCli = {
   // High-level: run a single prompt against the test model. Short-lived.
   readonly run: (message: string, opts?: RunOpts) => Effect.Effect<RunResult>
   readonly startRun: (message: string, opts?: RunOpts) => Effect.Effect<RunHandle, never, Scope.Scope>
@@ -179,7 +179,7 @@ export type OpencodeCli = {
 export type CliFixture = {
   readonly llm: TestLLMServer["Service"]
   readonly home: string
-  readonly dalam: OpencodeCli
+  readonly dalam: DalamCli
 }
 
 // Provisions a TestLLMServer + tmpdir + spawn helper and invokes fn. Cleans
@@ -464,7 +464,7 @@ export function withCliFixture<A, E>(
       } satisfies AcpHandle
     })
 
-    const dalam: OpencodeCli = { run, startRun, serve, acp, spawn, expectExit, parseJsonEvents }
+    const dalam: DalamCli = { run, startRun, serve, acp, spawn, expectExit, parseJsonEvents }
 
     return yield* fn({ llm, home, dalam })
     // FetchHttpClient is provided so test bodies can `yield* HttpClient.HttpClient`

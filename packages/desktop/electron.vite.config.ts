@@ -2,7 +2,7 @@ import { defineConfig } from "electron-vite"
 import appPlugin from "@uthakkan/app/vite"
 import * as fs from "node:fs/promises"
 
-const OPENCODE_SERVER_DIST = "../dalam/dist/node"
+const DALAM_SERVER_DIST = "../dalam/dist/node"
 
 const channel = (() => {
   const raw = process.env.OPENCODE_CHANNEL
@@ -47,15 +47,15 @@ const require = __cjs_mod__.createRequire(import.meta.url);
         name: "dalam:virtual-server-module",
         enforce: "pre",
         resolveId(id) {
-          if (id === "virtual:dalam-server") return this.resolve(`${OPENCODE_SERVER_DIST}/node.js`)
+          if (id === "virtual:dalam-server") return this.resolve(`${DALAM_SERVER_DIST}/node.js`)
         },
       },
       {
         name: "dalam:copy-server-assets",
         async writeBundle() {
-          for (const l of await fs.readdir(OPENCODE_SERVER_DIST)) {
+          for (const l of await fs.readdir(DALAM_SERVER_DIST)) {
             if (!l.endsWith(".wasm")) continue
-            await fs.writeFile(`./out/main/chunks/${l}`, await fs.readFile(`${OPENCODE_SERVER_DIST}/${l}`))
+            await fs.writeFile(`./out/main/chunks/${l}`, await fs.readFile(`${DALAM_SERVER_DIST}/${l}`))
           }
         },
       },

@@ -6,7 +6,7 @@ import {
   autoProbePlan,
   createProbeFailureGate,
   runAddableProbePlan,
-  wslOpencodeAction,
+  wslDalamAction,
   wslRuntimeRetryable,
 } from "./settings-model"
 import type { WslServersState } from "./types"
@@ -38,9 +38,9 @@ describe("WSL server settings presentation", () => {
   })
 
   test("offers install and update only when Dalam needs attention", () => {
-    expect(wslOpencodeAction(undefined)).toBeUndefined()
+    expect(wslDalamAction(undefined)).toBeUndefined()
     expect(
-      wslOpencodeAction({
+      wslDalamAction({
         distro: "Debian",
         resolvedPath: null,
         version: null,
@@ -50,7 +50,7 @@ describe("WSL server settings presentation", () => {
       }),
     ).toBe("Install Dalam")
     expect(
-      wslOpencodeAction({
+      wslDalamAction({
         distro: "Debian",
         resolvedPath: "/usr/local/bin/dalam",
         version: "1.2.2",
@@ -60,7 +60,7 @@ describe("WSL server settings presentation", () => {
       }),
     ).toBe("Update Dalam")
     expect(
-      wslOpencodeAction({
+      wslDalamAction({
         distro: "Debian",
         resolvedPath: "/usr/local/bin/dalam",
         version: "1.2.3",
@@ -208,7 +208,7 @@ describe("WSL server settings presentation", () => {
     })
 
     expect(model.distroStatuses.Debian).toEqual({
-      label: { key: "wsl.onboarding.installOpencode" },
+      label: { key: "wsl.onboarding.installDalam" },
       tone: "warning",
     })
     expect(model.primaryButton.action).toBe("install-dalam")

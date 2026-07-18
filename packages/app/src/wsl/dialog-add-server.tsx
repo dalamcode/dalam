@@ -339,7 +339,7 @@ function useWslAddServerController(props: DialogWslServerProps) {
     const action = button.action
     if (!distro || !action) return
     if (action === "install-dalam") {
-      await run(() => api.installOpencode(distro))
+      await run(() => api.installDalam(distro))
       return
     }
     setStore("adding", true)

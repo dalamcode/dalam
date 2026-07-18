@@ -154,9 +154,6 @@
     "packages/core": {
       "name": "@uthakkan/core",
       "version": "1.18.3",
-      "bin": {
-        "dalam": "./bin/dalam",
-      },
       "dependencies": {
         "@ai-sdk/alibaba": "1.0.17",
         "@ai-sdk/amazon-bedrock": "4.0.112",

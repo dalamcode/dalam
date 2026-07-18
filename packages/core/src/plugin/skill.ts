@@ -6,9 +6,9 @@ import { define } from "./internal"
 import { Effect } from "effect"
 import { AbsolutePath } from "../schema"
 import { SkillV2 } from "../skill"
-import customizeOpencodeContent from "./skill/customize-dalam.md" with { type: "text" }
+import customizeDalamContent from "./skill/customize-dalam.md" with { type: "text" }
 
-export const CustomizeOpencodeContent = customizeOpencodeContent
+export const CustomizeDalamContent = customizeDalamContent
 
 export const Plugin = define({
   id: "skill",
@@ -22,7 +22,7 @@ export const Plugin = define({
             description:
               "Use ONLY when the user is editing or creating dalam's own configuration: dalam.json, dalam.jsonc, files under .dalam/, or files under ~/.config/dalam/. Also use when creating or fixing dalam agents, subagents, commands, skills, plugins, MCP servers, or permission rules. Do not use for the user's own application code, or for any project that is not configuring dalam itself.",
             location: AbsolutePath.make("/builtin/customize-dalam.md"),
-            content: CustomizeOpencodeContent,
+            content: CustomizeDalamContent,
           }),
         }),
       )

@@ -5,7 +5,7 @@
 // debugger easier
 //
 // *Important*: make sure you add the debug workspace plugin first.
-// In `.opencode/opencode.jsonc` in the root of this project add:
+// In `.dalam/dalam.jsonc` in the root of this project add:
 //
 // "plugin": ["../packages/dalam/src/control-plane/dev/debug-workspace-plugin.ts"]
 //
@@ -14,7 +14,7 @@
 import { stat } from "node:fs/promises"
 import { setTimeout as sleep } from "node:timers/promises"
 
-const DEV_DATA_FILE = "/tmp/opencode-workspace-dev-data.json"
+const DEV_DATA_FILE = "/tmp/dalam-workspace-dev-data.json"
 const RESTART_POLL_INTERVAL = 250
 
 async function readData() {
