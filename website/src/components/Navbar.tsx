@@ -1,49 +1,31 @@
-import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { useState, useEffect, useCallback } from 'react'
+import { Link, useLocation } from 'react-router-dom'
+import { detectPlatform, getDesktopDownloadUrl } from '../platform'
+import type { Platform } from '../platform'
 
-type Platform = 'mac' | 'windows' | 'linux' | 'unknown'
-
-function detectPlatform(): Platform {
-  if (typeof window === 'undefined') return 'unknown'
-  const ua = navigator.userAgent.toLowerCase()
-  if (ua.includes('mac')) return 'mac'
-  if (ua.includes('win')) return 'windows'
-  if (ua.includes('linux')) return 'linux'
-  return 'unknown'
+interface NavbarProps {
+  toggleTheme: () => void
+  theme: 'light' | 'dark'
 }
 
-function getArch(): string {
-  if (typeof window === 'undefined') return ''
-  const ua = navigator.userAgent.toLowerCase()
-  if (ua.includes('arm64') || ua.includes('aarch64')) return '-arm64'
-  // Mac user agents don't include arch info, default to arm64 for modern Macs
-  if (ua.includes('mac')) return '-arm64'
-  return ''
-}
-
-function getDownloadUrl(platform: Platform): string {
-  const arch = getArch()
-  if (platform === 'mac') return `https://github.com/dalamcode/dalam/releases/latest/download/dalam-darwin${arch}.zip`
-  if (platform === 'windows') return `https://github.com/dalamcode/dalam/releases/latest/download/dalam-windows-x64.zip`
-  if (platform === 'linux') return `https://github.com/dalamcode/dalam/releases/latest/download/dalam-linux${arch}.tar.gz`
-  return 'https://github.com/dalamcode/dalam/releases'
-}
-
-export function Navbar() {
+export function Navbar({ toggleTheme, theme }: NavbarProps) {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [platform, setPlatform] = useState<Platform>('unknown')
+  const location = useLocation()
 
   useEffect(() => { setPlatform(detectPlatform()) }, [])
+  useEffect(() => { setMobileOpen(false) }, [location.pathname])
 
-  const handleDownload = () => {
-    const url = getDownloadUrl(platform)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = ''
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-  }
+  useEffect(() => {
+    if (!mobileOpen) return
+    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') setMobileOpen(false) }
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  }, [mobileOpen])
+
+  const handleDownload = useCallback(() => {
+    window.open(getDesktopDownloadUrl(platform), '_blank', 'noopener')
+  }, [platform])
 
   return (
     <nav className="nav">
@@ -52,17 +34,31 @@ export function Navbar() {
           <img src="/icon.svg" alt="Dalam" />
           <span>dalam</span>
         </Link>
-        
+
         <div className={`nav-links ${mobileOpen ? 'open' : ''}`}>
           <Link to="/features">Features</Link>
           <Link to="/how-it-works">How it works</Link>
           <Link to="/install">Install</Link>
-          <a href="https://github.com/dalamcode/dalam" target="_blank" rel="noopener">GitHub</a>
-          <button onClick={handleDownload} className="btn-download">Download</button>
+          <a href="https://github.com/dalamcode/dalam" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <button className="btn-download" onClick={handleDownload}>
+            {platform === 'unknown' ? 'Download' : platform === 'mac' ? 'Download for macOS' : platform === 'windows' ? 'Download for Windows' : 'Download for Linux'}
+          </button>
+          <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle theme">
+            {theme === 'dark' ? (
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            ) : (
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            )}
+          </button>
         </div>
 
-        <button className="mobile-menu" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Menu">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+        <button
+          className="mobile-menu"
+          onClick={() => setMobileOpen(o => !o)}
+          aria-expanded={mobileOpen}
+          aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
             {mobileOpen ? <path d="M18 6L6 18M6 6l12 12"/> : <path d="M3 12h18M3 6h18M3 18h18"/>}
           </svg>
         </button>

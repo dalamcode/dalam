@@ -9,7 +9,7 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
   stats:
-    if: github.repository == 'dalamcode/dalam'
+    if: false # Disabled: script/stats.ts does not exist yet
     runs-on: blacksmith-4vcpu-ubuntu-2404
     permissions:
       contents: write

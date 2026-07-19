@@ -61,7 +61,7 @@ function sdkKey(npm: string): string | undefined {
   return undefined
 }
 
-// TODO: fix this stupid inefficient dogshit function
+// TODO: optimize - this function is called frequently per turn
 function normalizeMessages(
   msgs: ModelMessage[],
   model: Provider.Model,

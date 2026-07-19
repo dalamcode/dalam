@@ -26,7 +26,7 @@ const platform = platformMap[os.platform()] ?? os.platform()
 const arch = archMap[os.arch()] ?? os.arch()
 const base = `dalam-${platform}-${arch}`
 const sourceBinary = platform === "windows" ? "dalam.exe" : "dalam"
-const targetBinary = path.join(__dirname, "bin", "dalam.exe")
+const targetBinary = path.join(__dirname, "bin", sourceBinary)
 
 function supportsAvx2() {
   if (arch !== "x64") return false

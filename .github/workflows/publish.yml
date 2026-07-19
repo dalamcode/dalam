@@ -234,11 +234,11 @@ jobs:
       fail-fast: false
       matrix:
         settings:
-          - host: macos-26-intel
+          - host: macos-13
             target: x86_64-apple-darwin
             platform_flag: --mac --x64
             bun_install_flags: --os=darwin --cpu=x64
-          - host: macos-26
+          - host: macos-15
             target: aarch64-apple-darwin
             platform_flag: --mac --arm64
             bun_install_flags: --os=darwin --cpu=arm64
@@ -517,5 +517,5 @@ jobs:
           GH_REPO: ${{ needs.version.outputs.repo }}
           NPM_CONFIG_PROVENANCE: false
           LATEST_YML_DIR: /tmp/latest-yml
-          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
-          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+          # These are intentionally omitted — electron-builder doesn't need them:
+          # TAURI_SIGNING_PRIVATE_KEY and TAURI_SIGNING_PRIVATE_KEY_PASSWORD

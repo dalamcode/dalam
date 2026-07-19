@@ -66,7 +66,7 @@ await createClient({
     {
       name: "@hey-api/client-fetch",
       exportFromIndex: false,
-      baseUrl: "http://localhost:4096",
+      baseUrl: process.env.DALAM_BASE_URL || "http://localhost:4096",
     },
   ],
 })

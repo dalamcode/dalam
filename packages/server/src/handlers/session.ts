@@ -358,7 +358,9 @@ export const SessionHandler = HttpApiBuilder.group(Api, "server.session", (handl
         "session.events",
         Effect.fn((ctx) =>
           Effect.succeed(
-            session.events({ sessionID: ctx.params.sessionID, after: ctx.query.after }).pipe(Stream.orDie),
+            session.events({ sessionID: ctx.params.sessionID, after: ctx.query.after }).pipe(
+              Stream.catch(() => Stream.empty),
+            ),
           ),
         ),
       )

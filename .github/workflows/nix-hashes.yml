@@ -34,7 +34,7 @@ jobs:
           - system: aarch64-linux
             runner: blacksmith-4vcpu-ubuntu-2404-arm
           - system: x86_64-darwin
-            runner: macos-15-intel
+            runner: macos-13
           - system: aarch64-darwin
             runner: macos-latest
     runs-on: ${{ matrix.runner }}

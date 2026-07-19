@@ -17,6 +17,6 @@ export type CreateClientConfig<T extends DefaultClientOptions = ClientOptions> =
 
 export const client = createClient(
   createConfig<ClientOptions>({
-    baseUrl: "http://localhost:4096",
+    baseUrl: globalThis.process?.env?.DALAM_BASE_URL ?? "http://localhost:4096",
   }),
 )

@@ -49,23 +49,23 @@ export function About() {
       </section>
 
       <section className="section section-alt">
-        <div className="section-inner">
+        <div className="section-inner text-center">
           <p className="section-label">Mission</p>
-          <h2 className="section-title">Building smart, useful, and accessible digital products</h2>
+          <h2 className="section-title section-title-narrow">Building smart, useful, and accessible digital products</h2>
           <p className="section-desc">Using modern technologies, AI, and scalable software architecture.</p>
         </div>
       </section>
 
       <section className="section">
-        <div className="section-inner">
+        <div className="section-inner text-center">
           <p className="section-label">Founder</p>
           <h2 className="section-title">Ajmal U K</h2>
           <p className="section-desc">Full-stack Developer, AI Tool Builder, Product Builder</p>
           <div className="founder-links">
-            <a href="https://ajmal.uthakkan.in" target="_blank" rel="noopener" className="founder-link">Portfolio</a>
-            <a href="https://github.com/ajmaluk" target="_blank" rel="noopener" className="founder-link">GitHub</a>
-            <a href="https://in.linkedin.com/in/ajmaluk" target="_blank" rel="noopener" className="founder-link">LinkedIn</a>
-            <a href="https://instagram.com/ajmaluk.me" target="_blank" rel="noopener" className="founder-link">Instagram</a>
+            <a href="https://ajmal.uthakkan.in" target="_blank" rel="noopener noreferrer" className="founder-link">Portfolio</a>
+            <a href="https://github.com/ajmaluk" target="_blank" rel="noopener noreferrer" className="founder-link">GitHub</a>
+            <a href="https://in.linkedin.com/in/ajmaluk" target="_blank" rel="noopener noreferrer" className="founder-link">LinkedIn</a>
+            <a href="https://instagram.com/ajmaluk.me" target="_blank" rel="noopener noreferrer" className="founder-link">Instagram</a>
           </div>
         </div>
       </section>
@@ -96,10 +96,10 @@ export function About() {
       </section>
 
       <section className="section">
-        <div className="section-inner" style={{ textAlign: 'center' }}>
+        <div className="section-inner text-center">
           <h2 className="section-title">Learn more about Dalam</h2>
           <p className="section-desc">See what Dalam can do for your development workflow.</p>
-          <div className="hero-buttons" style={{ justifyContent: 'center' }}>
+          <div className="hero-buttons hero-buttons-center">
             <Link to="/features" className="btn-hero btn-primary">View features</Link>
             <Link to="/install" className="btn-hero btn-outline">Install now</Link>
           </div>

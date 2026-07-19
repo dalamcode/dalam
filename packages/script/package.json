@@ -1,6 +1,8 @@
 {
-  "$schema": "https://json.schemastore.org/package",
+  "$schema": "https://json.schemastore.org/package.json",
   "name": "@uthakkan/script",
+  "private": true,
+  "type": "module",
   "license": "MIT",
   "dependencies": {
     "semver": "^7.6.3"

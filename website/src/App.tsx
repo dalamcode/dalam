@@ -1,40 +1,45 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense, lazy } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Navbar } from './components/Navbar'
 import { Footer } from './components/Footer'
 import { Home } from './pages/Home'
-import { Features } from './pages/Features'
-import { Install } from './pages/Install'
-import { HowItWorks } from './pages/HowItWorks'
-import { About } from './pages/About'
+
+const Features = lazy(() => import('./pages/Features').then(m => ({ default: m.Features })))
+const Install = lazy(() => import('./pages/Install').then(m => ({ default: m.Install })))
+const HowItWorks = lazy(() => import('./pages/HowItWorks').then(m => ({ default: m.HowItWorks })))
+const About = lazy(() => import('./pages/About').then(m => ({ default: m.About })))
+const NotFound = lazy(() => import('./pages/NotFound').then(m => ({ default: m.NotFound })))
 
 function App() {
-  const [theme, setTheme] = useState<'light' | 'dark'>('light')
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    if (typeof window === 'undefined') return 'dark'
+    const stored = localStorage.getItem('dalam-theme')
+    if (stored === 'light' || stored === 'dark') return stored
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+  })
 
-  useEffect(() => {
-    const media = window.matchMedia('(prefers-color-scheme: dark)')
-    setTheme(media.matches ? 'dark' : 'light')
-    const handler = (e: MediaQueryListEvent) => setTheme(e.matches ? 'dark' : 'light')
-    media.addEventListener('change', handler)
-    return () => media.removeEventListener('change', handler)
-  }, [])
+  const toggleTheme = () => setTheme(t => t === 'dark' ? 'light' : 'dark')
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme)
+    localStorage.setItem('dalam-theme', theme)
   }, [theme])
 
   return (
     <BrowserRouter>
       <div className="app">
-        <Navbar />
+        <Navbar toggleTheme={toggleTheme} theme={theme} />
         <main>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/features" element={<Features />} />
-            <Route path="/install" element={<Install />} />
-            <Route path="/how-it-works" element={<HowItWorks />} />
-            <Route path="/about" element={<About />} />
-          </Routes>
+          <Suspense fallback={<div className="page" style={{ textAlign: 'center', paddingTop: '4rem' }}>Loading...</div>}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/features" element={<Features />} />
+              <Route path="/install" element={<Install />} />
+              <Route path="/how-it-works" element={<HowItWorks />} />
+              <Route path="/about" element={<About />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
         </main>
         <Footer />
       </div>

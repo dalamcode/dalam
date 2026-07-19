@@ -20,18 +20,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-
-      - name: Install dependencies
-        working-directory: website
-        run: npm install
+      - uses: ./.github/actions/setup-bun
 
       - name: Build
         working-directory: website
-        run: npm run build
+        run: bun run build
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
