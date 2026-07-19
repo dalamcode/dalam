@@ -16,6 +16,8 @@ function getArch(): string {
   if (typeof window === 'undefined') return ''
   const ua = navigator.userAgent.toLowerCase()
   if (ua.includes('arm64') || ua.includes('aarch64')) return '-arm64'
+  // Mac user agents don't include arch info, default to arm64 for modern Macs
+  if (ua.includes('mac')) return '-arm64'
   return ''
 }
 
