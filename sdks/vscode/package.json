@@ -20,11 +20,6 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [
-    "onCommand:dalam.openTerminal",
-    "onCommand:dalam.openNewTerminal",
-    "onCommand:dalam.addFilepathToTerminal"
-  ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [

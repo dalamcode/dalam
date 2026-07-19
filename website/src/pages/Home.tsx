@@ -59,6 +59,15 @@ export function Home() {
 
   const downloadLabel = platform === 'mac' ? 'Download for macOS' : platform === 'windows' ? 'Download for Windows' : platform === 'linux' ? 'Download for Linux' : 'Download'
 
+  const handleDownload = () => {
+    const a = document.createElement('a')
+    a.href = downloadUrl
+    a.download = ''
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+  }
+
   return (
     <>
       <section className="hero">
@@ -85,7 +94,7 @@ export function Home() {
           </div>
 
           <div className="hero-buttons">
-            <a href={downloadUrl} className="btn-hero btn-primary" target="_blank" rel="noopener">{downloadLabel}</a>
+            <button onClick={handleDownload} className="btn-hero btn-primary">{downloadLabel}</button>
             <a href="https://github.com/dalamcode/dalam" className="btn-hero btn-outline" target="_blank" rel="noopener">GitHub</a>
           </div>
         </div>
