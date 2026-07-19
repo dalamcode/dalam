@@ -231,7 +231,7 @@ const createPlatform = (windowState: DesktopWindowState): Platform => {
 
       const notification = new Notification(title, {
         body: description ?? "",
-        icon: "https://dalam.ai/favicon-96x96.png",
+        icon: "https://dalam.uthakkan.in/favicon.svg",
       })
       notification.onclick = () => {
         void window.api.showWindow()

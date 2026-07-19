@@ -474,17 +474,21 @@ function custom(dep: CustomDep): Record<string, CustomLoader> {
           },
         },
       }),
-    nvidia: (provider) =>
-      Effect.succeed({
-        autoload: provider.source === "config",
+    nvidia: (provider) => {
+      const apiKey = provider.options?.apiKey
+      const autoload = !!apiKey || provider.source === "config"
+      return Effect.succeed({
+        autoload,
         options: {
+          apiKey,
           headers: {
             "HTTP-Referer": "https://dalam.uthakkan.in/",
             "X-Title": "dalam",
             "X-BILLING-INVOKE-ORIGIN": "Dalam",
           },
         },
-      }),
+      })
+    },
     vercel: () =>
       Effect.succeed({
         autoload: false,

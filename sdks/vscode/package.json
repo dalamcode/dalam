@@ -2,7 +2,7 @@
   "name": "dalam",
   "displayName": "dalam",
   "description": "dalam for VS Code",
-  "version": "1.18.3",
+  "version": "1.0.0",
   "publisher": "uthakkan",
   "repository": {
     "type": "git",
@@ -20,7 +20,11 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onCommand:dalam.openTerminal",
+    "onCommand:dalam.openNewTerminal",
+    "onCommand:dalam.addFilepathToTerminal"
+  ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [

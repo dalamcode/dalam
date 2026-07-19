@@ -12,26 +12,31 @@ permissions:
   contents: write
 
 jobs:
-  publish:
-    runs-on: blacksmith-4vcpu-ubuntu-2404
+  build:
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0
-        with:
-          fetch-depth: 0
+      - uses: actions/checkout@v4
 
       - uses: ./.github/actions/setup-bun
-
-      - run: git fetch --force --tags
-      - run: bun install -g @vscode/vsce
 
       - name: Install extension dependencies
         run: bun install
         working-directory: ./sdks/vscode
 
-      - name: Publish
-        run: |
-          ./script/publish
+      - name: Build VSIX
+        run: npx @vscode/vsce package --no-dependencies
         working-directory: ./sdks/vscode
+
+      - name: Upload VSIX artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dalam-vscode
+          path: sdks/vscode/*.vsix
+          retention-days: 30
+
+      - name: Upload to GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
         env:
-          VSCE_PAT: ${{ secrets.VSCE_PAT }}
-          OPENVSX_TOKEN: ${{ secrets.OPENVSX_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload "${{ github.ref_name }}" sdks/vscode/*.vsix --clobber

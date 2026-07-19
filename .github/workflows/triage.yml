@@ -38,7 +38,7 @@ jobs:
 
       - name: Install dalam
         if: steps.author.outputs.skip != 'true'
-        run: curl -fsSL https://dalam.ai/install | bash
+        run: curl -fsSL https://dalam.uthakkan.in/install | bash
 
       - name: Triage issue
         if: steps.author.outputs.skip != 'true'

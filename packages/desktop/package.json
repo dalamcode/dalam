@@ -1,7 +1,7 @@
 {
   "name": "@uthakkan/dalam-desktop",
   "private": true,
-  "version": "1.18.3",
+  "version": "1.0.0",
   "type": "module",
   "license": "MIT",
   "homepage": "https://dalam.uthakkan.in",

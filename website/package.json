@@ -2,9 +2,21 @@
   "name": "@uthakkan/dalam-website",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "npx serve .",
-    "build": "echo 'Static site - no build needed'"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
-  "description": "Dalam official website - https://dalam.uthakkan.in"
+  "dependencies": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-router-dom": "^7.18.1"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "@vitejs/plugin-react": "^4.5.2",
+    "vite": "^6.3.5"
+  }
 }

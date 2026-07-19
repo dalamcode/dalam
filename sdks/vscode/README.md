@@ -1,10 +1,10 @@
 # dalam VS Code Extension
 
-A Visual Studio Code extension that integrates [dalam](https://dalam.ai) directly into your development workflow.
+A Visual Studio Code extension that integrates [dalam](https://dalam.uthakkan.in) directly into your development workflow.
 
 ## Prerequisites
 
-This extension requires the [dalam CLI](https://dalam.ai) to be installed on your system. Visit [dalam.ai](https://dalam.ai) for installation instructions.
+This extension requires the [dalam CLI](https://dalam.uthakkan.in) to be installed on your system. Visit [dalam.uthakkan.in](https://dalam.uthakkan.in) for installation instructions.
 
 ## Features
 

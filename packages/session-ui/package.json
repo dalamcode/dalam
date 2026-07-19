@@ -1,6 +1,6 @@
 {
   "name": "@uthakkan/session-ui",
-  "version": "1.18.3",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "license": "MIT",

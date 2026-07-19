@@ -27,7 +27,7 @@
     },
     "packages/app": {
       "name": "@uthakkan/app",
-      "version": "1.18.3",
+      "version": "1.0.0",
       "dependencies": {
         "@corvu/drawer": "catalog:",
         "@dnd-kit/abstract": "0.5.0",
@@ -91,7 +91,7 @@
     },
     "packages/cli": {
       "name": "@uthakkan/cli",
-      "version": "1.18.3",
+      "version": "1.0.0",
       "bin": {
         "lildax": "./bin/lildax.cjs",
       },
@@ -139,7 +139,7 @@
     },
     "packages/codemode": {
       "name": "@uthakkan/codemode",
-      "version": "1.18.3",
+      "version": "1.0.0",
       "dependencies": {
         "acorn": "8.15.0",
         "effect": "catalog:",
@@ -153,7 +153,7 @@
     },
     "packages/core": {
       "name": "@uthakkan/core",
-      "version": "1.18.3",
+      "version": "1.0.0",
       "dependencies": {
         "@ai-sdk/alibaba": "1.0.17",
         "@ai-sdk/amazon-bedrock": "4.0.112",
@@ -244,7 +244,7 @@
     },
     "packages/dalam": {
       "name": "dalam",
-      "version": "1.18.3",
+      "version": "1.0.0",
       "bin": {
         "dalam": "./bin/dalam",
       },
@@ -371,7 +371,7 @@
     },
     "packages/desktop": {
       "name": "@uthakkan/dalam-desktop",
-      "version": "1.18.3",
+      "version": "1.0.0",
       "dependencies": {
         "@zip.js/zip.js": "2.7.62",
         "effect": "catalog:",
@@ -423,7 +423,7 @@
     },
     "packages/effect-drizzle-sqlite": {
       "name": "@uthakkan/effect-drizzle-sqlite",
-      "version": "1.18.3",
+      "version": "1.0.0",
       "dependencies": {
         "drizzle-orm": "catalog:",
         "effect": "catalog:",
@@ -437,7 +437,7 @@
     },
     "packages/effect-sqlite-node": {
       "name": "@uthakkan/effect-sqlite-node",
-      "version": "1.18.3",
+      "version": "1.0.0",
       "dependencies": {
         "effect": "catalog:",
       },
@@ -449,7 +449,7 @@
     },
     "packages/http-recorder": {
       "name": "@uthakkan/http-recorder",
-      "version": "1.18.3",
+      "version": "1.0.0",
       "dependencies": {
         "@effect/platform-node": "4.0.0-beta.83",
         "@effect/platform-node-shared": "4.0.0-beta.83",
@@ -480,7 +480,7 @@
     },
     "packages/llm": {
       "name": "@uthakkan/llm",
-      "version": "1.18.3",
+      "version": "1.0.0",
       "dependencies": {
         "@smithy/eventstream-codec": "4.2.14",
         "@smithy/util-utf8": "4.2.2",
@@ -499,7 +499,7 @@
     },
     "packages/plugin": {
       "name": "@uthakkan/plugin",
-      "version": "1.18.3",
+      "version": "1.0.0",
       "dependencies": {
         "@ai-sdk/provider": "3.0.8",
         "@uthakkan/sdk": "workspace:*",
@@ -575,7 +575,7 @@
     },
     "packages/sdk/js": {
       "name": "@uthakkan/sdk",
-      "version": "1.18.3",
+      "version": "1.0.0",
       "dependencies": {
         "cross-spawn": "catalog:",
       },
@@ -590,7 +590,7 @@
     },
     "packages/server": {
       "name": "@uthakkan/server",
-      "version": "1.18.3",
+      "version": "1.0.0",
       "dependencies": {
         "@uthakkan/core": "workspace:*",
         "@uthakkan/protocol": "workspace:*",
@@ -605,7 +605,7 @@
     },
     "packages/session-ui": {
       "name": "@uthakkan/session-ui",
-      "version": "1.18.3",
+      "version": "1.0.0",
       "dependencies": {
         "@kobalte/core": "catalog:",
         "@pierre/diffs": "catalog:",
@@ -673,7 +673,7 @@
     },
     "packages/tui": {
       "name": "@uthakkan/tui",
-      "version": "1.18.3",
+      "version": "1.0.0",
       "dependencies": {
         "@opentui/core": "catalog:",
         "@opentui/keymap": "catalog:",
@@ -700,7 +700,7 @@
     },
     "packages/ui": {
       "name": "@uthakkan/ui",
-      "version": "1.18.3",
+      "version": "1.0.0",
       "dependencies": {
         "@kobalte/core": "catalog:",
         "@pierre/diffs": "catalog:",
