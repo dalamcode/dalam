@@ -1,4 +1,4 @@
-import * as Tool from "./tool"
+import { Tool } from "./tool"
 import { CallToolResultSchema, type CallToolResult } from "@modelcontextprotocol/sdk/types.js"
 import { Cause, Effect, Schema } from "effect"
 import { CodeMode, Tool as SandboxTool, toolError } from "@uthakkan/codemode"

@@ -1,7 +1,7 @@
 import { Effect, Fiber, Layer, ManagedRuntime } from "effect"
 import * as Context from "effect/Context"
 import { InstanceRef, WorkspaceRef } from "./instance-ref"
-import * as Observability from "@uthakkan/core/observability"
+import { Observability } from "@uthakkan/core/observability"
 import { WorkspaceContext } from "@/control-plane/workspace-context"
 import type { InstanceContext } from "@/project/instance-context"
 import { memoMap } from "@uthakkan/core/effect/memo-map"

@@ -1,7 +1,7 @@
 import path from "path"
 import { SessionV1 } from "@uthakkan/core/v1/session"
 import { Effect, Schema } from "effect"
-import * as Tool from "./tool"
+import { Tool } from "./tool"
 import { Question } from "../question"
 import { Session } from "@/session/session"
 import { MessageV2 } from "../session/message-v2"

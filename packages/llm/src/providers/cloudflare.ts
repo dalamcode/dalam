@@ -1,5 +1,5 @@
 import type { Config, Redacted } from "effect"
-import * as OpenAICompatibleChat from "../protocols/openai-compatible-chat"
+import { OpenAICompatibleChat } from "../protocols/openai-compatible-chat"
 import { Auth } from "../route/auth"
 import { AuthOptions, type AtLeastOne, type ProviderAuthOption } from "../route/auth-options"
 import type { RouteDefaultsInput } from "../route/client"

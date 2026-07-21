@@ -1,7 +1,7 @@
 import { Effect, Option, Schema, Scope, Stream } from "effect"
 import { NonNegativeInt } from "@uthakkan/core/schema"
 import * as path from "path"
-import * as Tool from "./tool"
+import { Tool } from "./tool"
 import { FSUtil } from "@uthakkan/core/fs-util"
 import { LSP } from "@/lsp/lsp"
 import DESCRIPTION from "./read.txt"

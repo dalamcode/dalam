@@ -11,7 +11,7 @@ import { InstallationVersion } from "@uthakkan/core/installation/version"
 import { Database } from "@uthakkan/core/database/database"
 import { EventV2Bridge } from "@/event-v2-bridge"
 import { SessionV2 } from "@uthakkan/core/session"
-import * as SessionExecutionLocal from "@uthakkan/core/session/execution/local"
+import { SessionExecutionLocal } from "@uthakkan/core/session/execution/local"
 import { locationServiceMapLayer } from "@uthakkan/core/location-services"
 
 import { NotFoundError } from "@/storage/storage"
@@ -206,6 +206,10 @@ const Revert = Schema.Struct({
   diff: optional(Schema.String),
 })
 
+export const Share = Schema.Struct({
+  url: Schema.String,
+})
+
 const Model = Schema.Struct({
   id: ModelV2.ID,
   providerID: ProviderV2.ID,
@@ -233,6 +237,7 @@ export const Info = Schema.Struct({
   time: Time,
   permission: optional(PermissionV1.Ruleset),
   revert: optional(Revert),
+  share: optional(Share),
 }).annotate({ identifier: "Session" })
 export type Info = Types.DeepMutable<Schema.Schema.Type<typeof Info>>
 

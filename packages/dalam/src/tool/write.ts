@@ -1,7 +1,7 @@
 import { Schema } from "effect"
 import * as path from "path"
 import { Effect } from "effect"
-import * as Tool from "./tool"
+import { Tool } from "./tool"
 import { LSP } from "@/lsp/lsp"
 import { createTwoFilesPatch } from "diff"
 import DESCRIPTION from "./write.txt"
@@ -13,7 +13,7 @@ import { FSUtil } from "@uthakkan/core/fs-util"
 import { InstanceState } from "@/effect/instance-state"
 import { trimDiff } from "./edit"
 import { assertExternalDirectoryEffect } from "./external-directory"
-import * as Bom from "@/util/bom"
+import { split, join, readFile as readFileBom, syncFile } from "@/util/bom"
 
 const MAX_PROJECT_DIAGNOSTICS_FILES = 5
 
@@ -44,8 +44,8 @@ export const WriteTool = Tool.define(
           yield* assertExternalDirectoryEffect(ctx, filepath)
 
           const exists = yield* fs.existsSafe(filepath)
-          const source = exists ? yield* Bom.readFile(fs, filepath) : { bom: false, text: "" }
-          const next = Bom.split(params.content)
+          const source = exists ? yield* readFileBom(fs, filepath) : { bom: false, text: "" }
+          const next = split(params.content)
           const desiredBom = source.bom || next.bom
           const contentOld = source.text
           const contentNew = next.text
@@ -61,9 +61,9 @@ export const WriteTool = Tool.define(
             },
           })
 
-          yield* fs.writeWithDirs(filepath, Bom.join(contentNew, desiredBom))
+          yield* fs.writeWithDirs(filepath, join(contentNew, desiredBom))
           if (yield* format.file(filepath)) {
-            yield* Bom.syncFile(fs, filepath, desiredBom)
+            yield* syncFile(fs, filepath, desiredBom)
           }
           yield* events.publish(FileSystem.Event.Edited, { file: filepath })
           yield* events.publish(Watcher.Event.Updated, {

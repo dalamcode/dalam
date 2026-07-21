@@ -1,3 +1,4 @@
+import { isImeEvent } from "@uthakkan/ui/ime"
 import { Popover as Kobalte } from "@kobalte/core/popover"
 import {
   Component,
@@ -409,7 +410,7 @@ export function ModelSelectorPopoverV2(props: {
                     moveActive(-1)
                     return
                   }
-                  if (event.key === "Enter" && !event.isComposing) {
+                  if (event.key === "Enter" && !isImeEvent(event)) {
                     event.preventDefault()
                     selectActive()
                   }

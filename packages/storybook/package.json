@@ -3,6 +3,7 @@
   "name": "@uthakkan/storybook",
   "private": true,
   "type": "module",
+  "license": "MIT",
   "scripts": {
     "storybook": "storybook dev -p 6006",
     "build": "storybook build"

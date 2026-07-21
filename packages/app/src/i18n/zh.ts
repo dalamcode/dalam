@@ -128,6 +128,7 @@ export const dict = {
   "dialog.provider.tag.recommended": "推荐",
   "dialog.provider.anthropic.note": "使用 Claude Pro/Max 或 API 密钥连接",
   "dialog.provider.copilot.note": "使用 Copilot 或 API 密钥连接",
+  "dialog.provider.custom.label": "自定义 OpenAI 兼容提供商",
   "dialog.provider.openai.note": "使用 ChatGPT Pro/Plus 或 API 密钥连接",
   "dialog.provider.google.note": "使用 Google 账号或 API 密钥连接",
   "dialog.provider.openrouter.note": "使用 OpenRouter 账号或 API 密钥连接",
@@ -141,6 +142,7 @@ export const dict = {
   "dialog.model.manage.provider.toggle": "切换所有 {{provider}} 模型",
   "dialog.model.unpaid.freeModels.title": "Dalam 提供的免费模型",
   "dialog.model.unpaid.addMore.title": "从热门提供商添加更多模型",
+  "dialog.model.unpaid.viewMoreProviders": "查看 70+ 更多提供商",
 
   "dialog.provider.viewAll": "查看更多提供商",
 
@@ -653,6 +655,9 @@ export const dict = {
   "session.header.open.ariaLabel": "在 {{app}} 中打开",
   "session.header.open.menu": "打开选项",
   "session.header.open.copyPath": "复制路径",
+  "session.header.reveal.finder": "在 Finder 中显示",
+  "session.header.reveal.fileExplorer": "在文件资源管理器中显示",
+  "session.header.reveal.containingFolder": "打开所在文件夹",
 
   "status.popover.trigger": "状态",
   "status.popover.ariaLabel": "服务器配置",

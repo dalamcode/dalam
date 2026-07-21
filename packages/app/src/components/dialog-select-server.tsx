@@ -1,3 +1,4 @@
+import { isImeEvent } from "@uthakkan/ui/ime"
 import { Button } from "@uthakkan/ui/button"
 import { useDialog } from "@uthakkan/ui/context/dialog"
 import { Dialog } from "@uthakkan/ui/dialog"
@@ -118,7 +119,7 @@ function ServerForm(props: ServerFormProps) {
       props.onBack()
       return
     }
-    if (event.key !== "Enter" || event.isComposing) return
+    if (event.key !== "Enter" || isImeEvent(event)) return
     event.preventDefault()
     props.onSubmit()
   }

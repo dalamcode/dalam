@@ -1,4 +1,5 @@
 import { useFilteredList } from "@uthakkan/ui/hooks"
+import { isImeEvent } from "@uthakkan/ui/ime"
 import { getDirectory, getFilename } from "@uthakkan/core/util/path"
 import { createSignal, For, onMount, Show, splitProps, type JSX } from "solid-js"
 import { Button } from "@uthakkan/ui/button"
@@ -327,7 +328,6 @@ export const LineCommentEditor = (props: LineCommentEditorProps) => {
           on:select={() => syncMention()}
           on:keydown={(e) => {
             const event = e as KeyboardEvent
-            if (event.isComposing || event.keyCode === 229) return
             event.stopPropagation()
             if (open()) {
               if (e.key === "Escape") {
@@ -343,9 +343,9 @@ export const LineCommentEditor = (props: LineCommentEditorProps) => {
                 return
               }
 
-              const nav = e.key === "ArrowUp" || e.key === "ArrowDown" || e.key === "Enter"
+              const nav = e.key === "ArrowUp" || e.key === "ArrowDown" || (e.key === "Enter" && !isImeEvent(event))
               const ctrlNav =
-                event.ctrlKey && !event.metaKey && !event.altKey && !event.shiftKey && (e.key === "n" || e.key === "p")
+                event.ctrlKey && !event.metaKey && !event.altKey && !event.shiftKey && !isImeEvent(event) && (e.key === "n" || e.key === "p")
               if ((nav || ctrlNav) && mention.flat().length > 0) {
                 mention.onKeyDown(event)
                 event.preventDefault()
@@ -361,6 +361,9 @@ export const LineCommentEditor = (props: LineCommentEditorProps) => {
             }
             if (e.key !== "Enter") return
             if (e.shiftKey) return
+            // IME: block Enter during composition so the textarea can finalize
+            // the composed character before we read its value.
+            if (isImeEvent(event)) return
             event.preventDefault()
             submit()
           }}

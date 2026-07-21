@@ -1,4 +1,4 @@
-import * as InstanceState from "@/effect/instance-state"
+import { InstanceState } from "@/effect/instance-state"
 import { registerDisposer } from "@/effect/instance-registry"
 import { InstanceRef, WorkspaceRef } from "@/effect/instance-ref"
 import { Plugin } from "@/plugin"
@@ -21,7 +21,7 @@ import { HttpServerRequest, HttpServerResponse } from "effect/unstable/http"
 import { HttpApiBuilder } from "effect/unstable/httpapi"
 import * as Socket from "effect/unstable/socket/Socket"
 import { InstanceHttpApi } from "../api"
-import * as ApiError from "../errors"
+import { PtyNotFoundError, PtyForbiddenError } from "../errors"
 import { CursorQuery, PtyConnectApi } from "../groups/pty"
 import { WebSocketTracker } from "../websocket-tracker"
 
@@ -86,7 +86,7 @@ export const ptyHandlers = HttpApiBuilder.group(InstanceHttpApi, "pty", (handler
         Effect.catchTag(
           "Pty.NotFoundError",
           (error) =>
-            new ApiError.PtyNotFoundError({
+            new PtyNotFoundError({
               ptyID: error.ptyID,
               message: `PTY session not found: ${error.ptyID}`,
             }),
@@ -94,7 +94,7 @@ export const ptyHandlers = HttpApiBuilder.group(InstanceHttpApi, "pty", (handler
         Effect.flatMap((info) =>
           info.status === "running"
             ? Effect.succeed(info)
-            : new ApiError.PtyNotFoundError({
+            : new PtyNotFoundError({
                 ptyID: ctx.params.ptyID,
                 message: `PTY session not found: ${ctx.params.ptyID}`,
               }),
@@ -118,7 +118,7 @@ export const ptyHandlers = HttpApiBuilder.group(InstanceHttpApi, "pty", (handler
         Effect.catchTag(
           "Pty.NotFoundError",
           (error) =>
-            new ApiError.PtyNotFoundError({
+            new PtyNotFoundError({
               ptyID: error.ptyID,
               message: `PTY session not found: ${error.ptyID}`,
             }),
@@ -132,7 +132,7 @@ export const ptyHandlers = HttpApiBuilder.group(InstanceHttpApi, "pty", (handler
         Effect.catchTag(
           "Pty.NotFoundError",
           (error) =>
-            new ApiError.PtyNotFoundError({
+            new PtyNotFoundError({
               ptyID: error.ptyID,
               message: `PTY session not found: ${error.ptyID}`,
             }),
@@ -144,7 +144,7 @@ export const ptyHandlers = HttpApiBuilder.group(InstanceHttpApi, "pty", (handler
     const connectToken = Effect.fn("PtyHttpApi.connectToken")(function* (ctx: { params: { ptyID: PtyID } }) {
       const request = yield* HttpServerRequest.HttpServerRequest
       if (request.headers[PTY_CONNECT_TOKEN_HEADER] !== PTY_CONNECT_TOKEN_HEADER_VALUE || !validOrigin(request, cors))
-        return yield* new ApiError.PtyForbiddenError({ message: "Invalid PTY connect token request" })
+        return yield* new PtyForbiddenError({ message: "Invalid PTY connect token request" })
       yield* get(ctx)
       return yield* tickets.issue({ ptyID: ctx.params.ptyID, ...(yield* ticketScope) })
     })

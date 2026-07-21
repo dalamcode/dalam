@@ -6,7 +6,7 @@ import { TuiConfig } from "@uthakkan/tui/config"
 import { Flag } from "@uthakkan/core/flag/flag"
 import { Global } from "@uthakkan/core/global"
 import { Filesystem } from "@/util/filesystem"
-import * as ConfigPaths from "@/config/paths"
+import { ConfigPaths } from "@/config/paths"
 
 const TUI_SCHEMA_URL = "https://dalam.uthakkan.in/tui.json"
 

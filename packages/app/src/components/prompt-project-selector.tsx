@@ -1,3 +1,4 @@
+import { isImeEvent } from "@uthakkan/ui/ime"
 import {
   createEffect,
   createSignal,
@@ -346,7 +347,7 @@ export function PromptProjectSelector(props: {
                     moveActive(-1)
                     return
                   }
-                  if (event.key === "Enter" && !event.isComposing) {
+                  if (event.key === "Enter" && !isImeEvent(event)) {
                     event.preventDefault()
                     selectActive()
                   }

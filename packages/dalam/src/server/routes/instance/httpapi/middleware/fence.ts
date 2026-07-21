@@ -2,7 +2,7 @@ import { Flag } from "@uthakkan/core/flag/flag"
 import { Database } from "@uthakkan/core/database/database"
 import { Effect } from "effect"
 import { HttpRouter, HttpServerRequest, HttpServerResponse } from "effect/unstable/http"
-import * as Fence from "@/server/shared/fence"
+import { Fence } from "@/server/shared/fence"
 
 const ignoredMethods = new Set(["GET", "HEAD", "OPTIONS"])
 

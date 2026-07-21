@@ -9,7 +9,7 @@ import { Format } from "@/format"
 import { Vcs } from "@/project/vcs"
 import { Snapshot } from "@/snapshot"
 import { Config } from "@/config/config"
-import * as Observability from "@uthakkan/core/observability"
+import { Observability } from "@uthakkan/core/observability"
 import { memoMap } from "@uthakkan/core/effect/memo-map"
 
 export const BootstrapLayer = AppNodeBuilder.build(

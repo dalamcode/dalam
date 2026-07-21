@@ -1,7 +1,7 @@
 import { Cause, Context, Effect, Layer, Queue, Stream } from "effect"
 import { Headers } from "effect/unstable/http"
 import { LLMError, TransportReason } from "../../schema"
-import * as HttpTransport from "./http"
+import { HttpTransport } from "./http"
 import type { Transport } from "./index"
 
 export interface WebSocketRequest {

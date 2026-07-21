@@ -1,3 +1,4 @@
+import { isImeEvent } from "@uthakkan/ui/ime"
 import { createEffect, createMemo, createSignal, onCleanup, Show, type Ref } from "solid-js"
 import { makeEventListener } from "@solid-primitives/event-listener"
 import { createResizeObserver } from "@solid-primitives/resize-observer"
@@ -279,7 +280,10 @@ export function TabNavItem(props: {
             onDblClick={openRename}
             onKeyDown={(event) => {
               event.stopPropagation()
-              if (event.key === "Enter") {
+              // IME: ignore Enter during composition to avoid committing
+              // the rename while the last composed character is still being
+              // flushed (e.g. Korean hangul).
+              if (event.key === "Enter" && !isImeEvent(event)) {
                 event.preventDefault()
                 void closeRename(true)
                 return

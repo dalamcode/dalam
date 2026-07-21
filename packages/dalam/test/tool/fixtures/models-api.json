@@ -202880,5 +202880,53 @@
         }
       }
     }
+  },
+  "dalam": {
+    "id": "dalam",
+    "name": "Dalam",
+    "env": [
+      "DALAM_API_KEY"
+    ],
+    "models": {
+      "claude-haiku-4-5": {
+        "id": "claude-haiku-4-5",
+        "name": "Claude Haiku 4.5",
+        "family": "claude",
+        "release_date": "2025-10-01",
+        "attachment": true,
+        "reasoning": true,
+        "reasoning_options": [
+          {
+            "type": "budget_tokens",
+            "min": 1024,
+            "max": 128000
+          }
+        ],
+        "interleaved": {
+          "field": "reasoning"
+        },
+        "tool_call": true,
+        "temperature": true,
+        "cost": {
+          "input": 0.8,
+          "output": 4.0,
+          "cache_read": 0.08,
+          "cache_write": 0.8
+        },
+        "limit": {
+          "context": 200000,
+          "output": 8192
+        },
+        "modalities": {
+          "input": [
+            "text",
+            "image"
+          ],
+          "output": [
+            "text"
+          ]
+        }
+      }
+    }
   }
 }

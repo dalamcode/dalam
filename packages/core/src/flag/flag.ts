@@ -59,7 +59,13 @@ export const Flag = {
     copy === undefined ? process.platform === "win32" : truthy("DALAM_EXPERIMENTAL_DISABLE_COPY_ON_SELECT"),
   DALAM_MODELS_URL: process.env["DALAM_MODELS_URL"],
   DALAM_MODELS_PATH: process.env["DALAM_MODELS_PATH"],
-  DALAM_DB: process.env["DALAM_DB"],
+  get DALAM_DB() {
+    return process.env["DALAM_DB"]
+  },
+  set DALAM_DB(value: string | undefined) {
+    if (value === undefined) delete process.env["DALAM_DB"]
+    else process.env["DALAM_DB"] = value
+  },
 
   DALAM_WORKSPACE_ID: process.env["DALAM_WORKSPACE_ID"],
   DALAM_EXPERIMENTAL_WORKSPACES: enabledByExperimental("DALAM_EXPERIMENTAL_WORKSPACES"),

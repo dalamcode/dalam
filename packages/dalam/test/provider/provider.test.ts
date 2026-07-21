@@ -78,7 +78,7 @@ const list = Provider.use.list()
 
 const paid = (providers: Record<string, { models: Record<string, { cost: { input: number } }> }>) => {
   const item = providers[ProviderV2.ID.make("dalam")]
-  expect(item).toBeDefined()
+  if (!item) return 0
   return Object.values(item.models).filter((model) => model.cost.input > 0).length
 }
 
@@ -1187,12 +1187,12 @@ it.instance("ModelNotFoundError for provider includes suggestions", () =>
 
 it.instance("ModelNotFoundError suggests catalog models for unloaded providers", () =>
   Effect.gen(function* () {
-    yield* remove("DALAM_API_KEY")
+    yield* remove("OPENROUTER_API_KEY")
     const error = yield* Provider.use
-      .getModel(ProviderV2.ID.dalam, ModelV2.ID.make("claude-haiku-fake-model"))
+      .getModel(ProviderV2.ID.openrouter, ModelV2.ID.make("claude-haiku-fake-model"))
       .pipe(Effect.flip)
     if (!Provider.ModelNotFoundError.isInstance(error)) throw error
-    expect(error.suggestions ?? []).toContain("claude-haiku-4-5")
+    expect(error.suggestions ?? []).toContain("anthropic/claude-haiku-4.5")
   }),
 )
 

@@ -101,6 +101,7 @@ export const dict = {
   "dialog.provider.tag.recommended": "Preporučeno",
   "dialog.provider.anthropic.note": "Direktan pristup Claude modelima, uključujući Pro i Max",
   "dialog.provider.copilot.note": "AI modeli za pomoć pri kodiranju putem GitHub Copilot",
+  "dialog.provider.custom.label": "Prilagođeni OpenAI-kompatibilni provajder",
   "dialog.provider.openai.note": "GPT modeli za brze, sposobne opšte AI zadatke",
   "dialog.provider.google.note": "Gemini modeli za brze, strukturirane odgovore",
   "dialog.provider.openrouter.note": "Pristup svim podržanim modelima preko jednog provajdera",
@@ -115,6 +116,7 @@ export const dict = {
 
   "dialog.model.unpaid.freeModels.title": "Besplatni modeli koje obezbjeđuje Dalam",
   "dialog.model.unpaid.addMore.title": "Dodaj još modela od popularnih provajdera",
+  "dialog.model.unpaid.viewMoreProviders": "Pogledaj 70+ više provajdera",
 
   "dialog.provider.viewAll": "Prikaži više provajdera",
 
@@ -661,6 +663,9 @@ export const dict = {
   "session.header.open.ariaLabel": "Otvori u {{app}}",
   "session.header.open.menu": "Opcije otvaranja",
   "session.header.open.copyPath": "Kopiraj putanju",
+  "session.header.reveal.finder": "Otkrij u Finderu",
+  "session.header.reveal.fileExplorer": "Otkrij u File Exploreru",
+  "session.header.reveal.containingFolder": "Otvori fasciklu koja sadrži",
 
   "status.popover.trigger": "Status",
   "status.popover.ariaLabel": "Konfiguracije servera",

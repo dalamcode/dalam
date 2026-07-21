@@ -1,3 +1,5 @@
+import { isImeEvent } from "@uthakkan/ui/ime"
+
 const editableSelector = "input, textarea, select, [contenteditable=''], [contenteditable='true']"
 
 export function handleDocumentSearchKeydown(
@@ -7,7 +9,7 @@ export function handleDocumentSearchKeydown(
   setInputValue: (value: string) => void,
 ) {
   if (!input) return false
-  if (event.defaultPrevented || event.isComposing) return false
+  if (event.defaultPrevented || isImeEvent(event)) return false
   if (event.target === input) return false
   if (event.target instanceof Element && event.target.closest(editableSelector)) return false
 

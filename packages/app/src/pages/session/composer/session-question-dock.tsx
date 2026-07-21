@@ -11,6 +11,7 @@ import { useLanguage } from "@/context/language"
 import { useSDK } from "@/context/sdk"
 import { makeEventListener } from "@solid-primitives/event-listener"
 import { createResizeObserver } from "@solid-primitives/resize-observer"
+import { isImeEvent } from "@uthakkan/ui/ime"
 import { useServerSDK } from "@/context/server-sdk"
 import { ScopedKey } from "@/utils/server-scope"
 
@@ -620,7 +621,10 @@ export const SessionQuestionDock: Component<{ request: QuestionRequest; onSubmit
                       return
                     }
                     if ((e.metaKey || e.ctrlKey) && !e.altKey) return
-                    if (e.key !== "Enter" || e.shiftKey) return
+                    // IME: ignore Enter during composition to avoid committing
+                    // the custom answer while the last composed character is still
+                    // being flushed (e.g. Korean hangul).
+                    if (e.key !== "Enter" || e.shiftKey || isImeEvent(e)) return
                     e.preventDefault()
                     commitCustom()
                   }}

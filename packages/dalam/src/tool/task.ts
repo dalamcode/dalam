@@ -1,4 +1,4 @@
-import * as Tool from "./tool"
+import { Tool } from "./tool"
 import DESCRIPTION from "./task.txt"
 import { ToolJsonSchema } from "./json-schema"
 import { SessionV1 } from "@uthakkan/core/v1/session"

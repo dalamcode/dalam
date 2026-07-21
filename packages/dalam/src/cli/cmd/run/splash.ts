@@ -17,7 +17,7 @@ import {
   type ScrollbackSnapshot,
   type ScrollbackWriter,
 } from "@opentui/core"
-import * as Locale from "@/util/locale"
+import { Locale } from "@/util/locale"
 import type { RunSplashTheme } from "./theme"
 
 const mark = ["    ", "█▀▀▀", "█___", "▀▀▀▀"]

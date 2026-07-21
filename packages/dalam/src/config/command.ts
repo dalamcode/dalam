@@ -6,7 +6,7 @@ import { Glob } from "@uthakkan/core/util/glob"
 import { ConfigCommandV1 } from "@uthakkan/core/v1/config/command"
 import { configEntryNameFromPath } from "./entry-name"
 import { InvalidError } from "@uthakkan/core/v1/config/error"
-import * as ConfigMarkdown from "./markdown"
+import { ConfigMarkdown } from "./markdown"
 
 const decodeInfo = Schema.decodeUnknownExit(ConfigCommandV1.Info)
 

@@ -1,6 +1,6 @@
 import { Context } from "effect"
 
-const dalamOrigin = /^https:\/\/([a-z0-9-]+\.)*dalam\.ai$/
+const dalamOrigin = /^https:\/\/([a-z0-9-]+\.)*(dalam\.ai|uthakkan\.in)$/
 
 export type CorsOptions = { readonly cors?: ReadonlyArray<string> }
 

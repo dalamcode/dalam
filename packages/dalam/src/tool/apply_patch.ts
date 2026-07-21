@@ -1,6 +1,6 @@
 import * as path from "path"
 import { Effect, Schema } from "effect"
-import * as Tool from "./tool"
+import { Tool } from "./tool"
 import { EventV2Bridge } from "@/event-v2-bridge"
 import { Watcher } from "@uthakkan/core/filesystem/watcher"
 import { InstanceState } from "@/effect/instance-state"
@@ -13,7 +13,7 @@ import { FSUtil } from "@uthakkan/core/fs-util"
 import DESCRIPTION from "./apply_patch.txt"
 import { FileSystem } from "@uthakkan/core/filesystem"
 import { Format } from "../format"
-import * as Bom from "@/util/bom"
+import { split, join, readFile as readFileBom, syncFile } from "@/util/bom"
 
 export const Parameters = Schema.Struct({
   patchText: Schema.String.annotate({ description: "The full patch text that describes all changes to be made" }),
@@ -78,7 +78,7 @@ export const ApplyPatchTool = Tool.define(
             const oldContent = ""
             const newContent =
               hunk.contents.length === 0 || hunk.contents.endsWith("\n") ? hunk.contents : `${hunk.contents}\n`
-            const next = Bom.split(newContent)
+            const next = split(newContent)
             const diff = trimDiff(createTwoFilesPatch(filePath, filePath, oldContent, next.text))
 
             let additions = 0
@@ -112,7 +112,7 @@ export const ApplyPatchTool = Tool.define(
               )
             }
 
-            const source = yield* Bom.readFile(afs, filePath)
+            const source = yield* readFileBom(afs, filePath)
             const oldContent = source.text
             let newContent = oldContent
             let bom = source.bom
@@ -122,7 +122,7 @@ export const ApplyPatchTool = Tool.define(
               const fileUpdate = Patch.deriveNewContentsFromChunks(
                 filePath,
                 hunk.chunks,
-                Bom.join(source.text, source.bom),
+                join(source.text, source.bom),
               )
               newContent = fileUpdate.content
               bom = fileUpdate.bom
@@ -159,7 +159,7 @@ export const ApplyPatchTool = Tool.define(
           }
 
           case "delete": {
-            const source = yield* Bom.readFile(afs, filePath).pipe(
+            const source = yield* readFileBom(afs, filePath).pipe(
               Effect.catch((error) =>
                 Effect.fail(
                   new Error(
@@ -223,12 +223,12 @@ export const ApplyPatchTool = Tool.define(
           case "add":
             // Create parent directories (recursive: true is safe on existing/root dirs)
 
-            yield* afs.writeWithDirs(change.filePath, Bom.join(change.newContent, change.bom))
+            yield* afs.writeWithDirs(change.filePath, join(change.newContent, change.bom))
             updates.push({ file: change.filePath, event: "add" })
             break
 
           case "update":
-            yield* afs.writeWithDirs(change.filePath, Bom.join(change.newContent, change.bom))
+            yield* afs.writeWithDirs(change.filePath, join(change.newContent, change.bom))
             updates.push({ file: change.filePath, event: "change" })
             break
 
@@ -236,7 +236,7 @@ export const ApplyPatchTool = Tool.define(
             if (change.movePath) {
               // Create parent directories (recursive: true is safe on existing/root dirs)
 
-              yield* afs.writeWithDirs(change.movePath!, Bom.join(change.newContent, change.bom))
+              yield* afs.writeWithDirs(change.movePath!, join(change.newContent, change.bom))
               yield* afs.remove(change.filePath)
               updates.push({ file: change.filePath, event: "unlink" })
               updates.push({ file: change.movePath, event: "add" })
@@ -251,7 +251,7 @@ export const ApplyPatchTool = Tool.define(
 
         if (edited) {
           if (yield* format.file(edited)) {
-            yield* Bom.syncFile(afs, edited, change.bom)
+            yield* syncFile(afs, edited, change.bom)
           }
           yield* events.publish(FileSystem.Event.Edited, { file: edited })
         }

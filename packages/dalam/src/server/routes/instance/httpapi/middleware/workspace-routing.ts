@@ -4,7 +4,7 @@ import { Workspace } from "@/control-plane/workspace"
 import { WorkspaceAdapterRuntime } from "@/control-plane/workspace-adapter-runtime"
 import { Session } from "@/session/session"
 import { HttpApiProxy } from "./proxy"
-import * as Fence from "@/server/shared/fence"
+import { parse as parseFence, wait as waitFence } from "@/server/shared/fence"
 import { getWorkspaceRouteSessionID, isLocalWorkspaceRoute, workspaceProxyURL } from "@/server/shared/workspace-routing"
 import { NotFoundError } from "@/storage/storage"
 import { Flag } from "@uthakkan/core/flag/flag"
@@ -129,9 +129,9 @@ function proxyRemote(
     const headers = request.headers as Record<string, string>
     if (headers["upgrade"]?.toLowerCase() === "websocket") return yield* HttpApiProxy.websocket(request, proxyURL)
     const response = yield* HttpApiProxy.http(client, proxyURL, target.headers, request)
-    const sync = Fence.parse(new Headers(response.headers))
+    const sync = parseFence(new Headers(response.headers))
     if (sync) {
-      const syncFailure = yield* Fence.wait(
+      const syncFailure = yield* waitFence(
         workspace.id,
         sync,
         request.source instanceof Request ? request.source.signal : undefined,

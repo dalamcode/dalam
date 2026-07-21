@@ -1,4 +1,4 @@
-import { createEffect, createMemo, For, Show, type Accessor, type JSX } from "solid-js"
+import { createEffect, createMemo, createSignal, For, Show, type Accessor, type JSX } from "solid-js"
 import { FileIcon } from "@uthakkan/ui/file-icon"
 import { Icon } from "@uthakkan/ui/icon"
 import { IconButton } from "@uthakkan/ui/icon-button"
@@ -12,6 +12,7 @@ import { TooltipV2 } from "@uthakkan/ui/v2/tooltip-v2"
 import { AttachmentCardV2 } from "../attachment-card-v2"
 import { CommentCardV2 } from "../comment-card-v2"
 import { typeLabel } from "../../../components/message-file"
+import { createIsImeComposing } from "@uthakkan/ui/ime"
 import type {
   PromptInputV2Attachment,
   PromptInputV2Comment,
@@ -45,6 +46,17 @@ export function PromptInputV2(props: PromptInputV2Props) {
   const view = props.controller.view
   let editor: HTMLDivElement | undefined
   let localInput = false
+  const [composing, setComposing] = createSignal(false)
+  const isImeComposing = createIsImeComposing(() => composing())
+
+  const handleCompositionStart = () => {
+    setComposing(true)
+  }
+
+  const handleCompositionEnd = () => {
+    setComposing(false)
+  }
+
   const updateCursor = () => {
     if (!editor || !window.getSelection()?.isCollapsed) return
     props.controller.onCursor(promptInputV2Cursor(editor))
@@ -149,7 +161,7 @@ export function PromptInputV2(props: PromptInputV2Props) {
             spellcheck={state.mode === "normal"}
             // @ts-expect-error
             autocomplete="off"
-            class="relative z-10 block min-h-[60px] max-h-[180px] w-full overflow-y-auto whitespace-pre-wrap bg-transparent px-4 pt-4 pb-2 text-[13px] font-[440] leading-5 text-v2-text-text-base focus:outline-none empty:before:content-['\200B'] [&_[data-mention=file]]:text-syntax-property [&_[data-mention=agent]]:text-syntax-type [&_[data-mention=reference]]:text-syntax-keyword"
+            class="relative z-10 block min-h-[60px] max-h-[180px] w-full overflow-y-auto whitespace-pre-wrap bg-transparent px-4 pt-4 pb-2 text-[13px] font-[440] leading-5 text-v2-text-text-base focus:outline-none empty:before:content-['\u200B'] [&_[data-mention=file]]:text-syntax-property [&_[data-mention=agent]]:text-syntax-type [&_[data-mention=reference]]:text-syntax-keyword"
             classList={{ "font-mono!": state.mode === "shell", "opacity-50": props.disabled }}
             onInput={(event) => {
               const cursor = promptInputV2Cursor(event.currentTarget)
@@ -158,9 +170,15 @@ export function PromptInputV2(props: PromptInputV2Props) {
               localInput = true
               props.controller.onInput(prompt.map((part) => part.content).join(""), [...prompt, ...images], cursor)
             }}
+            onCompositionStart={handleCompositionStart}
+            onCompositionEnd={handleCompositionEnd}
             onKeyDown={(event) => {
               if (props.controller.onKeyDown(event)) return
-              if (event.key === "Enter" && !event.shiftKey && !event.isComposing) {
+              // IME: combine DOM event's isComposing with our manual signal
+              // for cases where the browser doesn't reliably set isComposing
+              // during composition (e.g. Korean/Chinese IME on some browsers).
+              const ime = isImeComposing(event)
+              if (event.key === "Enter" && !event.shiftKey && !ime) {
                 event.preventDefault()
                 if (event.repeat) return
                 props.controller.submit()
@@ -170,6 +188,7 @@ export function PromptInputV2(props: PromptInputV2Props) {
             onPointerUp={updateCursor}
             onPaste={props.controller.onPaste}
             onFocus={() => props.controller.dispatch({ type: "focus.editor" })}
+            onBlur={() => setComposing(false)}
           />
           <Show when={!props.controller.value()}>
             <div

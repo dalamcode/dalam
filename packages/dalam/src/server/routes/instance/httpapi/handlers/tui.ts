@@ -6,7 +6,7 @@ import { HttpApiBuilder, HttpApiError } from "effect/unstable/httpapi"
 import { nextTuiRequest, submitTuiResponse } from "@/server/shared/tui-control"
 import { InstanceHttpApi } from "../api"
 import { CommandPayload, TuiPublishPayload } from "../groups/tui"
-import * as SessionError from "./session-errors"
+import { mapStorageNotFound, mapBusy } from "./session-errors"
 
 const commandAliases = {
   session_new: "session.new",
@@ -99,7 +99,7 @@ export const tuiHandlers = HttpApiBuilder.group(InstanceHttpApi, "tui", (handler
       payload: typeof TuiEvent.SessionSelect.data.Type
     }) {
       if (!ctx.payload.sessionID.startsWith("ses")) return yield* new HttpApiError.BadRequest({})
-      yield* SessionError.mapStorageNotFound(session.get(ctx.payload.sessionID))
+      yield* mapStorageNotFound(session.get(ctx.payload.sessionID))
       yield* events.publish(TuiEvent.SessionSelect, ctx.payload)
       return true
     })

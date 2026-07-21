@@ -1,6 +1,6 @@
 import type { AssistantMessage, Part, Provider, UserMessage } from "@uthakkan/sdk/v2"
 import { Locale } from "./locale"
-import * as Model from "./model"
+import { index as indexModel, name as nameModel } from "./model"
 
 export type TranscriptOptions = {
   thinking: boolean
@@ -28,7 +28,7 @@ export function formatTranscript(
   messages: MessageWithParts[],
   options: TranscriptOptions,
 ): string {
-  const providers = Model.index(options.providers)
+  const providers = indexModel(options.providers)
   let transcript = `# ${session.title}\n\n`
   transcript += `**Session ID:** ${session.id}\n`
   transcript += `**Created:** ${new Date(session.time.created).toLocaleString()}\n`
@@ -76,7 +76,7 @@ export function formatAssistantHeader(
   const duration =
     msg.time.completed && msg.time.created ? ((msg.time.completed - msg.time.created) / 1000).toFixed(1) + "s" : ""
 
-  const modelName = Model.name(providers, msg.providerID, msg.modelID)
+  const modelName = nameModel(providers, msg.providerID, msg.modelID)
 
   return `## Assistant (${Locale.titlecase(msg.agent)} · ${modelName}${duration ? ` · ${duration}` : ""})\n\n`
 }

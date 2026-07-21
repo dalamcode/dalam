@@ -1,4 +1,4 @@
-import * as InstanceState from "@/effect/instance-state"
+import { InstanceState } from "@/effect/instance-state"
 import { FileSystem } from "@uthakkan/core/filesystem"
 import { LocationServiceMap, locationServiceMapLayer } from "@uthakkan/core/location-services"
 import { Ripgrep } from "@uthakkan/core/ripgrep"

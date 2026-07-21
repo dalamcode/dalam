@@ -1,5 +1,6 @@
 import { For, Show, createSignal, onMount, splitProps, type ComponentProps, type JSX } from "solid-js"
 import { FileIcon } from "../../components/file-icon"
+import { isImeEvent } from "../../ime"
 import { useFilteredList } from "../../hooks"
 import { ButtonV2 } from "./button-v2"
 import "./line-comment-v2.css"
@@ -221,7 +222,6 @@ export function LineCommentEditorV2(props: LineCommentEditorV2Props) {
             onSelect={() => syncMention()}
             onKeyDown={(e) => {
               e.stopPropagation()
-              if (e.isComposing || e.keyCode === 229) return
 
               if (mentionOpen()) {
                 if (e.key === "Escape") {
@@ -237,8 +237,8 @@ export function LineCommentEditorV2(props: LineCommentEditorV2Props) {
                   return
                 }
 
-                const nav = e.key === "ArrowUp" || e.key === "ArrowDown" || e.key === "Enter"
-                const ctrlNav = e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey && (e.key === "n" || e.key === "p")
+                const nav = e.key === "ArrowUp" || e.key === "ArrowDown" || (e.key === "Enter" && !isImeEvent(e))
+                const ctrlNav = e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey && !isImeEvent(e) && (e.key === "n" || e.key === "p")
                 if ((nav || ctrlNav) && mention.flat().length > 0) {
                   mention.onKeyDown(e)
                   e.preventDefault()
@@ -252,10 +252,13 @@ export function LineCommentEditorV2(props: LineCommentEditorV2Props) {
                 local.onCancel()
                 return
               }
-              if (e.key === "Enter" && !e.shiftKey) {
-                e.preventDefault()
-                submit()
-              }
+              if (e.key !== "Enter") return
+              if (e.shiftKey) return
+              // IME: block Enter during composition so the textarea can finalize
+              // the composed character before we read its value.
+              if (isImeEvent(e)) return
+              e.preventDefault()
+              submit()
             }}
           />
           <Show when={mentionOpen() && mention.flat().length > 0}>

@@ -1,3 +1,4 @@
+import { createIsImeComposing } from "@uthakkan/ui/ime"
 import { useFilteredList } from "@uthakkan/ui/hooks"
 import { useSpring } from "@uthakkan/ui/motion-spring"
 import {
@@ -540,7 +541,7 @@ export const PromptInput: Component<PromptInputProps> = (props) => {
   })
 
   const [composing, setComposing] = createSignal(false)
-  const isImeComposing = (event: KeyboardEvent) => event.isComposing || composing() || event.keyCode === 229
+  const isImeComposing = createIsImeComposing(() => composing())
 
   const handleBlur = () => {
     const cursor = currentCursor()

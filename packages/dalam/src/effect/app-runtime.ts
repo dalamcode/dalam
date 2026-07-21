@@ -1,6 +1,6 @@
 import { Layer, ManagedRuntime } from "effect"
 import { attach } from "./run-service"
-import * as Observability from "@uthakkan/core/observability"
+import { Observability } from "@uthakkan/core/observability"
 
 import { FSUtil } from "@uthakkan/core/fs-util"
 import { Database } from "@uthakkan/core/database/database"

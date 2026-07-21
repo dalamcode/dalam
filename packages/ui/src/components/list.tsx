@@ -1,3 +1,4 @@
+import { isImeEvent } from "../ime"
 import { type FilteredListProps, useFilteredList } from "@uthakkan/ui/hooks"
 import { createEffect, For, type JSX, on, Show } from "solid-js"
 import { createStore } from "solid-js/store"
@@ -180,7 +181,7 @@ export function List<T>(props: ListProps<T> & { ref?: (ref: ListRef) => void }) 
 
     if (e.defaultPrevented) return
 
-    if (e.key === "Enter" && !e.isComposing) {
+    if (e.key === "Enter" && !isImeEvent(e)) {
       e.preventDefault()
       if (selected) handleSelect(selected, index)
     } else if (props.search) {

@@ -106,6 +106,7 @@ export const dict = {
   "dialog.provider.anthropic.note": "使用 Claude Pro/Max 或 API 金鑰連線",
   "dialog.provider.openai.note": "使用 ChatGPT Pro/Plus 或 API 金鑰連線",
   "dialog.provider.copilot.note": "使用 Copilot 或 API 金鑰連線",
+  "dialog.provider.custom.label": "自訂 OpenAI 相容提供者",
   "dialog.provider.google.note": "Gemini 模型，提供快速且結構化的回應",
   "dialog.provider.openrouter.note": "從單一提供者存取所有支援的模型",
   "dialog.provider.vercel.note": "透過智慧路由統一存取 AI 模型",
@@ -119,6 +120,7 @@ export const dict = {
 
   "dialog.model.unpaid.freeModels.title": "Dalam 提供的免費模型",
   "dialog.model.unpaid.addMore.title": "從熱門提供者新增更多模型",
+  "dialog.model.unpaid.viewMoreProviders": "查看 70+ 更多提供者",
 
   "dialog.provider.viewAll": "查看更多提供者",
 
@@ -651,6 +653,9 @@ export const dict = {
   "session.header.open.ariaLabel": "在 {{app}} 中開啟",
   "session.header.open.menu": "開啟選項",
   "session.header.open.copyPath": "複製路徑",
+  "session.header.reveal.finder": "在 Finder 中顯示",
+  "session.header.reveal.fileExplorer": "在檔案總管中顯示",
+  "session.header.reveal.containingFolder": "開啟所在資料夾",
 
   "status.popover.trigger": "狀態",
   "status.popover.ariaLabel": "伺服器設定",

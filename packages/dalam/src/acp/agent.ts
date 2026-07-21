@@ -18,19 +18,19 @@ import {
 } from "@agentclientprotocol/sdk"
 import { Effect } from "effect"
 import type { DalamClient } from "@uthakkan/sdk/v2"
-import * as ACPError from "./error"
-import * as ACPService from "./service"
+import { toRequestError, fromUnknownDefect } from "./error"
+import { make as makeACPService, type Interface as ACPServiceInterface } from "./service"
 
 export function init({ sdk: _sdk }: {  sdk: DalamClient }) {
   return {
     create: (connection: AgentSideConnection) => {
-      return new Agent(ACPService.make({ sdk: _sdk, connection }))
+      return new Agent(makeACPService({ sdk: _sdk, connection }))
     },
   }
 }
 
 export class Agent implements ACPAgent {
-  constructor(private readonly service: ACPService.Interface) {}
+  constructor(private readonly service: ACPServiceInterface) {}
 
   initialize(params: InitializeRequest) {
     return run(this.service.initialize(params))
@@ -85,10 +85,10 @@ export class Agent implements ACPAgent {
   }
 }
 
-function run<A>(effect: Effect.Effect<A, ACPService.Error>) {
-  return Effect.runPromise(effect.pipe(Effect.mapError(ACPError.toRequestError))).catch((defect: unknown) => {
+function run<A>(effect: Effect.Effect<A, import("./service").Error>) {
+  return Effect.runPromise(effect.pipe(Effect.mapError(toRequestError))).catch((defect: unknown) => {
     if (defect instanceof RequestError) throw defect
-    throw ACPError.toRequestError(ACPError.fromUnknownDefect(defect))
+    throw toRequestError(fromUnknownDefect(defect))
   })
 }
 

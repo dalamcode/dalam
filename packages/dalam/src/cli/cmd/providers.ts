@@ -3,7 +3,7 @@ import { Auth } from "../../auth"
 import { cmd } from "./cmd"
 import { CliError, effectCmd, fail } from "../effect-cmd"
 import { UI } from "../ui"
-import * as Prompt from "../effect/prompt"
+import { Prompt } from "../effect/prompt"
 import { ModelsDev } from "@uthakkan/core/models-dev"
 
 import { map, pipe, sortBy, values } from "remeda"

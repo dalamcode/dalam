@@ -1,10 +1,12 @@
 import { LayerNode } from "@uthakkan/core/effect/layer-node"
 import { FSUtil } from "@uthakkan/core/fs-util"
 import { EventV2Bridge } from "@/event-v2-bridge"
-import * as LSPClient from "./client"
+import { LSPClient } from "./client"
 import path from "path"
 import { pathToFileURL, fileURLToPath } from "url"
-import * as LSPServer from "./server"
+import { type Info as LSPServerInfo, Deno, Typescript, Vue, ESLint, Oxlint, Biome, Gopls, Rubocop, Ty, Pyright } from "./server"
+
+const LSPServers: Record<string, LSPServerInfo> = { Deno, Typescript, Vue, ESLint, Oxlint, Biome, Gopls, Rubocop, Ty, Pyright }
 import { Config } from "@/config/config"
 import { Process } from "@/util/process"
 import { spawn as lspspawn } from "./launch"
@@ -95,7 +97,7 @@ const kinds = [
   SymbolKind.Enum,
 ]
 
-const filterExperimentalServers = (servers: Record<string, LSPServer.Info>, flags: RuntimeFlags.Info) => {
+const filterExperimentalServers = (servers: Record<string, LSPServerInfo>, flags: RuntimeFlags.Info) => {
   if (flags.experimentalLspTy) {
     if (servers["pyright"]) {
       delete servers["pyright"]
@@ -111,7 +113,7 @@ type LocInput = { file: string; line: number; character: number }
 
 interface State {
   clients: LSPClient.Info[]
-  servers: Record<string, LSPServer.Info>
+  servers: Record<string, LSPServerInfo>
   broken: Set<string>
   spawning: Map<string, Promise<LSPClient.Info | undefined>>
 }
@@ -146,12 +148,12 @@ const layer = Layer.effect(
       Effect.fn("LSP.state")(function* (ctx) {
         const cfg = yield* config.get()
 
-        const servers: Record<string, LSPServer.Info> = {}
+        const servers: Record<string, LSPServerInfo> = {}
 
         if (!cfg.lsp) {
           yield* Effect.logInfo("all LSPs are disabled")
         } else {
-          for (const server of Object.values(LSPServer)) {
+          for (const server of Object.values(LSPServers)) {
             servers[server.id] = server
           }
 
@@ -214,7 +216,7 @@ const layer = Layer.effect(
         const result: LSPClient.Info[] = []
         let updated = 0
 
-        async function schedule(server: LSPServer.Info, root: string, key: string) {
+        async function schedule(server: LSPServerInfo, root: string, key: string) {
           const handle = await server
             .spawn(root, ctx, flags)
             .then((value) => {

@@ -5,11 +5,11 @@ import { Framing } from "../route/framing"
 import { Protocol } from "../route/protocol"
 import { AuthOptions, type ProviderAuthOption } from "../route/auth-options"
 import { ProviderID, type ModelID, type ProviderOptions } from "../schema"
-import * as OpenAICompatibleProfiles from "./openai-compatible-profile"
-import * as OpenAIChat from "../protocols/openai-chat"
+import { profiles } from "./openai-compatible-profile"
+import { OpenAIChat } from "../protocols/openai-chat"
 import { isRecord } from "../protocols/shared"
 
-export const profile = OpenAICompatibleProfiles.profiles.openrouter
+export const profile = profiles.openrouter
 export const id = ProviderID.make(profile.provider)
 const ADAPTER = "openrouter"
 

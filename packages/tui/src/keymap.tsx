@@ -288,3 +288,5 @@ export function useCommandSlashes(): Accessor<readonly CommandSlashEntry[]> {
     }),
   )
 }
+
+export * as Keymap from "./keymap"

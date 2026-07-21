@@ -7,7 +7,7 @@ import {
   printParseErrorCode,
 } from "jsonc-parser"
 
-import * as ConfigPaths from "@/config/paths"
+import { ConfigPaths } from "@/config/paths"
 import { Global } from "@uthakkan/core/global"
 import { Filesystem } from "@/util/filesystem"
 import { Flock } from "@uthakkan/core/util/flock"

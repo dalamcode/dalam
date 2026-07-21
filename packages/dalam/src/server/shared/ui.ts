@@ -1,6 +1,6 @@
 import { FSUtil } from "@uthakkan/core/fs-util"
 import { Effect } from "effect"
-import { HttpServerRequest, HttpServerResponse } from "effect/unstable/http"
+import { HttpClient, HttpServerRequest, HttpServerResponse } from "effect/unstable/http"
 import { createHash } from "node:crypto"
 
 let embeddedUIPromise: Promise<Record<string, string> | null> | undefined
@@ -54,7 +54,7 @@ export function serveEmbeddedUIEffect(
 
 export function serveUIEffect(
   request: HttpServerRequest.HttpServerRequest,
-  services: { fs: FSUtil.Interface; client: unknown; disableEmbeddedWebUi: boolean },
+  services: { fs: FSUtil.Interface; client: HttpClient.HttpClient | undefined; disableEmbeddedWebUi: boolean },
 ) {
   return Effect.gen(function* () {
     const embeddedWebUI = yield* Effect.promise(() => embeddedUI(services.disableEmbeddedWebUi))
@@ -62,6 +62,19 @@ export function serveUIEffect(
 
     if (embeddedWebUI) return yield* serveEmbeddedUIEffect(path, services.fs, embeddedWebUI)
 
-    return notFound()
+    if (!services.client) return notFound()
+
+    const proxyURL = `https://app.dalam.uthakkan.in${path}`
+    const proxyResponse = yield* services.client.get(proxyURL)
+    const body = yield* proxyResponse.arrayBuffer
+    const filteredHeaders: Record<string, string> = {}
+    for (const key of Object.keys(proxyResponse.headers)) {
+      if (["content-encoding", "transfer-encoding", "content-length"].includes(key)) continue
+      filteredHeaders[key] = proxyResponse.headers[key]
+    }
+    return HttpServerResponse.raw(new Uint8Array(body), {
+      headers: filteredHeaders,
+      status: proxyResponse.status,
+    })
   })
 }

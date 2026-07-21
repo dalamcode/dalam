@@ -15,6 +15,7 @@ import {
   startTransition,
   Switch,
 } from "solid-js"
+import { isImeEvent } from "@uthakkan/ui/ime"
 import { makeEventListener } from "@solid-primitives/event-listener"
 import { createStore, produce } from "solid-js/store"
 import { useQuery } from "@tanstack/solid-query"
@@ -1462,7 +1463,7 @@ function HomeSessionSearch(props: {
                 moveActive(-1)
                 return
               }
-              if (event.key === "Enter" && !event.isComposing) {
+              if (event.key === "Enter" && !isImeEvent(event)) {
                 event.preventDefault()
                 selectActive()
               }

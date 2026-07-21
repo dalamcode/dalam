@@ -4,7 +4,7 @@ import { LayerNode } from "@uthakkan/core/effect/layer-node"
 import { ProviderV2 } from "@uthakkan/core/provider"
 import { ModelV2 } from "@uthakkan/core/model"
 import { Context, Effect, Layer, Ref } from "effect"
-import * as ACPError from "./error"
+import { ACPError } from "./error"
 
 export type SelectedModel = {
   providerID: ProviderV2.ID

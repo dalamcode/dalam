@@ -1,3 +1,4 @@
+import { isImeEvent } from "@uthakkan/ui/ime"
 import { ButtonV2 } from "@uthakkan/ui/v2/button-v2"
 import { Dialog, DialogBody, DialogFooter, DialogHeader, DialogTitle } from "@uthakkan/ui/v2/dialog-v2"
 import { DividerV2 } from "@uthakkan/ui/v2/divider-v2"
@@ -38,7 +39,7 @@ export const DialogServerV2: Component<{
   })
 
   const keyDown = (event: KeyboardEvent) => {
-    if (event.key !== "Enter" || event.isComposing) return
+    if (event.key !== "Enter" || isImeEvent(event)) return
     event.preventDefault()
     controller.submitForm()
   }
