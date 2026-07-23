@@ -151,7 +151,7 @@ describe("LSP.Diagnostic", () => {
   })
 
   test("pretty() defaults to ERROR when no severity", () => {
-    const result = LSP.Diagnostic.pretty({
+    const result = LSP.Diagnostic.pretty(void {
       range: { start: { line: 0, character: 0 }, end: { line: 0, character: 1 } },
       message: "Something wrong",
     } as any)

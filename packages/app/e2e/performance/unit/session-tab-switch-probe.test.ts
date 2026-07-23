@@ -30,7 +30,7 @@ test("stops sampling when the session switch fails", async () => {
   const failure = new Error("switch failed")
   const context = testPage()
 
-  await expect(
+   expect(
     measureSessionSwitch(
       context.page,
       input(async () => Promise.reject(failure)),

@@ -291,6 +291,7 @@ export function createServerSdkContext(server: ServerConnection.Any, scope: Serv
   })
 }
 
+// oxlint-disable-next-line typescript-eslint/unbound-method
 export const { use: useServerSDK, provider: ServerSDKProvider } = createSimpleContext({
   name: "ServerSDK",
   // Returns an accessor so the resolved server can change reactively (e.g. a

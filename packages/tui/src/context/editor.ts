@@ -109,6 +109,7 @@ export type EditorIntegration = Readonly<{
   selection?(directory: string): Promise<unknown>
 }>
 
+// oxlint-disable-next-line typescript-eslint/unbound-method
 export const { use: useEditorContext, provider: EditorContextProvider } = createSimpleContext({
   name: "EditorContext",
   init: (props: { integration?: EditorIntegration; WebSocketImpl?: typeof WebSocket }) => {

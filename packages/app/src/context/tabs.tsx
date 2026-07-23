@@ -49,6 +49,7 @@ export function sessionHasOpenTab(tabs: Tab[], server: ServerConnection.Key, ses
   return tabs.some((tab) => tab.type === "session" && tab.server === server && tab.sessionId === session.id)
 }
 
+// oxlint-disable-next-line typescript-eslint/unbound-method -- destructured context hook is intentionally unbound
 export const { use: useTabs, provider: TabsProvider } = createSimpleContext({
   name: "Tabs",
   gate: false,
@@ -118,7 +119,7 @@ export const { use: useTabs, provider: TabsProvider } = createSimpleContext({
       )
     }
 
-    onCleanup(memory.dispose)
+    onCleanup(() => memory.dispose())
 
     createEffect(() => {
       if (!ready() || !recentReady()) return

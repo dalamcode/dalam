@@ -54,7 +54,7 @@ function captureAiGatewayOptions(options: Record<string, unknown>) {
             ...nested,
             headers:
               nested.headers && typeof nested.headers === "object"
-                ? { ...(nested.headers as Record<string, unknown>) }
+                ? { ...(void nested.headers as Record<string, unknown>) }
                 : nested.headers,
           },
         }
@@ -78,7 +78,7 @@ function cloudflareEnv(overrides: Record<string, string | undefined> = {}) {
   }
 }
 
-mock.module("ai-gateway-provider", () => ({
+void mock.module("ai-gateway-provider", () => ({
   createAiGateway(options: Record<string, unknown>) {
     aiGatewayCalls.push(captureAiGatewayOptions(options))
     return (input: unknown) => {

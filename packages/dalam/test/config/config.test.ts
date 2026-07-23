@@ -1910,7 +1910,7 @@ test("parseManagedPlist parses server settings", async () => {
   const config = ConfigParse.schema(
     ConfigV1.Info,
     ConfigParse.jsonc(
-      await ConfigManaged.parseManagedPlist(
+       ConfigManaged.parseManagedPlist(
         JSON.stringify({
           $schema: "https://dalam.uthakkan.in/config.json",
           server: { hostname: "127.0.0.1", mdns: false },
@@ -1960,7 +1960,7 @@ test("parseManagedPlist parses enabled_providers", async () => {
   const config = ConfigParse.schema(
     ConfigV1.Info,
     ConfigParse.jsonc(
-      await ConfigManaged.parseManagedPlist(
+       ConfigManaged.parseManagedPlist(
         JSON.stringify({
           $schema: "https://dalam.uthakkan.in/config.json",
           enabled_providers: ["anthropic", "google"],

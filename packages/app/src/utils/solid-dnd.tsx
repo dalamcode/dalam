@@ -25,7 +25,8 @@ const createTransformer = (id: string, axis: "x" | "y"): Transformer => ({
 const createAxisConstraint = (axis: "x" | "y", transformerId: string) => (): JSXElement => {
   const context = useDragDropContext()
   if (!context) return null
-  const [, { onDragStart, onDragEnd, addTransformer, removeTransformer }] = context
+  // oxlint-disable-next-line typescript-eslint/unbound-method
+const [, { onDragStart, onDragEnd, addTransformer, removeTransformer }] = context
   const transformer = createTransformer(transformerId, axis)
   const dispose = createRoot((dispose) => {
     onDragStart((event) => {

@@ -55,6 +55,7 @@ const clone = (value: State | undefined) => {
   } satisfies State
 }
 
+// oxlint-disable-next-line typescript-eslint/unbound-method
 export const { use: useLocal, provider: LocalProvider } = createSimpleContext({
   name: "Local",
   init: () => {

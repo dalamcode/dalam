@@ -155,6 +155,7 @@ const currentRoute = (pathname: string, search: string): LayoutRoute => {
   return { type: "dir-new-sesssion", dir, dirBase64 }
 }
 
+// oxlint-disable-next-line typescript-eslint/unbound-method
 export const { use: useLayout, provider: LayoutProvider } = createSimpleContext({
   name: "Layout",
   gate: false,

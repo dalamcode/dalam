@@ -20,7 +20,7 @@ export function Navbar({ toggleTheme, theme }: NavbarProps) {
     if (!mobileOpen) return
     const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') setMobileOpen(false) }
     window.addEventListener('keydown', handler)
-    return () => window.removeEventListener('keydown', handler)
+    void return () => window.removeEventListener('keydown', handler)
   }, [mobileOpen])
 
   const handleDownload = useCallback(() => {

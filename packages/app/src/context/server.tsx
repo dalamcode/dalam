@@ -252,6 +252,8 @@ export function nextServerAfterRemoval(
   return next ? ServerConnection.key(next) : fallback
 }
 
+// oxlint-disable-next-line typescript-eslint/unbound-method
+// oxlint-disable-next-line typescript-eslint/unbound-method
 export const { use: useServer, provider: ServerProvider } = createSimpleContext({
   name: "Server",
   gate: true,

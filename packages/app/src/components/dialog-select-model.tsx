@@ -152,7 +152,7 @@ export function ModelSelectorPopover(props: {
   const handleManage = () => {
     close("manage")
     void import("./dialog-manage-models").then((x) => {
-      dialog.show(() => <x.DialogManageModels />)
+      void dialog.show(() => <x.DialogManageModels />)
     })
   }
 
@@ -323,7 +323,7 @@ export function ModelSelectorPopoverV2(props: {
     setOpen(false)
     afterClose(() => {
       void import("./dialog-manage-models").then((x) => {
-        dialog.show(() => <x.DialogManageModelsV2 />)
+        void dialog.show(() => <x.DialogManageModelsV2 />)
       })
     })
   }

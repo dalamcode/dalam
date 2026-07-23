@@ -4,6 +4,7 @@ import { createSimpleContext } from "./helper"
 
 export type PermissionMode = "auto" | "normal"
 
+// oxlint-disable-next-line typescript-eslint/unbound-method
 export const { use: usePermission, provider: PermissionProvider } = createSimpleContext({
   name: "Permission",
   init: () => {

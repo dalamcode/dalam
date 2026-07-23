@@ -52,6 +52,7 @@ function errorMessage(error: unknown, fallback: string) {
   return fallback
 }
 
+// oxlint-disable-next-line typescript-eslint/unbound-method
 export const { use: useFile, provider: FileProvider } = createSimpleContext({
   name: "File",
   gate: false,

@@ -424,7 +424,7 @@ export function usePromptInputV2Controller(props: PromptInputV2ControllerProps):
       return () => command.trigger(selected.id, "slash")
     },
     attachments: {
-      picker: platform.openAttachmentPickerDialog,
+      picker: (...args: any[]) => platform.openAttachmentPickerDialog(...args),
       directory: () => sdk().directory,
       isDialogActive: () => !!dialog.active,
       warn: () =>
@@ -438,8 +438,8 @@ export function usePromptInputV2Controller(props: PromptInputV2ControllerProps):
           title: language.t("common.requestFailed"),
           description: error instanceof Error ? error.message : String(error),
         }),
-      readClipboardImage: platform.readClipboardImage,
-      getPathForFile: platform.getPathForFile,
+      readClipboardImage: (...args: any[]) => platform.readClipboardImage(...args),
+      getPathForFile: (...args: any[]) => platform.getPathForFile(...args),
     },
     view: {
       placeholder: designPlaceholder,

@@ -106,7 +106,7 @@ function dedupeDiagnostics(items: Diagnostic[]) {
 
 function configurationValue(settings: unknown, section?: string) {
   if (!section) return settings ?? null
-  const result = section.split(".").reduce<unknown>((acc, key) => {
+  const result = section.split(".").reduce((acc, key) => {
     if (!acc || typeof acc !== "object" || !(key in acc)) return undefined
     return (acc as Record<string, unknown>)[key]
   }, settings)
@@ -188,7 +188,7 @@ export async function create(input: {
     if (changed) emitRegistrationChange()
   })
   connection.onRequest("client/unregisterCapability", async (params) => {
-    const registrations = (params as { unregisterations?: { id: string; method: string }[] }).unregisterations ?? []
+    const registrations = (void params as { unregisterations?: { id: string; method: string }[] }).unregisterations ?? []
     let changed = false
     for (const registration of registrations) {
       if (registration.method !== "textDocument/diagnostic") continue
@@ -398,7 +398,7 @@ export async function create(input: {
       }
 
       for (const request of requests) {
-        request.then((result) => {
+        void request.then((result) => {
           results.push(result)
           pending -= 1
           const merged = mergeResults(filePath, results)

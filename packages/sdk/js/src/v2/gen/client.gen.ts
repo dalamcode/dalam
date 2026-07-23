@@ -15,4 +15,4 @@ export type CreateClientConfig<T extends ClientOptions = ClientOptions2> = (
   override?: Config<ClientOptions & T>,
 ) => Config<Required<ClientOptions> & T>
 
-export const client = createClient(createConfig<ClientOptions2>({ baseUrl: globalThis.process?.env?.DALAM_BASE_URL ?? "http://localhost:4096" }))
+export const client = createClient(createConfig({ baseUrl: globalThis.process?.env?.DALAM_BASE_URL ?? "http://localhost:4096" }))

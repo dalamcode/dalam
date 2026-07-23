@@ -248,7 +248,7 @@ export const SettingsGeneralV2: Component<{
       title={language.t("settings.general.row.newInterfaceNotice.title")}
       description={language.t("settings.general.row.newInterfaceNotice.description")}
       dismiss={language.t("settings.general.row.newInterfaceNotice.dismiss")}
-      onDismiss={settings.general.dismissNewInterfaceNotice}
+      onDismiss={() => { void settings.general.dismissNewInterfaceNotice() }}
     />
   )
 
@@ -656,7 +656,7 @@ export const SettingsGeneralV2: Component<{
           title={language.t("settings.updates.row.check.title")}
           description={language.t("settings.updates.row.check.description")}
         >
-          <ButtonV2 size="normal" variant="neutral" disabled={!updater.action().run} onClick={updater.run}>
+          <ButtonV2 size="normal" variant="neutral" disabled={!updater.action().run} onClick={void updater.run}>
             {language.t(updater.action().label)}
           </ButtonV2>
         </SettingsRowV2>

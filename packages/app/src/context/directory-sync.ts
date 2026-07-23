@@ -114,8 +114,8 @@ export const createDirSyncContext = (
         await serverSync.session.sync(sessionID, options)
         index(sessionID)
       },
-      diff: serverSync.session.diff,
-      todo: serverSync.session.todo,
+      diff: (sessionID: string, options?: { force?: boolean }) => serverSync.session.diff(sessionID, options),
+      todo: (sessionID: string) => { void serverSync.session.todo(sessionID) },
       history: serverSync.session.history,
       evict(sessionID: string) {
         serverSync.session.evict(sessionID)

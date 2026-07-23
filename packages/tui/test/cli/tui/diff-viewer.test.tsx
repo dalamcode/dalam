@@ -25,7 +25,7 @@ test("closing the diff viewer returns to the route it opened from", async () => 
     expect(viewer.vcsDiffInput()).toEqual({ directory: "/repo/session", mode: "git", context: 12 })
 
     expect(viewer.commands.has("diff.close")).toBe(true)
-    viewer.commands.get("diff.close")!.run?.({} as never)
+    viewer.commands.get("diff.close")!.run?.(void {} as never)
     expect(viewer.current()).toEqual(startRoute)
   } finally {
     viewer.app.renderer.destroy()
@@ -71,21 +71,21 @@ test("brackets navigate diff hunks", async () => {
     expect(TuiKeybind.defaultValue("diff_next_hunk")).toBe("]")
     expect(TuiKeybind.defaultValue("diff_previous_hunk")).toBe("[")
 
-    viewer.commands.get("diff.next_hunk")!.run?.({} as never)
+    viewer.commands.get("diff.next_hunk")!.run?.(void {} as never)
     await viewer.app.renderOnce()
     const first = scroll.scrollTop
     expect(first).toBeGreaterThan(initial)
 
-    viewer.commands.get("diff.next_hunk")!.run?.({} as never)
+    viewer.commands.get("diff.next_hunk")!.run?.(void {} as never)
     await viewer.app.renderOnce()
     const second = scroll.scrollTop
     expect(second).toBeGreaterThan(first)
 
-    viewer.commands.get("diff.previous_hunk")!.run?.({} as never)
+    viewer.commands.get("diff.previous_hunk")!.run?.(void {} as never)
     await viewer.app.renderOnce()
     expect(scroll.scrollTop).toBe(first)
 
-    viewer.commands.get("diff.next_hunk")!.run?.({} as never)
+    viewer.commands.get("diff.next_hunk")!.run?.(void {} as never)
     await viewer.app.renderOnce()
     expect(scroll.scrollTop).toBe(second)
 
@@ -118,7 +118,7 @@ async function renderDiffViewer(vcsDiff: unknown[], height = 20, initialRoute?: 
     }
     const base = createTuiPluginApi({
       keymap,
-      client: {
+      client: void {
         vcs: {
           diff: async (input: unknown) => {
             vcsDiffInput = input

@@ -171,6 +171,7 @@ function cacheThemeVariants(theme: DesktopTheme, themeId: string) {
   }
 }
 
+// oxlint-disable-next-line typescript-eslint/unbound-method
 export const { use: useTheme, provider: ThemeProvider } = createSimpleContext({
   name: "Theme",
   init: (props: {

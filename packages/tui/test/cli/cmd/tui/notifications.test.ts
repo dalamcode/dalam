@@ -53,7 +53,7 @@ async function setup() {
       },
     }),
     undefined,
-    {} as never,
+    void {} as never,
   )
 
   return {

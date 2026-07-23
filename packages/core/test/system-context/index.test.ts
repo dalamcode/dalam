@@ -3,6 +3,7 @@ import { Cause, Effect, Exit, Schema } from "effect"
 import { SystemContext } from "@uthakkan/core/system-context"
 import { it } from "../lib/effect"
 
+// oxlint-disable-next-line typescript-eslint/unbound-method
 const key = SystemContext.Key.make
 const stringContext = (input: {
   key: string

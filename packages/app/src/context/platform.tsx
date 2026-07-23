@@ -134,6 +134,7 @@ export type Platform = PlatformBase &
 
 export type DisplayBackend = "auto" | "wayland"
 
+// oxlint-disable-next-line typescript-eslint/unbound-method
 export const { use: usePlatform, provider: PlatformProvider } = createSimpleContext({
   name: "Platform",
   init: (props: { value: Platform }) => {

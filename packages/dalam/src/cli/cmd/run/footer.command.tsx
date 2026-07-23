@@ -716,13 +716,13 @@ export function RunQueuedPromptSelectBody(props: {
     const ctrl = event.ctrl && !event.meta && !event.shift && !event.super
     if (item && (event.name === "delete" || (ctrl && event.name === "d"))) {
       event.preventDefault()
-      props.onDelete(item.prompt)
+      void props.onDelete(item.prompt)
       return
     }
 
     if (item && ctrl && event.name === "e") {
       event.preventDefault()
-      props.onEdit(item.prompt)
+      void props.onEdit(item.prompt)
       return
     }
 

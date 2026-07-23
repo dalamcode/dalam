@@ -7,6 +7,7 @@ import { readJson, writeJsonAtomic } from "../util/persistence"
 import { useTuiPaths } from "./runtime"
 import path from "path"
 
+// oxlint-disable-next-line typescript-eslint/unbound-method
 export const { use: useKV, provider: KVProvider } = createSimpleContext({
   name: "KV",
   init: () => {

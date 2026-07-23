@@ -83,7 +83,7 @@ const layer = Layer.effect(
               const dir = yield* InstanceState.directory
               const result = yield* appProcess
                 .run(
-                  ChildProcess.make(replaced[0]!, replaced.slice(1), {
+                  ChildProcess.make(replaced[0], replaced.slice(1), {
                     cwd: dir,
                     env: item.environment,
                     extendEnv: true,
@@ -152,6 +152,7 @@ const layer = Layer.effect(
               ...info,
               name,
               extensions: info.extensions ?? [],
+              // oxlint-disable-next-line typescript-eslint/unbound-method
               enabled: builtIn && !info.command ? builtIn.enabled : async (_context) => info.command ?? false,
             }
           }

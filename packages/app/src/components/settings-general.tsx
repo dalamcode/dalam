@@ -285,7 +285,7 @@ export const SettingsGeneral: Component = () => {
           title={language.t("settings.general.row.newInterfaceNotice.title")}
           description={language.t("settings.general.row.newInterfaceNotice.description")}
         >
-          <Button size="small" variant="ghost" onClick={settings.general.dismissNewInterfaceNotice}>
+          <Button size="small" variant="ghost" onClick={void settings.general.dismissNewInterfaceNotice}>
             {language.t("settings.general.row.newInterfaceNotice.dismiss")}
           </Button>
         </SettingsRow>
@@ -689,7 +689,7 @@ export const SettingsGeneral: Component = () => {
           title={language.t("settings.updates.row.check.title")}
           description={language.t("settings.updates.row.check.description")}
         >
-          <Button size="small" variant="secondary" disabled={!updater.action().run} onClick={updater.run}>
+          <Button size="small" variant="secondary" disabled={!updater.action().run} onClick={() => { void updater.run() }}>
             {language.t(updater.action().label)}
           </Button>
         </SettingsRow>

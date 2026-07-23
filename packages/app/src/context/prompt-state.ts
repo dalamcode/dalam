@@ -228,7 +228,9 @@ function createPromptStateValue(store: PromptStore, setStore: SetStoreFunction<P
         ])
       },
     },
+    // oxlint-disable-next-line typescript-eslint/unbound-method
     set: actions.set,
+    // oxlint-disable-next-line typescript-eslint/unbound-method
     reset: actions.reset,
     capture: () => value,
   }

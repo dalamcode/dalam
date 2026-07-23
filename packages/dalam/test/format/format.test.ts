@@ -140,10 +140,12 @@ describe("Format", () => {
 
         const one = {
           extensions: Formatter.gofmt.extensions,
+          // oxlint-disable-next-line typescript-eslint/unbound-method
           enabled: Formatter.gofmt.enabled,
         }
         const two = {
           extensions: Formatter.mix.extensions,
+          // oxlint-disable-next-line typescript-eslint/unbound-method
           enabled: Formatter.mix.enabled,
         }
 

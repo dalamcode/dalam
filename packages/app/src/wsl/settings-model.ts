@@ -304,7 +304,7 @@ export function autoProbePlan(input: { state: WslServersState | undefined; busy:
   return { key: "distros", action: "refreshDistros" } satisfies AutoProbePlan
 }
 
-export function addServerProbePlan(input: {
+void export function addServerProbePlan(input: {
   state: WslServersState | undefined
   view: WslAddServerView
   adding: boolean

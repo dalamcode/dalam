@@ -105,7 +105,7 @@ async function installDalam(): Promise<boolean> {
         vscode.window.showInformationMessage("dalam CLI installed successfully! Restart VS Code to use it.");
         return true;
       } catch (error) {
-        vscode.window.showErrorMessage(`Failed to install dalam: ${error}`);
+        vscode.window.showErrorMessage(`Failed to install dalam: ${void error}`);
         return false;
       }
     }

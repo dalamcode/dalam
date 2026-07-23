@@ -473,6 +473,7 @@ export function stream(sessionID: SessionID) {
     let before: string | undefined
     while (true) {
       const next = yield* page({ sessionID, limit: size, before }).pipe(
+        // oxlint-disable-next-line typescript-eslint/unbound-method
         Effect.catchIf(NotFoundError.isInstance, () =>
           Effect.succeed({ items: [] as WithParts[], more: false, cursor: undefined }),
         ),

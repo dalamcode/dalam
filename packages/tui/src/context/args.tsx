@@ -10,6 +10,7 @@ export interface Args {
   auto?: boolean
 }
 
+// oxlint-disable-next-line typescript-eslint/unbound-method
 export const { use: useArgs, provider: ArgsProvider } = createSimpleContext({
   name: "Args",
   init: (props: Args) => props,

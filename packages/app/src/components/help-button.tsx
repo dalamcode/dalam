@@ -28,7 +28,7 @@ export function TabsInfoPopup() {
             type="button"
             aria-label="Dismiss Tabs information"
             class="absolute top-3 right-3 z-10 size-5 flex items-center justify-center rounded-[4px] bg-[rgba(0,0,0,0.4)]"
-            onClick={settings.general.dismissTabsToast}
+            onClick={() => settings.general.dismissTabsToast()}
           >
             <svg
               width="16"

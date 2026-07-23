@@ -51,6 +51,7 @@ function hasPermissionPromptRules(permission: unknown) {
   return Object.values(config).some(isNonAllowRule)
 }
 
+// oxlint-disable-next-line typescript-eslint/unbound-method
 export const { use: usePermission, provider: PermissionProvider } = createSimpleContext({
   name: "Permission",
   gate: false,

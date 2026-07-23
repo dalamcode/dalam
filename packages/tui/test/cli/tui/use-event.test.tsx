@@ -78,6 +78,7 @@ async function mount() {
   ))
 
   await ready
+  // oxlint-disable-next-line typescript-eslint/unbound-method
   return { app, emit: events.emit, project, seen, workspaces }
 }
 

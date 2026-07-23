@@ -22,6 +22,7 @@ export type PluginRoute = {
 
 export type Route = HomeRoute | SessionRoute | PluginRoute
 
+// oxlint-disable-next-line typescript-eslint/unbound-method
 export const { use: useRoute, provider: RouteProvider } = createSimpleContext({
   name: "Route",
   init: (props: { initialRoute?: Route }) => {

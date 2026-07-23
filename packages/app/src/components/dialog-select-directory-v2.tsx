@@ -217,7 +217,7 @@ export function DialogSelectDirectoryV2(props: DialogSelectDirectoryV2Props) {
 
   onMount(() => {
     const closeSuggestions = (event: PointerEvent) => {
-      if (pathArea?.contains(event.target as Node)) return
+      if (pathArea?.contains(void event.target as Node)) return
       setSuggestionsOpen(false)
       setActiveSuggestion(-1)
     }

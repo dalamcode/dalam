@@ -306,9 +306,9 @@ export function TerminalPanel() {
                               pty={pty()}
                               autoFocus={opened()}
                               onAutoFocus={() => terminal.consumeFocus(id)}
-                              onConnect={() => markTerminalConnected(terminalRecoveryKey(pty()), id, ops.trim)}
-                              onCleanup={ops.update}
-                              onConnectError={() => recoverTerminal(terminalRecoveryKey(pty()), id, ops.clone)}
+                              onConnect={() => markTerminalConnected(terminalRecoveryKey(pty()), id, () => { void ops.trim() })}
+                              onCleanup={(...args: any[]) => { void ops.update(...args) }}
+                              onConnectError={() => recoverTerminal(terminalRecoveryKey(pty()), id, () => { void ops.clone() })}
                             />
                           </div>
                         )}

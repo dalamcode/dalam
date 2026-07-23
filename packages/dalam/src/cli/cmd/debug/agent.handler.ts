@@ -110,7 +110,7 @@ function parseToolParams(input?: string) {
         return new Function(`return (${trimmed})`)()
       } catch (evalError) {
         throw new Error(
-          `Failed to parse --params. Use JSON or a JS object literal. JSON error: ${jsonError}. Eval error: ${evalError}.`,
+          `Failed to parse --params. Use JSON or a JS object literal. JSON error: ${String(jsonError)}. Eval error: ${evalError}.`,
           { cause: evalError },
         )
       }

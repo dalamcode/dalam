@@ -42,6 +42,7 @@ describe("Tool.define", () => {
   it.effect("object-defined tool does not mutate the original init object", () =>
     Effect.gen(function* () {
       const original = makeTool("test")
+      // oxlint-disable-next-line typescript-eslint/unbound-method
       const originalExecute = original.execute
 
       const info = yield* Tool.define("test-tool", Effect.succeed(original))
@@ -50,6 +51,7 @@ describe("Tool.define", () => {
       yield* info.init()
       yield* info.init()
 
+      // oxlint-disable-next-line typescript-eslint/unbound-method
       expect(original.execute).toBe(originalExecute)
     }),
   )

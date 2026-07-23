@@ -64,7 +64,8 @@ export default function NewSessionPage() {
   const route = useSessionKey()
   const [searchParams, setSearchParams] = useSearchParams<{ draftId?: string; prompt?: string }>()
   const local = useLocal()
-  const model = createPromptModelSelection({ agent: local.agent.current })
+  // oxlint-disable-next-line typescript-eslint/unbound-method -- property access is intentional
+const model = createPromptModelSelection({ agent: local.agent.current })
 
   useComposerCommands({ model })
 

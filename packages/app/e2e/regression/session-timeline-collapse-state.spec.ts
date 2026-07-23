@@ -246,8 +246,8 @@ test.describe("regression: session timeline local row state", () => {
       return result
     })
 
-    expect(samples[0]!.trigger).toBeLessThan(samples[0]!.diff)
-    expect(samples.every((sample) => Math.abs(sample.trigger - samples[0]!.trigger) <= 1)).toBe(true)
+    expect(samples[0].trigger).toBeLessThan(samples[0].diff)
+    expect(samples.every((sample) => Math.abs(sample.trigger - samples[0].trigger) <= 1)).toBe(true)
     expect(samples.every((sample) => sample.trigger < sample.bottom)).toBe(true)
   })
 })
@@ -300,6 +300,7 @@ async function readToolState(page: Page) {
 async function installDiffProbe(page: Page) {
   await page.addInitScript(() => {
     let shadowRootCount = 0
+// oxlint-disable-next-line typescript-eslint/unbound-method -- prototype capture needs unbound reference
     const attachShadow = Element.prototype.attachShadow
     Element.prototype.attachShadow = function (init) {
       shadowRootCount += 1

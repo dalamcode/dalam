@@ -46,6 +46,7 @@ export function isDuplicateEntry(previous: PromptInfo | undefined, next: PromptI
   return JSON.stringify(previous) === JSON.stringify(next)
 }
 
+// oxlint-disable-next-line typescript-eslint/unbound-method
 export const { use: usePromptHistory, provider: PromptHistoryProvider } = createSimpleContext({
   name: "PromptHistory",
   init: () => {

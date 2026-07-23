@@ -938,7 +938,7 @@ it.instance("subtask child inherits parent session external_directory allow", ()
 
     const kids = yield* sessions.children(chat.id)
     expect(kids).toHaveLength(1)
-    const child = kids[0]!
+    const child = kids[0]
     const rules = child.permission ?? []
     expect(rules).toEqual(
       expect.arrayContaining([{ permission: "external_directory", pattern: "/tmp/allowed/*", action: "allow" }]),
@@ -1225,6 +1225,7 @@ noLLMServer.instance(
       const aborted = yield* Deferred.make<void>()
       const registry = yield* ToolRegistry.Service
       const { task } = yield* registry.named()
+      // oxlint-disable-next-line typescript-eslint/unbound-method
       const original = task.execute
       task.execute = (_args, ctx) =>
         Effect.callback<never>((_resume) => {

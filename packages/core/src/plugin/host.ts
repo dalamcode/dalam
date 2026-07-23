@@ -200,8 +200,8 @@ export const make = Effect.fn("PluginHost.make")(function* (plugin: PluginV2.Int
         reference.transform((draft) =>
           callback({
             add: (name, source) => draft.add(name, Schema.decodeUnknownSync(Reference.Source)(source)),
-            remove: draft.remove,
-            list: draft.list,
+            remove: (id: string) => draft.remove(id),
+            list: () => draft.list(),
           }),
         ),
     },

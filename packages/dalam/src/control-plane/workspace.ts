@@ -793,7 +793,8 @@ const layer = Layer.effect(
       yield* Effect.forEach(
         sessions.filter((sessionInfo) => !sessionInfo.parentID || !sessionIDs.has(sessionInfo.parentID)),
         (sessionInfo) =>
-          session.remove(sessionInfo.id).pipe(Effect.catchIf(NotFoundError.isInstance, () => Effect.void)),
+          session.remove(sessionInfo.id).pipe(// oxlint-disable-next-line typescript-eslint/unbound-method
+            Effect.catchIf(NotFoundError.isInstance, () => Effect.void)),
         { discard: true },
       )
 

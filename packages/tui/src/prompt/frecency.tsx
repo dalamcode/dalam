@@ -35,6 +35,7 @@ function calculateFrecency(entry?: { frequency: number; lastOpen: number }) {
   return entry.frequency / (1 + (Date.now() - entry.lastOpen) / 86400000)
 }
 
+// oxlint-disable-next-line typescript-eslint/unbound-method
 export const { use: useFrecency, provider: FrecencyProvider } = createSimpleContext({
   name: "Frecency",
   init: () => {

@@ -157,7 +157,7 @@ export function DialogEditProject(props: { project: LocalProject; server: Server
         </div>
 
         <div class="flex justify-end gap-2">
-          <Button type="button" variant="ghost" size="large" onClick={model.close}>
+          <Button type="button" variant="ghost" size="large" onClick={() => model.close()}>
             {language.t("common.cancel")}
           </Button>
           <Button type="submit" variant="primary" size="large" disabled={model.save.isPending}>

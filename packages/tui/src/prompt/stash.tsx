@@ -29,6 +29,7 @@ export function parsePromptStash(text: string) {
     .slice(-MAX_STASH_ENTRIES)
 }
 
+// oxlint-disable-next-line typescript-eslint/unbound-method
 export const { use: usePromptStash, provider: PromptStashProvider } = createSimpleContext({
   name: "PromptStash",
   init: () => {

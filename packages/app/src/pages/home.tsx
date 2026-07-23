@@ -533,7 +533,7 @@ export function NewHome() {
     const directory = directories[0]
     if (!directory) return
     const ctx = global.ensureServerCtx(conn)
-    directories.forEach(ctx.projects.open)
+    directories.forEach(void ctx.projects.open)
     ctx.projects.touch(directory)
     setSelection({ server: ServerConnection.key(conn), directory })
   }
@@ -549,7 +549,7 @@ export function NewHome() {
     const ctx = global.ensureServerCtx(conn)
     ctx.projects.open(directory)
     ctx.projects.touch(directory)
-    tabs.newDraft({ server: ServerConnection.key(conn), directory })
+    void tabs.newDraft({ server: ServerConnection.key(conn), directory })
   }
 
   function editProject(conn: ServerConnection.Any, project: LocalProject) {
@@ -843,8 +843,8 @@ function HomeProjectColumn(props: {
               size="large"
               class="titlebar-icon [&_[data-slot=icon-svg]]:text-v2-icon-icon-muted"
               icon={<IconV2 name="folder-add-left" />}
-              disabled={global.servers.health[ServerConnection.key(global.servers.list()[0]!)]?.healthy === false}
-              onClick={() => props.chooseProject(global.servers.list()[0]!)}
+              disabled={global.servers.health[ServerConnection.key(global.servers.list()[0])]?.healthy === false}
+              onClick={() => props.chooseProject(global.servers.list()[0])}
               aria-label={props.language.t("home.project.add")}
             />
           </TooltipV2>
@@ -859,7 +859,7 @@ function HomeProjectColumn(props: {
                 when={props.projects.length > 0}
                 fallback={
                   <HomeProjectEmpty
-                    server={global.servers.list()[0]!}
+                    server={global.servers.list()[0]}
                     recentlyClosed={props.recentlyClosed}
                     homedir={props.homedir}
                     chooseProject={props.chooseProject}
@@ -868,7 +868,7 @@ function HomeProjectColumn(props: {
                   />
                 }
               >
-                <HomeProjectList {...props} server={global.servers.list()[0]!} />
+                <HomeProjectList {...props} server={global.servers.list()[0]} />
               </Show>
             </div>
           }
@@ -881,7 +881,7 @@ function HomeProjectColumn(props: {
                 const serverCtx = global.ensureServerCtx(item)
                 const projects = () => serverCtx.projects.list()
                 const hasProjects = () => projects().length > 0
-                const collapsed = () => !!state().collapsed[key]
+                const collapsed = () => void !!state().collapsed[key]
                 return (
                   <div class="flex min-w-0 flex-col gap-1">
                     <HomeServerRow

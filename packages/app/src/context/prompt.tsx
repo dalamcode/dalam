@@ -70,6 +70,7 @@ export const createTabPromptState = (
   ...args: Parameters<typeof createPromptSession>
 ) => tabs.state(tab, "prompt", () => createPromptSession(...args))
 
+// oxlint-disable-next-line typescript-eslint/unbound-method
 export const { use: usePrompt, provider: PromptProvider } = createSimpleContext({
   name: "Prompt",
   gate: false,

@@ -332,9 +332,9 @@ export function TerminalPanelV2(props: { stacked?: boolean } = {}) {
                               autoFocus={terminal.focusRequested(id)}
                               onAutoFocus={() => terminal.consumeFocus(id)}
                               class="!px-[14px]"
-                              onConnect={() => markTerminalConnected(terminalRecoveryKey(pty()), id, ops.trim)}
-                              onCleanup={ops.update}
-                              onConnectError={() => recoverTerminal(terminalRecoveryKey(pty()), id, ops.clone)}
+                              onConnect={() => markTerminalConnected(terminalRecoveryKey(pty()), id, () => { void ops.trim() })}
+                              onCleanup={(...args: any[]) => { void ops.update(...args) }}
+                              onConnectError={() => recoverTerminal(terminalRecoveryKey(pty()), id, () => { void ops.clone() })}
                             />
                           </div>
                         )}

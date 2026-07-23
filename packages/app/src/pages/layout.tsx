@@ -991,7 +991,7 @@ export default function LegacyLayout(props: ParentProps) {
         onSelect: () => {
           const project = currentProject()
           if (!project) return
-          return createWorkspace(project)
+          void createWorkspace(project)
         },
       },
       {
@@ -1105,7 +1105,7 @@ export default function LegacyLayout(props: ParentProps) {
     const run = ++dialogRun
     void import("@/components/dialog-select-server").then((x) => {
       if (dialogDead || dialogRun !== run) return
-      dialog.show(() => <x.DialogSelectServer />)
+      void dialog.show(() => <x.DialogSelectServer />)
     })
   }
 

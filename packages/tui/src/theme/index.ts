@@ -113,10 +113,10 @@ export function selectedForeground(theme: Theme, bg?: RGBA): RGBA {
 type HexColor = `#${string}`
 type RefName = string
 type Variant = {
-  dark: HexColor | RefName
-  light: HexColor | RefName
+  dark: string
+  light: string
 }
-type ColorValue = HexColor | RefName | Variant | RGBA
+type ColorValue = string | Variant | RGBA
 export type ThemeJson = {
   $schema?: string
   defs?: Record<string, HexColor | RefName>

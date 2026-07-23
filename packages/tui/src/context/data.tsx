@@ -55,6 +55,7 @@ function locationQuery(ref?: LocationRef) {
   return ref ? { directory: ref.directory, workspace: ref.workspaceID } : undefined
 }
 
+// oxlint-disable-next-line typescript-eslint/unbound-method
 export const { use: useData, provider: DataProvider } = createSimpleContext({
   name: "Data",
   init: () => {

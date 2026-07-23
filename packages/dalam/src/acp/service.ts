@@ -732,10 +732,10 @@ async function loadDirectorySnapshot(sdk: DalamClient, directory: string) {
         sdk.config.get({ directory }, { throwOnError: true }).catch(() => undefined),
       ),
     ])
-    const providersData = providersResponse.data!
-    const agents = agentsResponse.data!
-    const commandsData = commandsResponse.data!
-    const skills = skillsResponse.data!
+    const providersData = providersResponse.data
+    const agents = agentsResponse.data
+    const commandsData = commandsResponse.data
+    const skills = skillsResponse.data
     const providers = Object.fromEntries(providersData.providers.map((provider) => [provider.id, provider])) as Record<
       ProviderV2.ID,
       Provider.Info

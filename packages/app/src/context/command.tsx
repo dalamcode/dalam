@@ -252,6 +252,7 @@ function isEditableTarget(target: EventTarget | null) {
   return false
 }
 
+// oxlint-disable-next-line typescript-eslint/unbound-method
 export const { use: useCommand, provider: CommandProvider } = createSimpleContext({
   name: "Command",
   init: () => {

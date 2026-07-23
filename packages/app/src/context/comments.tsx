@@ -207,6 +207,7 @@ function createCommentSession(scope: ServerScope, dir: string, id: string | unde
   }
 }
 
+// oxlint-disable-next-line typescript-eslint/unbound-method
 export const { use: useComments, provider: CommentsProvider } = createSimpleContext({
   name: "Comments",
   gate: false,

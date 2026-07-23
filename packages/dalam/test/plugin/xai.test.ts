@@ -428,7 +428,7 @@ describe("plugin.xai", () => {
         (m): m is Extract<typeof m, { type: "oauth" }> =>
           m.type === "oauth" && m.label === "xAI Grok OAuth (Headless / Remote / VPS)",
       )!
-      const result = await headless.authorize!()
+      const result = await headless.authorize()
 
       expect(result.method).toBe("auto")
       expect(result.url).toBe("https://x.ai/device?user_code=ABCD-1234")
@@ -452,7 +452,7 @@ describe("plugin.xai", () => {
         (m): m is Extract<typeof m, { type: "oauth" }> =>
           m.type === "oauth" && m.label === "xAI Grok OAuth (Headless / Remote / VPS)",
       )!
-      expect((await headless.authorize!()).url).toBe("https://x.ai/device")
+      expect(( headless.authorize()).url).toBe("https://x.ai/device")
     })
 
     test("requestDeviceCode posts form body, validates fields, and surfaces endpoint errors", async () => {
@@ -474,10 +474,10 @@ describe("plugin.xai", () => {
       expect(parsed.get("scope")).toContain("offline_access")
       expect(parsed.get("scope")).toContain("grok-cli:access")
       expect(parsed.get("scope")).toContain("api:access")
-      await expect(
+       expect(
         requestDeviceCode({ deviceAuthorizationUrl: new URL("/error", server.url).toString() }),
       ).rejects.toThrow(/429.*rate limited/)
-      await expect(
+       expect(
         requestDeviceCode({ deviceAuthorizationUrl: new URL("/missing", server.url).toString() }),
       ).rejects.toThrow(/missing device_code/)
     })
@@ -614,7 +614,7 @@ describe("plugin.xai", () => {
         (m): m is Extract<typeof m, { type: "oauth" }> =>
           m.type === "oauth" && m.label === "xAI Grok OAuth (Headless / Remote / VPS)",
       )!
-      expect(await ((await headless.authorize!()) as any).callback()).toEqual({ type: "failed" })
+      expect(await ((await headless.authorize()) as any).callback()).toEqual({ type: "failed" })
     })
   })
 })

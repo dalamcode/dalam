@@ -531,7 +531,7 @@ describe("ACP service sessions", () => {
 
   it("maps provider auth failures to auth-required request errors", async () => {
     const service = ACPService.make({
-      sdk: {
+      sdk: void {
         config: {
           providers: () => Promise.reject({ name: "ProviderAuthError", data: { providerID: "test" } }),
           get: () => Promise.resolve({ data: {} }),

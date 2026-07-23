@@ -334,7 +334,7 @@ describe("server session", () => {
           "older",
         ),
       ],
-      [failed.promise.then((result) => ({ data: result.data[0]! })), singleResponse(user)],
+      [failed.promise.then((result) => ({ data: result.data[0] })), singleResponse(user)],
     )
     const store = createServerSession(client, { retry: retryImmediately })
     const loading = store.sync("child")
@@ -356,7 +356,7 @@ describe("server session", () => {
     const live = { ...assistant, cost: 1 }
     const client = rootMessageClient(
       [response([{ info: assistant, parts: [] }], "older")],
-      [failed.promise.then((result) => ({ data: result.data[0]! })), singleResponse(user)],
+      [failed.promise.then((result) => ({ data: result.data[0] })), singleResponse(user)],
     )
     const store = createServerSession(client, { retry: retryImmediately })
     const loading = store.sync("child")
@@ -376,7 +376,7 @@ describe("server session", () => {
     const live = userMessage("message-4", { time: { created: 4 } })
     const client = rootMessageClient(
       [response([{ info: assistant, parts: [] }], "older")],
-      [failed.promise.then((result) => ({ data: result.data[0]! })), singleResponse(user)],
+      [failed.promise.then((result) => ({ data: result.data[0] })), singleResponse(user)],
     )
     const store = createServerSession(client, { retry: retryImmediately })
     const loading = store.sync("child")
@@ -397,7 +397,7 @@ describe("server session", () => {
     const live = { ...stale, text: "live" }
     const client = rootMessageClient(
       [response([{ info: assistant, parts: [stale] }], "older")],
-      [failed.promise.then((result) => ({ data: result.data[0]! })), singleResponse(user)],
+      [failed.promise.then((result) => ({ data: result.data[0] })), singleResponse(user)],
     )
     const store = createServerSession(client, { retry: retryImmediately })
     const loading = store.sync("child")

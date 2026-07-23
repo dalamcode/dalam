@@ -196,6 +196,7 @@ function readStoredLocale() {
 const warm = readStoredLocale() ?? detectLocale()
 if (warm !== "en") void loadDict(warm)
 
+// oxlint-disable-next-line typescript-eslint/unbound-method
 export const { use: useLanguage, provider: LanguageProvider } = createSimpleContext({
   name: "Language",
   gate: false,

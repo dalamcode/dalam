@@ -72,7 +72,7 @@ function compareVersions(a: string, b: string) {
   const right = parse(b)
   if (!left || !right) return
   const index = left.findIndex((part, index) => part !== right[index])
-  return index === -1 ? 0 : left[index]! - right[index]!
+  return index === -1 ? 0 : left[index] - right[index]
 }
 
 export function isAppUpgrade(previous: string | undefined, current: string | undefined) {
@@ -215,6 +215,7 @@ function withFallback<T>(read: () => T | undefined, fallback: T) {
   return createMemo(() => read() ?? fallback)
 }
 
+// oxlint-disable-next-line typescript-eslint/unbound-method
 export const { use: useSettings, provider: SettingsProvider } = createSimpleContext({
   name: "Settings",
   gate: false,

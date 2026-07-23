@@ -429,6 +429,7 @@ function createWorkspaceTerminalSession(
   }
 }
 
+// oxlint-disable-next-line typescript-eslint/unbound-method
 export const { use: useTerminal, provider: TerminalProvider } = createSimpleContext({
   name: "Terminal",
   gate: false,

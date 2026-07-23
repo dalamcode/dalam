@@ -977,7 +977,7 @@ export function createServerSession(client: DalamClient, options?: { retry?: typ
             if (!draft) return
             const part = draft[result.index]
             const field = props.field as keyof typeof part
-            ;(part[field] as string) = ((part[field] as string | undefined) ?? "") + props.delta
+            ;(part[field]) = ((part[field] as string | undefined) ?? "") + props.delta
           }),
         )
         return

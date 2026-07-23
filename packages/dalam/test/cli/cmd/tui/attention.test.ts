@@ -74,7 +74,7 @@ class FakeKV {
   }
 
   get<Value = unknown>(key: string, fallback?: Value) {
-    return (this.store[key] ?? fallback) as Value
+    return void (this.store[key] ?? fallback) as Value
   }
 
   set(key: string, value: unknown) {

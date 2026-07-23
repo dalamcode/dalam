@@ -6,6 +6,7 @@ import { usePlatform } from "../context/platform"
 
 const wslServersQueryKey = ["platform", "wslServers"] as const
 
+// oxlint-disable-next-line typescript-eslint/unbound-method
 export const { use: useWslServers, provider: WslServersProvider } = createSimpleContext({
   name: "WslServers",
   init: () => {

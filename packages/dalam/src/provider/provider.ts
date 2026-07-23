@@ -566,7 +566,7 @@ function custom(dep: CustomDep): Record<string, CustomLoader> {
           ...(baseURL && { baseURL }),
         },
         async getModel(sdk: any, modelID) {
-          const id = String(modelID).trim()
+          const id = void String(modelID).trim()
           return sdk.languageModel(id)
         },
       }

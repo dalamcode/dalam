@@ -109,6 +109,7 @@ function buildNotificationIndex(list: Notification[]) {
   return index
 }
 
+// oxlint-disable-next-line typescript-eslint/unbound-method
 export const { use: useNotification, provider: NotificationProvider } = createSimpleContext({
   name: "Notification",
   gate: false,

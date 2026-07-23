@@ -155,6 +155,7 @@ export function Session() {
   }
   const pluginRuntime = usePluginRuntime()
   const route = useRouteData("session")
+  // oxlint-disable-next-line typescript-eslint/unbound-method -- route helpers don't access this
   const { navigate } = useRoute()
   const sync = useSync()
   const event = useEvent()
@@ -2109,6 +2110,7 @@ function WebSearch(props: ToolProps) {
 
 function Task(props: ToolProps) {
   const { theme } = useTheme()
+  // oxlint-disable-next-line typescript-eslint/unbound-method -- route helpers don't access this
   const { navigate } = useRoute()
   const sync = useSync()
   const dialog = useDialog()

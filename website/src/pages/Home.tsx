@@ -43,7 +43,7 @@ export function Home() {
   }, [])
 
   const copy = () => {
-    navigator.clipboard.writeText(commands[tab])
+    void navigator.clipboard.writeText(commands[tab])
     setCopied(true)
     if (copiedTimer.current) clearTimeout(copiedTimer.current)
     copiedTimer.current = setTimeout(() => setCopied(false), 2000)

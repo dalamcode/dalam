@@ -120,7 +120,7 @@ function splitTurn(input: {
       if (size > input.budget) continue
       return {
         start,
-        id: input.messages[start]!.info.id,
+        id: input.messages[start].info.id,
       } satisfies Tail
     }
     return undefined
@@ -209,7 +209,7 @@ const layer = Layer.effect(
       let total = 0
       let keep: Tail | undefined
       for (let i = recent.length - 1; i >= 0; i--) {
-        const turn = recent[i]!
+        const turn = recent[i]
         const size = sizes[i]
         if (total + size <= budget) {
           total += size
@@ -247,7 +247,8 @@ const layer = Layer.effect(
 
       const msgs = yield* session
         .messages({ sessionID: input.sessionID })
-        .pipe(Effect.catchIf(NotFoundError.isInstance, () => Effect.succeed(undefined)))
+        .pipe(// oxlint-disable-next-line typescript-eslint/unbound-method
+          Effect.catchIf(NotFoundError.isInstance, () => Effect.succeed(undefined)))
       if (!msgs) return
 
       let total = 0

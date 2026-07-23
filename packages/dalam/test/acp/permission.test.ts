@@ -51,7 +51,7 @@ function createHarness(
   const requests: RequestPermissionRequest[] = []
   const updates: SessionUpdateParams[] = []
   const session = makeSessionService()
-  const sdk = {
+  const sdk = void {
     permission: {
       reply: (params: PermissionReplyParams) => {
         replies.push(params)
@@ -160,7 +160,7 @@ describe("acp permissions", () => {
     const harness = createHarness()
     await createSession(harness.session, "ses_a")
 
-    harness.subscription.handle(permissionAsked("ses_a", "perm_1", { tool: { messageID: "msg_1", callID: "call_1" } }))
+    void harness.subscription.handle(permissionAsked("ses_a", "perm_1", { tool: { messageID: "msg_1", callID: "call_1" } }))
 
     await pollUntil(() => harness.replies.length === 1, "permission was never replied")
 
@@ -187,7 +187,7 @@ describe("acp permissions", () => {
     const harness = createHarness()
     await createSession(harness.session, "ses_a")
 
-    harness.subscription.handle(
+    void harness.subscription.handle(
       permissionAsked("ses_a", "perm_fetch", {
         permission: "webfetch",
         metadata: {
@@ -213,7 +213,7 @@ describe("acp permissions", () => {
     const harness = createHarness()
     await createSession(harness.session, "ses_a")
 
-    harness.subscription.handle(
+    void harness.subscription.handle(
       permissionAsked("ses_a", "perm_edit", {
         permission: "edit",
         metadata: {
@@ -297,7 +297,7 @@ describe("acp permissions", () => {
     const harness = createHarness()
     await createSession(harness.session, "ses_a")
 
-    harness.subscription.handle(
+    void harness.subscription.handle(
       permissionAsked("ses_a", "perm_external", {
         permission: "external_directory",
         metadata: {
@@ -383,7 +383,7 @@ describe("acp permissions", () => {
     )
     await createSession(harness.session, "ses_a")
 
-    harness.subscription.handle(permissionAsked("ses_a", "perm_1"))
+    void harness.subscription.handle(permissionAsked("ses_a", "perm_1"))
     harness.subscription.handle(permissionAsked("ses_a", "perm_2"))
 
     await pollUntil(() => harness.requests.length === 1, "first permission was never requested")

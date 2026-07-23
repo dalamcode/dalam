@@ -96,8 +96,8 @@ const jsdoc = (description: string | undefined, tags: ReadonlyArray<string>, pad
   const lines = [...(description === undefined ? [] : description.split("\n")), ...tags].map((line) =>
     line.replaceAll("*/", "* /").replace(/\s+$/, ""),
   )
-  while (lines.length > 0 && lines[0]!.trim() === "") lines.shift()
-  while (lines.length > 0 && lines[lines.length - 1]!.trim() === "") lines.pop()
+  while (lines.length > 0 && lines[0].trim() === "") lines.shift()
+  while (lines.length > 0 && lines[lines.length - 1].trim() === "") lines.pop()
   if (lines.length === 0) return ""
   if (lines.length === 1) return `${pad}/** ${lines[0]} */\n`
   const body = lines.map((line) => `${pad} *${line === "" ? "" : ` ${line}`}`).join("\n")

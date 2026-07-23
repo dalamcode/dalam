@@ -4,6 +4,7 @@ import { type ServerSDK, useServerSDK } from "./server-sdk"
 
 export type DirectorySDK = ReturnType<ServerSDK["ensureDirSdkContext"]>
 
+// oxlint-disable-next-line typescript-eslint/unbound-method
 export const { use: useSDK, provider: SDKProvider } = createSimpleContext({
   name: "SDK",
   // Resolves the directory-scoped SDK reactively from the (possibly changing) server.

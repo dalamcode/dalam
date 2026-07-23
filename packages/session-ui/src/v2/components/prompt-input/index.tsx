@@ -81,7 +81,7 @@ export function PromptInputV2(props: PromptInputV2Props) {
   return (
     <div class={`relative size-full flex flex-col gap-0 ${props.class ?? ""}`}>
       <input
-        ref={props.controller.setFileInput}
+        ref={(el: any) => { void props.controller.setFileInput(el) }}
         type="file"
         multiple
         accept="image/png,image/jpeg,image/gif,image/webp,application/pdf,text/*,application/json,application/ld+json,application/toml,application/x-toml,application/x-yaml,application/xml,application/yaml,.c,.cc,.cjs,.conf,.cpp,.css,.csv,.cts,.env,.go,.gql,.graphql,.h,.hh,.hpp,.htm,.html,.ini,.java,.js,.json,.jsx,.log,.md,.mdx,.mjs,.mts,.py,.rb,.rs,.sass,.scss,.sh,.sql,.toml,.ts,.tsx,.txt,.xml,.yaml,.yml,.zsh"
@@ -103,7 +103,7 @@ export function PromptInputV2(props: PromptInputV2Props) {
                   value: state.popover.query,
                   label: "Commands",
                   placeholder: "/",
-                  onValueChange: props.controller.setQuery,
+                  onValueChange: (v: any) => props.controller.setQuery(v),
                   onKeyDown: props.controller.onKeyDown,
                 }
               : undefined
@@ -120,10 +120,10 @@ export function PromptInputV2(props: PromptInputV2Props) {
           event.preventDefault()
           if (!props.disabled) props.controller.submit()
         }}
-        onDragEnter={props.controller.onDragEnter}
-        onDragOver={props.controller.onDragOver}
-        onDragLeave={props.controller.onDragLeave}
-        onDrop={props.controller.onDrop}
+        onDragEnter={(e: any) => { void props.controller.onDragEnter(e) }}
+        onDragOver={(e: any) => { void props.controller.onDragOver(e) }}
+        onDragLeave={(e: any) => { void props.controller.onDragLeave(e) }}
+        onDrop={(e: any) => { void props.controller.onDrop(e) }}
       >
         <Show when={state.drag === "active"}>
           <div class="pointer-events-none absolute inset-0 z-20 grid place-items-center rounded-xl bg-v2-background-bg-base/90 text-v2-text-text-base">
@@ -137,7 +137,7 @@ export function PromptInputV2(props: PromptInputV2Props) {
             comments={props.controller.comments()}
             activeCommentID={state.activeContextID}
             removeLabel="Remove attachment"
-            onAttachmentClick={props.controller.openAttachment}
+            onAttachmentClick={() => { void props.controller.openAttachment() }}
             onAttachmentRemove={(attachment) => props.controller.removeAttachment(attachment.id)}
             onCommentClick={(comment) => props.controller.toggleContext(comment.key)}
             onCommentRemove={(comment) => props.controller.removeContext(comment.key)}
@@ -186,7 +186,7 @@ export function PromptInputV2(props: PromptInputV2Props) {
             }}
             onKeyUp={updateCursor}
             onPointerUp={updateCursor}
-            onPaste={props.controller.onPaste}
+            onPaste={(e: any) => { void props.controller.onPaste(e) }}
             onFocus={() => props.controller.dispatch({ type: "focus.editor" })}
             onBlur={() => setComposing(false)}
           />
@@ -218,9 +218,9 @@ export function PromptInputV2(props: PromptInputV2Props) {
               contextLabel="Context"
               shellLabel="Shell command"
               onAttach={props.controller.attach}
-              onCommands={props.controller.openCommands}
-              onContext={props.controller.openContext}
-              onShell={props.controller.openShell}
+        onCommands={() => { void props.controller.openCommands() }}
+        onContext={() => { void props.controller.openContext() }}
+        onShell={() => { void props.controller.openShell() }}
             />
             <Show when={view.agent}>
               {(control) => (
@@ -258,8 +258,8 @@ export function PromptInputV2(props: PromptInputV2Props) {
             disabled={!props.controller.canSubmit()}
             sendLabel="Send"
             stopLabel="Stop"
-            onSubmit={props.controller.submit}
-            onStop={props.controller.stop}
+            onSubmit={() => { void props.controller.submit() }}
+            onStop={() => { void props.controller.stop() }}
           />
         </div>
       </form>

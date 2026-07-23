@@ -185,7 +185,7 @@ export function DialogWorkspaceSelect(props: {
   const sync = useSync()
   const sdk = useSDK()
   const toast = useToast()
-  const [adapters, setAdapters] = createSignal<Adapter[] | undefined>(props.adapters)
+  const [adapters, setAdapters] = createSignal(props.adapters)
   const omittedWorkspaceID = createMemo(() => (route.data.type === "session" ? project.workspace.current() : undefined))
 
   onMount(() => {
@@ -203,7 +203,8 @@ export function DialogWorkspaceSelect(props: {
     if (!list) return []
     const { recent, hasMore } = recentConnectedWorkspaces({
       workspaces: project.workspace.list(),
-      status: project.workspace.status,
+      // oxlint-disable-next-line typescript-eslint/unbound-method -- workspace status getter is intentional
+              status: project.workspace.status,
       omitWorkspaceID: omittedWorkspaceID(),
     })
     return [

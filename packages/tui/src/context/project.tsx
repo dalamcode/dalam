@@ -6,6 +6,7 @@ import { useSDK } from "./sdk"
 
 type WorkspaceStatus = "connected" | "connecting" | "disconnected" | "error"
 
+// oxlint-disable-next-line typescript-eslint/unbound-method
 export const { use: useProject, provider: ProjectProvider } = createSimpleContext({
   name: "Project",
   init: () => {

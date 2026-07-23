@@ -143,7 +143,7 @@ export function DialogEditProjectV2(props: { project: LocalProject; server: Serv
           </Field>
         </DialogBody>
         <DialogFooter>
-          <ButtonV2 type="button" variant="neutral" disabled={model.save.isPending} onClick={model.close}>
+          <ButtonV2 type="button" variant="neutral" disabled={model.save.isPending} onClick={() => { void model.close() }}>
             {language.t("common.cancel")}
           </ButtonV2>
           <ButtonV2 type="submit" variant="contrast" disabled={model.save.isPending}>

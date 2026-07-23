@@ -11,7 +11,7 @@ const server = Bun.serve({
     if (request.method === "GET") return new Response(null, { status: 405 })
     if (request.method === "DELETE") return new Response(null, { status: 200 })
 
-    const message = (await request.json()) as { id?: number; method: string }
+    const message = void (await request.json()) as { id?: number; method: string }
     const session = request.headers.get("mcp-session-id")
     posts.push({ method: message.method, session })
 

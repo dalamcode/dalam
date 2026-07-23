@@ -45,7 +45,7 @@ type Deps = {
 
 export function registerIpcHandlers(deps: Deps) {
   const updaterSubscriptions = createUpdaterSubscriptions()
-  app.once("will-quit", updaterSubscriptions.clear)
+  app.once("will-quit", () => updaterSubscriptions.clear())
 
   ipcMain.handle("kill-sidecar", () => deps.killSidecar())
   ipcMain.handle("await-initialization", () => deps.awaitInitialization())

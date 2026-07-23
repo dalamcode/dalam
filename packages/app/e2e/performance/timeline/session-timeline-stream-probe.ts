@@ -122,6 +122,7 @@ export async function installTimelineStreamProbe(
         start: () => {},
       }
       ;(window as Window & { __timelineStreamBenchmark?: TimelineProbeState }).__timelineStreamBenchmark = state
+// oxlint-disable-next-line typescript-eslint/unbound-method -- prototype capture needs unbound reference
       const scrollTo = Element.prototype.scrollTo
       const scrollTop = Object.getOwnPropertyDescriptor(Element.prototype, "scrollTop")!
       if (profileVisual) {
@@ -138,6 +139,7 @@ export async function installTimelineStreamProbe(
         }
         Object.defineProperty(Element.prototype, "scrollTop", {
           configurable: true,
+// oxlint-disable-next-line typescript-eslint/unbound-method -- getter delegation needs unbound reference
           get: scrollTop.get,
           set(value) {
             state.scroll.assignments += 1
@@ -298,7 +300,7 @@ export async function installTimelineStreamProbe(
             state.visibleRows = new Set(visibleRows.map((item) => item.element))
             const rows = visibleRows.map((item) => item.rect)
             rows.slice(1).forEach((rect, index) => {
-              const previous = rows[index]!
+              const previous = rows[index]
               state.maxOverlap = Math.max(state.maxOverlap, previous.bottom - rect.top)
               state.maxGap = Math.max(state.maxGap, rect.top - previous.bottom)
             })
@@ -452,7 +454,7 @@ export async function collectTimelineStreamMetrics(
     const busyFrames =
       busyStart === undefined || busyEnd === undefined
         ? []
-        : state.frames.filter((_, index) => state.frameAt[index]! >= busyStart && state.frameAt[index]! <= busyEnd)
+        : state.frames.filter((_, index) => state.frameAt[index] >= busyStart && state.frameAt[index] <= busyEnd)
     const busySorted = busyFrames.slice().sort((a, b) => a - b)
     const busyDuration = busyFrames.reduce((sum, value) => sum + value, 0)
     const completionObservedMs = (completion?.at ?? NaN) - state.started

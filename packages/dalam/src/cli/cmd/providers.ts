@@ -177,6 +177,7 @@ const handlePluginAuth = Effect.fn("Cli.providers.pluginAuth")(function* (
     const apiKey = yield* promptValue(key)
 
     const metadata = Object.keys(inputs).length ? { metadata: inputs } : {}
+    // oxlint-disable-next-line typescript-eslint/unbound-method
     const authorizeApi = method.authorize
     if (!authorizeApi) {
       yield* put(provider, {
@@ -430,7 +431,7 @@ export const ProvidersLoginCommand = effectCmd({
 
     const plugin = hooks.findLast((x) => x.auth?.provider === provider)
     if (plugin && plugin.auth) {
-      const handled = yield* handlePluginAuth({ auth: plugin.auth! }, provider, args.method)
+      const handled = yield* handlePluginAuth({ auth: plugin.auth }, provider, args.method)
       if (handled) return
     }
 
@@ -444,7 +445,7 @@ export const ProvidersLoginCommand = effectCmd({
 
       const customPlugin = hooks.findLast((x) => x.auth?.provider === provider)
       if (customPlugin && customPlugin.auth) {
-        const handled = yield* handlePluginAuth({ auth: customPlugin.auth! }, provider, args.method)
+        const handled = yield* handlePluginAuth({ auth: customPlugin.auth }, provider, args.method)
         if (handled) return
       }
 

@@ -66,5 +66,6 @@ export async function mount(override?: FetchHandler, state?: string) {
 
   await ready
   await wait(() => sync.status === "complete")
+  // oxlint-disable-next-line typescript-eslint/unbound-method
   return { app, emit: events.emit, kv, project, sync, session: calls.session }
 }
