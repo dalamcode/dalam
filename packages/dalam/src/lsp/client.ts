@@ -188,7 +188,7 @@ export async function create(input: {
     if (changed) emitRegistrationChange()
   })
   connection.onRequest("client/unregisterCapability", async (params) => {
-    const registrations = (void params as { unregisterations?: { id: string; method: string }[] }).unregisterations ?? []
+    const registrations = (params as { unregisterations?: { id: string; method: string }[] }).unregisterations ?? []
     let changed = false
     for (const registration of registrations) {
       if (registration.method !== "textDocument/diagnostic") continue

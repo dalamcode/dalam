@@ -25,6 +25,7 @@ import {
   isFirstLaunchOnboardingPending,
   isOldLayoutEligible,
 } from "./onboarding"
+import { startPowerSaveBlocker, stopPowerSaveBlocker } from "./power-save"
 import {
   getDefaultServerUrl,
   preferAppEnv,
@@ -32,7 +33,9 @@ import {
   spawnLocalServer,
   type SidecarListener,
 } from "./server"
+import { registerGlobalShortcuts, unregisterGlobalShortcuts } from "./shortcuts"
 import { setupAutoUpdater, showUpdaterDialog } from "./updater"
+import { createTray, destroyTray } from "./tray"
 import { safeWebContentsURL } from "./window-state"
 import {
   getLastFocusedWindow,
@@ -227,6 +230,9 @@ const main = Effect.gen(function* () {
   app.on("will-quit", () => {
     setAppQuitting()
     void stopSidecars()
+    unregisterGlobalShortcuts()
+    destroyTray()
+    stopPowerSaveBlocker()
   })
 
   app.on("child-process-gone", (_event, details) => {
@@ -381,18 +387,30 @@ const main = Effect.gen(function* () {
 
   const windows = restoreMainWindows()
   if (windows.length) {
-    createMenu({
-      trigger: (id) => {
-        const win = getLastFocusedWindow()
-        if (win) sendMenuCommand(win, id)
-      },
-      checkForUpdates: () => {
-        void showUpdaterDialog(updater, true)
-      },
-      relaunch: () => {
-        relaunch()
-      },
-    })
+    const mainWindow = getLastFocusedWindow()
+    if (mainWindow) {
+      createMenu({
+        trigger: (id) => {
+          const win = getLastFocusedWindow()
+          if (win) sendMenuCommand(win, id)
+        },
+        checkForUpdates: () => {
+          void showUpdaterDialog(updater, true)
+        },
+        relaunch: () => {
+          relaunch()
+        },
+      })
+
+      // Create system tray
+      createTray(mainWindow)
+
+      // Register global shortcuts
+      registerGlobalShortcuts(mainWindow)
+
+      // Start power save blocker for long-running agent work
+      startPowerSaveBlocker()
+    }
   }
 })
 

@@ -83,7 +83,7 @@ export const recordedEffectGroup = <
         options: input.options,
         caseOptions,
       }),
-    ).live(name, body, testOptions)
+    ).live(name, body, typeof testOptions === "number" ? testOptions : undefined)
   }
 
   const effect = <A, E2>(name: string, body: RecordedBody<A, E2, R>, testOptions?: number | TestOptions) =>

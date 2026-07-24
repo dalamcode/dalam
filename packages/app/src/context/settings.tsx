@@ -19,6 +19,14 @@ export interface SoundSettings {
   errors: string
 }
 
+export type PetName = "codepix" | "dewey" | "fireball" | "hoots" | "null-signal" | "rocky" | "seedy" | "stacky"
+
+export interface PetSettings {
+  enabled: boolean
+  name: PetName
+  showStatus: boolean
+}
+
 export interface Settings {
   general: {
     autoSave: boolean
@@ -51,6 +59,7 @@ export interface Settings {
   }
   notifications: NotificationSettings
   sounds: SoundSettings
+  pets: PetSettings
 }
 
 export const monoDefault = "System Mono"
@@ -208,6 +217,11 @@ const defaultSettings: Settings = {
     permissions: "staplebops-02",
     errorsEnabled: true,
     errors: "nope-03",
+  },
+  pets: {
+    enabled: true,
+    name: "codepix",
+    showStatus: true,
   },
 }
 
@@ -515,6 +529,20 @@ export const { use: useSettings, provider: SettingsProvider } = createSimpleCont
         errors: withFallback(() => store.sounds?.errors, defaultSettings.sounds.errors),
         setErrors(value: string) {
           setStore("sounds", "errors", value)
+        },
+      },
+      pets: {
+        enabled: withFallback(() => store.pets?.enabled, defaultSettings.pets.enabled),
+        setEnabled(value: boolean) {
+          setStore("pets", "enabled", value)
+        },
+        name: withFallback(() => store.pets?.name, defaultSettings.pets.name),
+        setName(value: PetName) {
+          setStore("pets", "name", value)
+        },
+        showStatus: withFallback(() => store.pets?.showStatus, defaultSettings.pets.showStatus),
+        setShowStatus(value: boolean) {
+          setStore("pets", "showStatus", value)
         },
       },
     }

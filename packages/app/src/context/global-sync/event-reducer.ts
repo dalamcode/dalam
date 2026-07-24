@@ -128,7 +128,7 @@ export function applyDirectoryEvent(input: {
       return
     }
     case "session.created": {
-      const info = (void event.properties as { info: Session }).info
+      const info = (event.properties as { info: Session }).info
       const result = Binary.search(input.store.session, info.id, (s) => s.id)
       if (result.found) {
         input.setStore("session", result.index, reconcile(info))
@@ -314,7 +314,7 @@ export function applyDirectoryEvent(input: {
           const part = draft[result.index]
           const field = props.field as keyof typeof part
           const existing = part[field] as string | undefined
-          ;(part[field]) = (existing ?? "") + props.delta
+          ;(part[field] as string) = (existing ?? "") + props.delta
         }),
       )
       break

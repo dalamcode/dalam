@@ -166,13 +166,13 @@ const jsonPayloads = (body: string) =>
     })
 
 const usageFromResponseBody = (body: string) =>
-  jsonPayloads(body).reduce((usage, payload) => {
+  jsonPayloads(body).reduce<Usage>((usage, payload) => {
     if (!isRecord(payload)) return usage
     return addUsage(
       usage,
       addUsage(
-        usageFromObject(payload.usage),
-        usageFromObject(isRecord(payload.response) ? payload.response.usage : undefined),
+        usageFromObject(payload.usage as Record<string, unknown> | undefined),
+        usageFromObject(isRecord(payload.response) ? (payload.response.usage as Record<string, unknown> | undefined) : undefined),
       ),
     )
   }, emptyUsage())
@@ -196,7 +196,7 @@ const rowFor = (models: JsonRecord, file: string, cassette: unknown): Row | unde
   if (!first || !isRecord(first.request)) return undefined
   const provider = providerFromUrl(asString(first.request.url) ?? "")
   const model = modelFromRequest(first.request)
-  const usage = cassette.interactions.filter(isRecord).reduce((total, interaction) => {
+  const usage = cassette.interactions.filter(isRecord).reduce<Usage>((total, interaction) => {
     if (!isRecord(interaction.response)) return total
     const responseBody = asString(interaction.response.body)
     if (!responseBody) return total
@@ -207,10 +207,15 @@ const rowFor = (models: JsonRecord, file: string, cassette: unknown): Row | unde
     cassette: path.relative(RECORDINGS_DIR, file),
     provider,
     model,
-    ...usage,
+    inputTokens: usage.inputTokens,
+    outputTokens: usage.outputTokens,
+    cacheReadTokens: usage.cacheReadTokens,
+    cacheWriteTokens: usage.cacheWriteTokens,
+    reasoningTokens: usage.reasoningTokens,
+    reportedCost: usage.reportedCost,
     estimatedCost: estimateCost(usage, priced.pricing),
     pricingSource: priced.source,
-  }
+  } satisfies Row
 }
 
 const money = (value: number) => (value === 0 ? "$0.000000" : `$${value.toFixed(6)}`)

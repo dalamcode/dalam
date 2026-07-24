@@ -604,7 +604,7 @@ export const Terminal = (props: TerminalProps) => {
             if (bytes[0] !== 0) return
             const json = decoder.decode(bytes.subarray(1))
             try {
-              const meta = void JSON.parse(json) as { cursor?: unknown }
+              const meta = JSON.parse(json) as { cursor?: unknown }
               const next = meta?.cursor
               if (typeof next === "number" && Number.isSafeInteger(next) && next >= 0) {
                 cursor = next

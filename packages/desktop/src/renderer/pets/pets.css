@@ -1,0 +1,246 @@
+.pet-container {
+  position: fixed;
+  z-index: 9999;
+  cursor: grab;
+  user-select: none;
+  transition: transform 0.15s ease-out;
+}
+
+.pet-container:hover {
+  transform: scale(1.05);
+}
+
+.pet-container.pet-dragging {
+  cursor: grabbing;
+  transform: scale(1.1);
+  opacity: 0.9;
+}
+
+.pet-animation {
+  width: 128px;
+  height: 128px;
+  image-rendering: pixelated;
+  pointer-events: none;
+  animation: pet-idle-bounce 2s ease-in-out infinite;
+}
+
+@keyframes pet-idle-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.pet-tooltip {
+  position: absolute;
+  bottom: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.85);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 11px;
+  font-family: system-ui, -apple-system, sans-serif;
+  padding: 3px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  pointer-events: none;
+  animation: pet-fade-in 0.15s ease-out;
+}
+
+/* Selector Panel */
+.pet-selector {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(24, 24, 27, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 0;
+  width: 220px;
+  max-height: 360px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  animation: pet-selector-in 0.15s ease-out;
+}
+
+.pet-selector-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 12px 8px;
+}
+
+.pet-selector-title {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 13px;
+  font-family: system-ui, -apple-system, sans-serif;
+  font-weight: 600;
+}
+
+.pet-selector-close {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 14px;
+  font-family: system-ui, -apple-system, sans-serif;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background 0.1s ease, color 0.1s ease;
+}
+
+.pet-selector-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Toggle Switch */
+.pet-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px 12px;
+}
+
+.pet-toggle-label {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 12px;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.pet-toggle-switch {
+  position: relative;
+  width: 36px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  padding: 0;
+}
+
+.pet-toggle-switch.pet-toggle-on {
+  background: #22c55e;
+}
+
+.pet-toggle-knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.2s ease;
+  pointer-events: none;
+}
+
+.pet-toggle-on .pet-toggle-knob {
+  transform: translateX(16px);
+}
+
+/* Divider */
+.pet-selector-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.06);
+  margin: 0 12px;
+}
+
+/* Pet List */
+.pet-selector-list {
+  padding: 8px;
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.pet-selector-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.pet-selector-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.pet-selector-list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+}
+
+.pet-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.6);
+  transition: background 0.1s ease, color 0.1s ease;
+}
+
+.pet-option:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.pet-option-active {
+  background: rgba(34, 197, 94, 0.15);
+  color: #fff;
+}
+
+.pet-option-icon {
+  width: 32px;
+  height: 32px;
+  image-rendering: pixelated;
+  flex-shrink: 0;
+}
+
+.pet-option-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+  flex: 1;
+}
+
+.pet-option-name {
+  font-size: 12px;
+  font-family: system-ui, -apple-system, sans-serif;
+  font-weight: 500;
+}
+
+.pet-option-desc {
+  font-size: 10px;
+  font-family: system-ui, -apple-system, sans-serif;
+  color: rgba(255, 255, 255, 0.35);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pet-option-check {
+  color: #22c55e;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/* Animations */
+@keyframes pet-selector-in {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes pet-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

@@ -54,7 +54,7 @@ function captureAiGatewayOptions(options: Record<string, unknown>) {
             ...nested,
             headers:
               nested.headers && typeof nested.headers === "object"
-                ? { ...(void nested.headers as Record<string, unknown>) }
+                ? { ...(nested.headers as Record<string, unknown>) }
                 : nested.headers,
           },
         }

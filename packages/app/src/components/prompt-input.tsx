@@ -421,7 +421,7 @@ export const PromptInput: Component<PromptInputProps> = (props) => {
 
   const pick = () => {
     pickAttachmentFiles({
-      picker: (...args: any[]) => platform.openAttachmentPickerDialog(...args),
+      picker: async (...args: [any, any]) => { await platform.openAttachmentPickerDialog?.(...args) },
       directory: () => sdk().directory,
       fallback: () => fileInputRef?.click(),
       onFile: addAttachment,
@@ -1171,8 +1171,8 @@ export const PromptInput: Component<PromptInputProps> = (props) => {
       setCursorPosition(editorRef, promptLength(prompt.current()))
     },
     addPart,
-      readClipboardImage: (...args: any[]) => platform.readClipboardImage(...args),
-      getPathForFile: (...args: any[]) => platform.getPathForFile(...args),
+      readClipboardImage: async () => (await platform.readClipboardImage?.()) ?? null,
+      getPathForFile: (file: File) => platform.getPathForFile?.(file) ?? "",
   })
 
   const fileAttachmentInput = () => (
@@ -1455,8 +1455,8 @@ export const PromptInput: Component<PromptInputProps> = (props) => {
           slashOnInput(value)
         }}
         onSlashMenuKeyDown={handleSlashMenuKeyDown}
-        commandKeybind={(...args: any[]) => command.keybind(...args)}
-        commandKeybindParts={(...args: any[]) => command.keybindParts(...args)}
+        commandKeybind={(key: string) => command.keybind(key)}
+        commandKeybindParts={(key: string) => command.keybindParts(key)}
         newLayoutDesigns={false}
         t={(key) => language.t(key as Parameters<typeof language.t>[0])}
       />

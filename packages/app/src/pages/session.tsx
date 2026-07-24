@@ -1150,8 +1150,8 @@ export default function Page() {
   const openReviewFile = createOpenReviewFile({
     showAllFiles,
     tabForPath: file.tab,
-      openTab: (...args: any[]) => tabs().open(...args),
-      setActive: (...args: any[]) => tabs().setActive(...args),
+      openTab: (tab: string) => tabs().open(tab),
+      setActive: (tab: string) => tabs().setActive(tab),
     loadFile: file.load,
   })
 
@@ -2018,7 +2018,7 @@ export default function Page() {
     anchor,
     revealMessage: (id) => revealMessage(id),
     scheduleScrollState,
-    consumePendingMessage: (...args: any[]) => { void layout.pendingMessage.consume(...args) },
+    consumePendingMessage: (sessionKey: string) => layout.pendingMessage.consume(sessionKey),
   })
 
   createEffect(

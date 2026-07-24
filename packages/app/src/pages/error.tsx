@@ -266,7 +266,7 @@ export const ErrorPage: Component<ErrorPageProps> = (props) => {
   async function exportDebugLogs() {
     if (!platform.exportDebugLogs) return
     await ensureFatalErrorRecorded()
-      .then(() => platform.exportDebugLogs())
+      .then(() => platform.exportDebugLogs?.())
       .then(() => setStore("actionError", undefined))
       .catch((err) => {
         setStore("actionError", formatError(err, language.t))

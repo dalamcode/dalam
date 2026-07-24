@@ -122,7 +122,7 @@ export function PromptInputV2(props: PromptInputV2Props) {
         }}
         onDragEnter={(e: any) => { void props.controller.onDragEnter(e) }}
         onDragOver={(e: any) => { void props.controller.onDragOver(e) }}
-        onDragLeave={(e: any) => { void props.controller.onDragLeave(e) }}
+        onDragLeave={() => { void props.controller.onDragLeave() }}
         onDrop={(e: any) => { void props.controller.onDrop(e) }}
       >
         <Show when={state.drag === "active"}>
@@ -137,7 +137,7 @@ export function PromptInputV2(props: PromptInputV2Props) {
             comments={props.controller.comments()}
             activeCommentID={state.activeContextID}
             removeLabel="Remove attachment"
-            onAttachmentClick={() => { void props.controller.openAttachment() }}
+            onAttachmentClick={(attachment) => { void props.controller.openAttachment(attachment) }}
             onAttachmentRemove={(attachment) => props.controller.removeAttachment(attachment.id)}
             onCommentClick={(comment) => props.controller.toggleContext(comment.key)}
             onCommentRemove={(comment) => props.controller.removeContext(comment.key)}

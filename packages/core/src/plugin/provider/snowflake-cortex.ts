@@ -25,7 +25,7 @@ export function cortexFetch(upstream: FetchLike = fetch) {
       try {
         const errorData = (await response.clone().json()) as Record<string, unknown>
         if (
-          String(void errorData.message || errorData.error || "")
+          String(errorData.message || errorData.error || "")
             .toLowerCase()
             .includes("conversation complete")
         ) {

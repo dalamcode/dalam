@@ -20,6 +20,7 @@ import { RunFooterView } from "@/cli/cmd/run/footer.view"
 import { RunEntryContent } from "@/cli/cmd/run/scrollback.writer"
 import { RUN_THEME_FALLBACK, type RunTheme } from "@/cli/cmd/run/theme"
 import type {
+  FooterPhase,
   FooterState,
   FooterSubagentState,
   FooterSubagentTab,
@@ -138,7 +139,7 @@ function subagent(input: {
 
 function footerState(input: Partial<FooterState> = {}) {
   return createSignal({
-    phase: "idle",
+    phase: "idle" as FooterPhase,
     status: "",
     queue: 0,
     model: "gpt-5",

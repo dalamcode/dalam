@@ -26,8 +26,10 @@ import { DesktopFirstLaunchOnboarding } from "./onboarding"
 import { resetZoom, setPinchZoomEnabled, webviewZoom, zoomIn, zoomOut } from "./webview-zoom"
 import { availableStartupServer, readyWslConnections } from "./wsl/connections"
 import "./styles.css"
+import "./pets/pets.css"
 import { Splash } from "@uthakkan/ui/logo"
 import { useTheme } from "@uthakkan/ui/theme/context"
+import { PetComponent } from "./pets"
 
 const root = document.getElementById("root")
 if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
@@ -385,26 +387,31 @@ function DesktopRoot(props: { windowState: DesktopWindowState }) {
       ServerConnection.Key.make(availableStartupServer(defaultServer.latest, wslServers.data)),
     )
     return (
-      <Show when={ready()} fallback={<LoadingSplash />}>
-        <Show when={effectiveDefaultServer()} keyed>
-          {(key) => (
-            <AppInterface
-              defaultServer={key}
-              servers={servers()}
-              router={router}
-              startup={onboarding.promise}
-              serverScoped={
-                <DesktopFirstLaunchOnboarding
-                  initialUrl={getLastActiveUrl(platform.windowID ?? "browser")}
-                  onLoaded={onboarding.resolve}
-                />
-              }
-            >
-              <Inner />
-            </AppInterface>
-          )}
+      <>
+        <Show when={ready()} fallback={<LoadingSplash />}>
+          <Show when={effectiveDefaultServer()} keyed>
+            {(key) => (
+              <AppInterface
+                defaultServer={key}
+                servers={servers()}
+                router={router}
+                startup={onboarding.promise}
+                serverScoped={
+                  <DesktopFirstLaunchOnboarding
+                    initialUrl={getLastActiveUrl(platform.windowID ?? "browser")}
+                    onLoaded={onboarding.resolve}
+                  />
+                }
+              >
+                <Inner />
+              </AppInterface>
+            )}
+          </Show>
         </Show>
-      </Show>
+        <Show when={ready()}>
+          <PetComponent />
+        </Show>
+      </>
     )
   }
 

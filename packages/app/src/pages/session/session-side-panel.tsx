@@ -162,11 +162,11 @@ export function SessionSidePanel(props: {
 
   const openTab = createOpenSessionFileTab({
     normalizeTab,
-    openTab: (...args: any[]) => tabs().open(...args),
+    openTab: (tab: string) => tabs().open(tab),
     pathFromTab: file.pathFromTab,
     loadFile: file.load,
     openReviewPanel,
-    setActive: (...args: any[]) => tabs().setActive(...args),
+    setActive: (tab: string) => tabs().setActive(tab),
   })
 
   const tabState = createSessionTabs({
@@ -396,7 +396,7 @@ export function SessionSidePanel(props: {
                                         <SortableTab
                                           tab={tab}
                                           temporary={temporaryTab() === tab}
-                                          onTabClose={void tabs().close}
+                                          onTabClose={(tabId) => tabs().close(tabId)}
                                           onTabDoubleClick={temporaryTab() === tab ? openTab : undefined}
                                         />
                                       }

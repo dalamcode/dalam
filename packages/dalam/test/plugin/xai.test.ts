@@ -452,7 +452,7 @@ describe("plugin.xai", () => {
         (m): m is Extract<typeof m, { type: "oauth" }> =>
           m.type === "oauth" && m.label === "xAI Grok OAuth (Headless / Remote / VPS)",
       )!
-      expect(( headless.authorize()).url).toBe("https://x.ai/device")
+      expect((await headless.authorize()).url).toBe("https://x.ai/device")
     })
 
     test("requestDeviceCode posts form body, validates fields, and surfaces endpoint errors", async () => {

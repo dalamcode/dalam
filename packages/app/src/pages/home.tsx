@@ -533,7 +533,7 @@ export function NewHome() {
     const directory = directories[0]
     if (!directory) return
     const ctx = global.ensureServerCtx(conn)
-    directories.forEach(void ctx.projects.open)
+    directories.forEach((dir) => ctx.projects.open(dir))
     ctx.projects.touch(directory)
     setSelection({ server: ServerConnection.key(conn), directory })
   }
@@ -881,7 +881,7 @@ function HomeProjectColumn(props: {
                 const serverCtx = global.ensureServerCtx(item)
                 const projects = () => serverCtx.projects.list()
                 const hasProjects = () => projects().length > 0
-                const collapsed = () => void !!state().collapsed[key]
+                const collapsed = () => !!state().collapsed[key]
                 return (
                   <div class="flex min-w-0 flex-col gap-1">
                     <HomeServerRow

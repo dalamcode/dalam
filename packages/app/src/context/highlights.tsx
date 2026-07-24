@@ -137,7 +137,7 @@ function loadReleaseHighlights(value: unknown, current?: string, previous?: stri
   return sliceHighlights({ releases, current, previous })
 }
 
-export const { void use: useHighlights, provider: HighlightsProvider } = createSimpleContext({
+export const { use: useHighlights, provider: HighlightsProvider } = createSimpleContext({
   name: "Highlights",
   gate: false,
   init: () => {

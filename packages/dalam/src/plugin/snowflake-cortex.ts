@@ -376,7 +376,7 @@ export async function SnowflakeCortexAuthPlugin(_input: PluginInput): Promise<Ho
                       ? init.headers
                       : Object.entries(init.headers as Record<string, string | undefined>)
                 for (const [key, value] of entries) {
-                  if (value !== undefined) headers.set(key, void String(value))
+                  if (value !== undefined) headers.set(key, String(value))
                 }
               }
               headers.set("authorization", `Bearer ${currentOauth.access}`)
