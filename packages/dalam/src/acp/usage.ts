@@ -1,7 +1,6 @@
 import type { AgentSideConnection, Usage } from "@agentclientprotocol/sdk"
 import type { AssistantMessage as DalamAssistantMessage, Message } from "@uthakkan/sdk/v2"
 import { InstanceRef } from "@/effect/instance-ref"
-import { InstanceBootstrap } from "@/project/bootstrap"
 import { InstanceStore } from "@/project/instance-store"
 import { makeGlobalNode, Node } from "@uthakkan/core/effect/app-node"
 import { LayerNode } from "@uthakkan/core/effect/layer-node"

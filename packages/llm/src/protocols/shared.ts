@@ -228,6 +228,9 @@ export const errorText = (error: unknown) => {
   if (typeof error === "number" || typeof error === "boolean" || typeof error === "bigint") return String(error)
   if (error === null) return "null"
   if (error === undefined) return "undefined"
+  if (typeof error === "object") {
+    try { return JSON.stringify(error) } catch { /* ignore */ }
+  }
   return "Unknown stream error"
 }
 
@@ -319,7 +322,7 @@ export const validateWith =
  */
 export const jsonPost = (input: { readonly url: string; readonly body: string; readonly headers?: Headers.Input }) =>
   HttpClientRequest.post(input.url).pipe(
-    HttpClientRequest.setHeaders(Headers.set(Headers.fromInput(input.headers), "content-type", "application/json")),
+    HttpClientRequest.setHeaders(input.headers ?? ({} as Headers.Input)),
     HttpClientRequest.bodyText(input.body, "application/json"),
   )
 

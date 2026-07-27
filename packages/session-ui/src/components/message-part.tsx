@@ -365,7 +365,7 @@ function getDirectory(path: string | undefined) {
 }
 
 import type { IconProps } from "@uthakkan/ui/icon"
-import { normalize, resolveFileDiff } from "./session-diff"
+import { resolveFileDiff } from "./session-diff"
 
 export type ToolInfo = {
   icon: IconProps["name"]
@@ -1258,7 +1258,7 @@ export function UserMessageDisplay(props: {
   const metaTail = stamp
 
   const openImagePreview = (url: string, alt?: string) => {
-    dialog.show(() => <ImagePreview src={url} alt={alt} />)
+    void dialog.show(() => <ImagePreview src={url} alt={alt} />)
   }
 
   const handleCopy = async () => {

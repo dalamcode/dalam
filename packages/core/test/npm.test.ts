@@ -1,7 +1,7 @@
 import fs from "fs/promises"
 import path from "path"
 import { describe, expect, test } from "bun:test"
-import { Effect, Option } from "effect"
+import { Effect } from "effect"
 import { AppNodeBuilder } from "@uthakkan/core/effect/app-node-builder"
 import { Global } from "@uthakkan/core/global"
 import { Npm } from "@uthakkan/core/npm"

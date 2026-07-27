@@ -1,7 +1,6 @@
 import { describe, expect } from "bun:test"
 import { Catalog } from "@uthakkan/core/catalog"
 import { AppNodeBuilder } from "@uthakkan/core/effect/app-node-builder"
-import { LayerNode } from "@uthakkan/core/effect/layer-node"
 import { Location } from "@uthakkan/core/location"
 import { ModelV2 } from "@uthakkan/core/model"
 import { VariantPlugin } from "@uthakkan/core/plugin/variant"

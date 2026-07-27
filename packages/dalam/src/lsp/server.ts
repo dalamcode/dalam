@@ -188,7 +188,7 @@ export const ESLint: Info = {
 
       const ok = await Archive.extractZip(zipPath, Global.Path.bin)
         .then(() => true)
-        .catch((error) => {
+        .catch((_error) => {
           return false
         })
       if (!ok) return
@@ -533,7 +533,6 @@ export const ElixirLS: Info = {
   async spawn(root, _ctx, flags) {
     let binary = which("elixir-ls")
     if (!binary) {
-      const elixirLsPath = path.join(Global.Path.bin, "elixir-ls")
       binary = path.join(
         Global.Path.bin,
         "elixir-ls-master",
@@ -793,7 +792,7 @@ async function findVscodeRazorExtension() {
     path.join(os.homedir(), ".vscode-server-insiders", "extensions"),
   ].filter((item) => item !== undefined)
 
-  for (const root of [...new Set(roots)]) {
+  for (const root of new Set(roots)) {
     const entries = await fs.readdir(root, { withFileTypes: true }).catch(() => [])
     const candidates = await Promise.all(
       entries
@@ -1036,7 +1035,7 @@ export const Clangd: Info = {
     if (zip) {
       const ok = await Archive.extractZip(archive, Global.Path.bin)
         .then(() => true)
-        .catch((error) => {
+        .catch((_error) => {
           return false
         })
       if (!ok) return
@@ -1338,7 +1337,7 @@ export const KotlinLS: Info = {
       await Filesystem.writeStream(archivePath, download.body)
       const ok = await Archive.extractZip(archivePath, distPath)
         .then(() => true)
-        .catch((error) => {
+        .catch((_error) => {
           return false
         })
       if (!ok) return
@@ -1661,7 +1660,7 @@ export const TerraformLS: Info = {
 
       const ok = await Archive.extractZip(tempPath, Global.Path.bin)
         .then(() => true)
-        .catch((error) => {
+        .catch((_error) => {
           return false
         })
       if (!ok) return

@@ -297,7 +297,7 @@ export const SettingsGeneralV2: Component<{
             onSelect={(option) => {
               if (!option) return
               if (option.value === currentShell()) return
-              serverSync().updateConfig({ shell: option.value })
+              void serverSync().updateConfig({ shell: option.value })
             }}
           />
         </SettingsRowV2>

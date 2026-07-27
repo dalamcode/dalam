@@ -1,7 +1,6 @@
 import type { NamedError } from "@uthakkan/core/util/error"
 import { SessionV1 } from "@uthakkan/core/v1/session"
 import { Cause, Clock, Duration, Effect, Schedule } from "effect"
-import { MessageV2 } from "./message-v2"
 import { iife } from "@/util/iife"
 import { isRecord } from "@/util/record"
 
@@ -63,7 +62,7 @@ export function delay(attempt: number, error?: SessionV1.APIError) {
   return cap(Math.min(RETRY_INITIAL_DELAY * Math.pow(RETRY_BACKOFF_FACTOR, attempt - 1), RETRY_MAX_DELAY_NO_HEADERS))
 }
 
-export function retryable(error: Err, provider: string): Retryable | undefined {
+export function retryable(error: Err, _provider: string): Retryable | undefined {
   // context overflow errors should not be retried
   if (SessionV1.ContextOverflowError.isInstance(error)) return undefined
   if (SessionV1.APIError.isInstance(error)) {
@@ -106,12 +105,6 @@ export function retryable(error: Err, provider: string): Retryable | undefined {
 function str(value: unknown) {
   if (value === undefined || value === null) return ""
   return String(value)
-}
-
-function num(value: unknown) {
-  const parsed = Number.parseFloat(str(value))
-  if (Number.isNaN(parsed)) return undefined
-  return parsed
 }
 
 function parseJSON(value: unknown) {

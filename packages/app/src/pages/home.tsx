@@ -460,7 +460,7 @@ export function NewHome() {
     if (!options?.background) closeSearch()
   }
 
-  command.register("home", () => [
+  command.register("command.palette", () => [
     {
       id: "command.palette",
       title: language.t("command.palette"),
@@ -588,7 +588,7 @@ export function NewHome() {
       return
     }
     ctx.projects.touch(directory)
-    startTransition(() => {
+    void startTransition(() => {
       const tab = tabs.addSessionTab({ server: ServerConnection.key(conn), sessionId: session.id })
       tabs.select(tab)
     })
@@ -1694,7 +1694,6 @@ function groupSessions(records: HomeSessionRecord[], language: ReturnType<typeof
 
 export function LegacyHome() {
   const sync = useServerSync()
-  const platform = usePlatform()
   const pickDirectory = useDirectoryPicker()
   const dialog = useDialog()
   const navigate = useNavigate()

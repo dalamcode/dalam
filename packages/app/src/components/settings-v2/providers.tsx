@@ -232,7 +232,7 @@ export const SettingsProvidersV2: Component<{ onBack?: () => void }> = (props) =
                 variant="neutral"
                 icon="plus"
                 onClick={() => {
-                  dialog.show(() => <DialogCustomProvider onBack={() => dialog.close()} />)
+                  void dialog.show(() => <DialogCustomProvider onBack={() => dialog.close()} />)
                 }}
               >
                 {language.t("common.connect")}

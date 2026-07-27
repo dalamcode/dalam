@@ -143,7 +143,7 @@ export const useSessionCommands = (actions: SessionCommandContext) => {
     if (sessionID) return permission.isAutoAccepting(sessionID, sdk().directory)
     return permission.isAutoAcceptingDirectory(sdk().directory)
   }
-  const write = async (value: string) => {
+  const _write = async (value: string) => {
     const body = typeof document === "undefined" ? undefined : document.body
     if (body) {
       const textarea = document.createElement("textarea")

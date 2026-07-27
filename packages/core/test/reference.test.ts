@@ -1,7 +1,6 @@
 import { describe, expect } from "bun:test"
 import { Effect, Exit, Layer, Scope } from "effect"
 import { AppNodeBuilder } from "@uthakkan/core/effect/app-node-builder"
-import { LayerNode } from "@uthakkan/core/effect/layer-node"
 import { AbsolutePath } from "@uthakkan/core/schema"
 import { Global } from "@uthakkan/core/global"
 import { Reference } from "@uthakkan/core/reference"

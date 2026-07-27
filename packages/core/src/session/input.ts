@@ -197,9 +197,16 @@ export const equivalent = (
   },
 ) => input.delivery === expected.delivery && matchesPrompt(input, expected)
 
+const stableStringify = (value: unknown): string => {
+  if (typeof value !== "object" || value === null) return JSON.stringify(value)
+  if (Array.isArray(value)) return `[${value.map(stableStringify).join(",")}]`
+  const keys = Object.keys(value).sort()
+  return `{${keys.map((k) => `${JSON.stringify(k)}:${stableStringify((value as Record<string, unknown>)[k])}`).join(",")}}`
+}
+
 const matchesPrompt = (input: Admitted, expected: { readonly sessionID: SessionSchema.ID; readonly prompt: Prompt }) =>
   input.sessionID === expected.sessionID &&
-  JSON.stringify(encodePrompt(input.prompt)) === JSON.stringify(encodePrompt(expected.prompt))
+  stableStringify(encodePrompt(input.prompt)) === stableStringify(encodePrompt(expected.prompt))
 
 const matchesProjection = (
   input: Admitted,

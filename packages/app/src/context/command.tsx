@@ -285,10 +285,6 @@ export const { use: useCommand, provider: CommandProvider } = createSimpleContex
       for (const reg of store.registrations) {
         for (const opt of reg.options()) {
           if (seen.has(opt.id)) {
-            if (import.meta.env.DEV && !warnedDuplicates.has(opt.id)) {
-              warnedDuplicates.add(opt.id)
-              console.warn(`[command] duplicate command id "${opt.id}" registered; keeping first entry`)
-            }
             continue
           }
           seen.add(opt.id)

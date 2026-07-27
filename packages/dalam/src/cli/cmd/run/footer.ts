@@ -297,52 +297,53 @@ export class RunFooter implements FooterApi {
     this.renderer.prependInputHandler(this.handleThemeNotification)
     process.on("SIGUSR2", this.handleThemeSignal)
 
-    const footer = this
+    const child = () =>
+      createComponent(RunFooterView, {
+        directory: options.directory,
+        state: this.state,
+        view: this.view,
+        subagent: this.subagent,
+        queuedPrompts: this.queuedPrompts,
+        findFiles: options.findFiles,
+        agents: this.agents,
+        resources: this.resources,
+        commands: this.commands,
+        providers: this.providers,
+        currentModel: this.currentModel,
+        variants: this.variants,
+        currentVariant: this.currentVariant,
+        theme: this.theme,
+        diffStyle: options.diffStyle,
+        tuiConfig: options.tuiConfig,
+        backgroundSubagents: options.backgroundSubagents,
+        history: options.history,
+        agent: options.agentLabel,
+        onSubmit: this.handlePrompt,
+        onPermissionReply: this.handlePermissionReply,
+        onQuestionReply: this.handleQuestionReply,
+        onQuestionReject: this.handleQuestionReject,
+        onCycle: this.handleCycle,
+        onInterrupt: this.handleInterrupt,
+        onBackground: options.onBackground,
+        onEditorOpen: options.onEditorOpen,
+        onInputClear: this.handleInputClear,
+        onExitRequest: this.handleExit,
+        onRequestExit: this.setRequestExitHandler,
+        onExit: () => this.close(),
+        onModelSelect: this.handleModelSelect,
+        onVariantSelect: this.handleVariantSelect,
+        onRows: this.syncRows,
+        onLayout: this.syncLayout,
+        onStatus: this.setStatus,
+        onSubagentSelect: options.onSubagentSelect,
+        onQueuedRemove: this.handleQueuedRemove,
+      })
     void render(
       () =>
         createComponent(DalamKeymapProvider, {
           keymap: options.keymap,
           get children() {
-            return createComponent(RunFooterView, {
-              directory: options.directory,
-              state: footer.state,
-              view: footer.view,
-              subagent: footer.subagent,
-              queuedPrompts: footer.queuedPrompts,
-              findFiles: options.findFiles,
-              agents: footer.agents,
-              resources: footer.resources,
-              commands: footer.commands,
-              providers: footer.providers,
-              currentModel: footer.currentModel,
-              variants: footer.variants,
-              currentVariant: footer.currentVariant,
-              theme: footer.theme,
-              diffStyle: options.diffStyle,
-              tuiConfig: options.tuiConfig,
-              backgroundSubagents: options.backgroundSubagents,
-              history: options.history,
-              agent: options.agentLabel,
-              onSubmit: footer.handlePrompt,
-              onPermissionReply: footer.handlePermissionReply,
-              onQuestionReply: footer.handleQuestionReply,
-              onQuestionReject: footer.handleQuestionReject,
-              onCycle: footer.handleCycle,
-              onInterrupt: footer.handleInterrupt,
-              onBackground: options.onBackground,
-              onEditorOpen: options.onEditorOpen,
-              onInputClear: footer.handleInputClear,
-              onExitRequest: footer.handleExit,
-              onRequestExit: footer.setRequestExitHandler,
-              onExit: () => footer.close(),
-              onModelSelect: footer.handleModelSelect,
-              onVariantSelect: footer.handleVariantSelect,
-              onRows: footer.syncRows,
-              onLayout: footer.syncLayout,
-              onStatus: footer.setStatus,
-              onSubagentSelect: options.onSubagentSelect,
-              onQueuedRemove: footer.handleQueuedRemove,
-            })
+            return child()
           },
         }),
       this.renderer,
@@ -639,7 +640,7 @@ export class RunFooter implements FooterApi {
     }
 
     this.closed = true
-    for (const fn of [...this.closes]) {
+    for (const fn of this.closes) {
       fn()
     }
   }
@@ -760,7 +761,7 @@ export class RunFooter implements FooterApi {
       return false
     }
 
-    for (const fn of [...this.prompts]) {
+    for (const fn of this.prompts) {
       fn(input)
     }
 
@@ -1103,7 +1104,7 @@ export class RunFooter implements FooterApi {
     this.queuedRemoves.clear()
     this.closes.clear()
     this.scrollback.destroy()
-    for (const theme of [...this.themes]) this.destroyTheme(theme)
+    for (const theme of Array.from(this.themes)) this.destroyTheme(theme)
   }
 
   // Drains the commit queue to scrollback. The surface manager owns grouping,

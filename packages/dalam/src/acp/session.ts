@@ -92,8 +92,6 @@ export type Interface = {
 
 export class Service extends Context.Service<Service, Interface>()("@dalam/ACP/Session") {}
 
-type State = Map<string, Info>
-
 const layer = Layer.effect(
   Service,
   Effect.gen(function* () {

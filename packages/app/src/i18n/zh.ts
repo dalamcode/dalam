@@ -327,6 +327,7 @@ export const dict = {
   "mcp.status.connected": "已连接",
   "mcp.status.failed": "失败",
   "mcp.status.needs_auth": "需要授权",
+  "mcp.status.needs_client_registration": "needs client registration",
   "mcp.auth.clickToAuthenticate": "点击进行授权",
   "mcp.status.disabled": "已禁用",
 
@@ -716,6 +717,8 @@ export const dict = {
 
   "settings.tab.general": "通用",
   "settings.tab.shortcuts": "快捷键",
+  "settings.tab.pets": "Pets",
+  "settings.tab.mcp": "MCP",
 
   "settings.desktop.section.wsl": "WSL",
   "settings.desktop.wsl.title": "WSL 集成",
@@ -892,7 +895,13 @@ export const dict = {
   "settings.commands.description": "命令设置将在此处可配置。",
 
   "settings.mcp.title": "MCP",
-  "settings.mcp.description": "MCP 设置将在此处可配置。",
+  "settings.mcp.description": "{{enabled}} of {{total}} connected",
+  "settings.pets.row.enable.title": "Enable pet companion",
+  "settings.pets.row.enable.description": "Show a pet companion on your desktop",
+  "settings.pets.row.pet.title": "Pet",
+  "settings.pets.row.pet.description": "Choose your desktop pet companion",
+  "settings.pets.row.showStatus.title": "Show status indicator",
+  "settings.pets.row.showStatus.description": "Display the pet's current status",
 
   "settings.permissions.title": "权限",
   "settings.permissions.description": "控制服务器默认可以使用哪些工具。",

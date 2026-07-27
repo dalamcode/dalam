@@ -56,12 +56,12 @@ export function useProviders(directory?: Accessor<string | undefined>) {
     },
     paid: () => {
       const connected = new Set(providers().connected)
-      return [
-        ...Iterable.filter(
+      return Array.from(
+        Iterable.filter(
           providers().all,
           ([id]) => connected.has(id),
         ),
-      ]
+      )
     },
   }
 }

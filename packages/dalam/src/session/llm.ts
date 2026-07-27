@@ -14,7 +14,6 @@ import { GitLabWorkflowLanguageModel } from "gitlab-ai-provider"
 import { ProviderTransform } from "@/provider/transform"
 import { Config } from "@/config/config"
 import type { Agent } from "@/agent/agent"
-import type { MessageV2 } from "./message-v2"
 import { Plugin } from "@/plugin"
 import { Permission } from "@/permission"
 import { EventV2Bridge } from "@/event-v2-bridge"
@@ -129,8 +128,10 @@ const live: Layer.Layer<
           if (!t || !t.execute) {
             return { result: "", error: `Unknown tool: ${toolName}` }
           }
+          let parsedArgs: unknown
+          try { parsedArgs = JSON.parse(argsJson) } catch { return { result: "", error: `Invalid JSON args: ${argsJson}` } }
           try {
-            const result = await t.execute(JSON.parse(argsJson), {
+            const result = await t.execute(parsedArgs, {
               toolCallId: _requestID,
               messages: input.messages,
               abortSignal: input.abort,

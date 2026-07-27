@@ -481,6 +481,8 @@ function custom(dep: CustomDep): Record<string, CustomLoader> {
         autoload,
         options: {
           apiKey,
+          chunkTimeout: 30_000,
+          headerTimeout: 30_000,
           headers: {
             "HTTP-Referer": "https://dalam.uthakkan.in/",
             "X-Title": "dalam",
@@ -566,7 +568,7 @@ function custom(dep: CustomDep): Record<string, CustomLoader> {
           ...(baseURL && { baseURL }),
         },
         async getModel(sdk: any, modelID) {
-          const id = void String(modelID).trim()
+          const id = String(modelID).trim()
           return sdk.languageModel(id)
         },
       }
@@ -724,7 +726,7 @@ function custom(dep: CustomDep): Record<string, CustomLoader> {
             }
 
             return models
-          } catch (e) {
+          } catch {
             return {}
           }
         },
@@ -948,7 +950,7 @@ function custom(dep: CustomDep): Record<string, CustomLoader> {
                 ctrl.enqueue(encoder.encode(text.replace(/"role"\s*:\s*""/g, '"role":"assistant"')))
               },
               cancel() {
-                reader.cancel()
+                void reader.cancel()
               },
             })
             return new Response(stream, { headers: response.headers, status: response.status })
@@ -1603,7 +1605,7 @@ const layer = Layer.effect(
                   providers[gitlab].models[modelID] = model
                 }
               }
-            } catch (e) {}
+            } catch {}
           })
         }
 
@@ -1630,6 +1632,8 @@ const layer = Layer.effect(
               delete provider.models[modelID]
             if (model.status === "alpha" && !runtimeFlags.enableExperimentalModels) delete provider.models[modelID]
             if (model.status === "deprecated") delete provider.models[modelID]
+            // Remove known non-functional Nvidia API models (return 404 or hang indefinitely)
+            if (providerID === "nvidia" && NON_FUNCTIONAL_NVIDIA_MODELS.has(model.api.id)) delete provider.models[modelID]
             if (
               (configProvider?.blacklist && configProvider.blacklist.includes(modelID)) ||
               (configProvider?.whitelist && !configProvider.whitelist.includes(modelID))
@@ -1982,12 +1986,73 @@ const layer = Layer.effect(
   }),
 )
 
-const priority = ["gpt-5", "claude-sonnet-4", "big-pickle", "gemini-3-pro"]
+const priority = ["gpt-5", "claude-sonnet-4", "big-pickle", "gemini-3-pro", "nvidia/"]
+const nvidiaModelPriority = ["nvidia/nemotron-3-ultra", "nvidia/nemotron-3-super"]
 const smallModelFamilyPriority = ["gemini-flash", "gpt-nano", "claude-haiku"]
+
+// Models in the models.dev catalog that are non-functional on the Nvidia API:
+// return 404 (removed) or hang indefinitely (timeout). Tested 2026-07-26.
+const NON_FUNCTIONAL_NVIDIA_MODELS = new Set([
+  // 404 — removed from the API
+  "01-ai/yi-large",
+  "ai21labs/jamba-1.5-large-instruct",
+  "deepseek-ai/deepseek-coder-6.7b-instruct",
+  "google/gemma-3-12b-it",
+  "google/gemma-3-4b-it",
+  "ibm/granite-3.0-3b-a800m-instruct",
+  "ibm/granite-3.0-8b-instruct",
+  "ibm/granite-34b-code-instruct",
+  "ibm/granite-8b-code-instruct",
+  "meta/codellama-70b",
+  "meta/llama2-70b",
+  "microsoft/phi-3-vision-128k-instruct",
+  "microsoft/phi-3.5-moe-instruct",
+  "mistralai/codestral-22b-instruct-v0.1",
+  "mistralai/mistral-7b-instruct-v0.3",
+  "mistralai/mistral-large",
+  "mistralai/mistral-large-2-instruct",
+  "mistralai/mixtral-8x22b-v0.1",
+  "nv-mistralai/mistral-nemo-12b-instruct",
+  "nvidia/llama-3.1-nemotron-51b-instruct",
+  "nvidia/llama-3.1-nemotron-70b-instruct",
+  "nvidia/llama-3.1-nemotron-ultra-253b-v1",
+  "nvidia/llama3-chatqa-1.5-70b",
+  "nvidia/mistral-nemo-minitron-8b-8k-instruct",
+  "nvidia/nemotron-4-340b-instruct",
+  "nvidia/nemotron-4-340b-reward",
+  "nvidia/nemotron-nano-3-30b-a3b",
+  "qwen/qwen3.5-397b-a17b",
+  "writer/palmyra-creative-122b",
+  "writer/palmyra-fin-70b-32k",
+  "writer/palmyra-med-70b",
+  "writer/palmyra-med-70b-32k",
+  "zyphra/zamba2-7b-instruct",
+  "moonshotai/kimi-k2.6",
+  "databricks/dbrx-instruct",
+  // Timeout — hang indefinitely on the API
+  "deepseek-ai/deepseek-v4-pro",
+  "meta/llama-3.2-1b-instruct",
+  "meta/llama-3.3-70b-instruct",
+  "meta/llama-4-maverick-17b-128e-instruct",
+  "mistralai/ministral-14b-instruct-2512",
+  "mistralai/mistral-medium-3.5-128b",
+  "nvidia/llama-3.1-nemotron-nano-8b-v1",
+  "qwen/qwen3-next-80b-a3b-instruct",
+  "stepfun-ai/step-3.7-flash",
+  "z-ai/glm-5.2",
+  "minimaxai/minimax-m3",
+  "bytedance/seed-oss-36b-instruct",
+])
 export function sort<T extends { id: string }>(models: T[]) {
   return sortBy(
     models,
-    [(model) => priority.findIndex((filter) => model.id.includes(filter)), "desc"],
+    [(model) => {
+      if (model.id.startsWith("nvidia/")) {
+        const ni = nvidiaModelPriority.findIndex((f) => model.id.includes(f))
+        return ni >= 0 ? priority.length + ni : priority.length - 1
+      }
+      return priority.findIndex((filter) => model.id.includes(filter))
+    }, "desc"],
     [(model) => (model.id.includes("latest") ? 0 : 1), "asc"],
     [(model) => model.id, "desc"],
   )

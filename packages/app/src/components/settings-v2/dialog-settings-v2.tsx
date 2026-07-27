@@ -8,6 +8,8 @@ import { SettingsGeneralV2 } from "./general"
 import { SettingsKeybinds } from "../settings-keybinds"
 import { SettingsProvidersV2 } from "./providers"
 import { SettingsModelsV2 } from "./models"
+import { SettingsPetsV2 } from "./pets"
+import { SettingsMcpV2 } from "./mcp"
 import "./settings-v2.css"
 import { SettingsServersV2 } from "./servers"
 import { useDialog } from "@uthakkan/ui/context/dialog"
@@ -49,6 +51,10 @@ export const DialogSettings: Component<{
                       <Icon name="keyboard" />
                       {language.t("settings.tab.shortcuts")}
                     </TabsV2.Trigger>
+                    <TabsV2.Trigger value="pets">
+                      <Icon name="subagent" />
+                      {language.t("settings.tab.pets")}
+                    </TabsV2.Trigger>
                   </div>
                 </div>
 
@@ -67,6 +73,10 @@ export const DialogSettings: Component<{
                       <Icon name="models" />
                       {language.t("settings.models.title")}
                     </TabsV2.Trigger>
+                    <TabsV2.Trigger value="mcp">
+                      <Icon name="mcp" />
+                      {language.t("settings.tab.mcp")}
+                    </TabsV2.Trigger>
                   </div>
                 </div>
               </div>
@@ -83,6 +93,9 @@ export const DialogSettings: Component<{
         <TabsV2.Content value="shortcuts" class="settings-v2-panel">
           <SettingsKeybinds v2 />
         </TabsV2.Content>
+        <TabsV2.Content value="pets" class="settings-v2-panel">
+          <SettingsPetsV2 />
+        </TabsV2.Content>
         <TabsV2.Content value="servers" class="settings-v2-panel">
           <SettingsServersV2 />
         </TabsV2.Content>
@@ -91,6 +104,9 @@ export const DialogSettings: Component<{
         </TabsV2.Content>
         <TabsV2.Content value="models" class="settings-v2-panel">
           <SettingsModelsV2 />
+        </TabsV2.Content>
+        <TabsV2.Content value="mcp" class="settings-v2-panel">
+          <SettingsMcpV2 />
         </TabsV2.Content>
       </TabsV2>
     </Dialog>

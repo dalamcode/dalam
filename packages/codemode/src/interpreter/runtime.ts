@@ -16,7 +16,6 @@ import { ToolError } from "../tool-error.js"
 import type {
   DataValue,
   Diagnostic,
-  DiagnosticKind,
   ExecuteOptions,
   ResolvedExecutionLimits,
   Result,
@@ -31,7 +30,6 @@ import {
   ErrorConstructorReference,
   GlobalMethodReference,
   GlobalNamespace,
-  type GlobalNamespaceName,
   formatLocation,
   getArray,
   getBoolean,
@@ -82,7 +80,6 @@ import {
   urlMethods,
   urlProperties,
   urlSearchParamsMethods,
-  urlStatics,
   urlWritableProperties,
   invokeUriFunction,
   invokeURLMethod,
@@ -705,7 +702,7 @@ class Interpreter<R> {
   private drainPendingSettlements(): Effect.Effect<void, unknown> {
     const self = this
     return Effect.gen(function* () {
-      for (const promise of [...self.pendingSettlements]) {
+      for (const promise of self.pendingSettlements) {
         const exit = yield* self.observePromise(promise)
         if (Exit.isSuccess(exit) || Cause.hasInterruptsOnly(exit.cause)) continue
         const failure = normalizeError(Cause.squash(exit.cause))
@@ -1781,7 +1778,7 @@ class Interpreter<R> {
       let result: unknown
       switch (operator) {
         case "+":
-          result = +(operand as number)
+          result = Number(operand)
           break
         case "-":
           result = -(operand as number)
@@ -2042,7 +2039,7 @@ class Interpreter<R> {
     ].join("\n")
   }
 
-  private consoleTableColumns(value: unknown, node: AstNode): ReadonlyArray<string> | undefined {
+  private consoleTableColumns(value: unknown, _node: AstNode): ReadonlyArray<string> | undefined {
     if (value === undefined) return undefined
     if (containsRuntimeReference(value)) return undefined
     const columns = copyOut(copyIn(value, "console.table columns"), true)
@@ -3070,7 +3067,7 @@ class Interpreter<R> {
       if (objectValue instanceof SandboxPromise) {
         if (key === "then" || key === "catch" || key === "finally") {
           throw new InterpreterRuntimeError(
-            `Promise.prototype.${String(key)} is not supported in CodeMode; use await instead (with try/catch to handle failures) - e.g. \`const result = await tools.ns.tool(...)\`.`,
+            `Promise.prototype.${key} is not supported in CodeMode; use await instead (with try/catch to handle failures) - e.g. \`const result = await tools.ns.tool(...)\`.`,
             propertyNode,
             "UnsupportedSyntax",
             [supportedSyntaxMessage],

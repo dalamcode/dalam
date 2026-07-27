@@ -47,6 +47,9 @@ export function registerIpcHandlers(deps: Deps) {
   const updaterSubscriptions = createUpdaterSubscriptions()
   app.once("will-quit", () => updaterSubscriptions.clear())
 
+  ipcMain.handle("install-cli", () => {
+    throw new Error("CLI install is not supported from the renderer process")
+  })
   ipcMain.handle("kill-sidecar", () => deps.killSidecar())
   ipcMain.handle("await-initialization", () => deps.awaitInitialization())
   ipcMain.handle("consume-initial-deep-links", () => deps.consumeInitialDeepLinks())

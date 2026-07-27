@@ -7,7 +7,6 @@ import {
   createMemo,
   For,
   JSX,
-  onCleanup,
   Show,
   ValidComponent,
 } from "solid-js"
@@ -528,7 +527,7 @@ export const DialogSelectModel: Component<{ provider?: string; model?: ModelStat
 
   const manage = () => {
     void import("./dialog-manage-models").then((x) => {
-      dialog.show(() => <x.DialogManageModels />)
+      void dialog.show(() => <x.DialogManageModels />)
     })
   }
 

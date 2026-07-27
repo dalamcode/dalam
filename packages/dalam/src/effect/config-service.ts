@@ -48,13 +48,12 @@ export const Service =
       }
 
       static get layer() {
-        const tag = this
         return Layer.effect(
-          tag,
+          ConfigTag,
           Effect.gen(function* () {
             const config = yield* Config.all(fields)
             // oxlint-disable-next-line typescript-eslint/no-unsafe-type-assertion -- Config.all preserves the field shape, but its conditional return type also supports iterable inputs.
-            return tag.of(config as Shape<Fields>)
+            return ConfigTag.of(config as Shape<Fields>)
           }),
         )
       }

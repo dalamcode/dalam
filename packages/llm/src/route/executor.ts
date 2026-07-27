@@ -49,7 +49,7 @@ const SENSITIVE_NAME_SOURCE =
   "authorization|api[-_]?key|access[-_]?token|refresh[-_]?token|id[-_]?token|token|secret|credential|signature|x-amz-signature"
 const SENSITIVE_NAME = new RegExp(SENSITIVE_NAME_SOURCE, "i")
 const SHORT_QUERY_NAME = /^(key|sig)$/i
-const SENSITIVE_BODY_FIELD = new RegExp(`(?:${SENSITIVE_NAME_SOURCE}|key)`, "i")
+const SENSITIVE_BODY_FIELD = new RegExp(`${SENSITIVE_NAME_SOURCE}|\\bkey\\b`, "i")
 const REDACT_JSON_FIELD = new RegExp(`("(?:${SENSITIVE_BODY_FIELD.source})"\\s*:\\s*)"[^"]*"`, "gi")
 const REDACT_QUERY_FIELD = new RegExp(`((?:${SENSITIVE_BODY_FIELD.source})=)[^&\\s"]+`, "gi")
 
@@ -343,7 +343,7 @@ const toHttpError = (redactedNames: ReadonlyArray<string | RegExp>) => (error: u
 }
 
 const retryDelay = (error: LLMError, attempt: number) => {
-  if (error.retryAfterMs !== undefined) return Effect.succeed(Math.min(error.retryAfterMs, MAX_DELAY_MS))
+  if (error.retryAfterMs !== undefined) return Effect.succeed(error.retryAfterMs)
   return Random.nextBetween(
     Math.min(BASE_DELAY_MS * 2 ** attempt * 0.8, MAX_DELAY_MS),
     Math.min(BASE_DELAY_MS * 2 ** attempt * 1.2, MAX_DELAY_MS),

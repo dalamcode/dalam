@@ -43,7 +43,7 @@ export const SettingsServersV2: Component = () => {
   }
 
   const openEdit = (server: ServerConnection.Http) => {
-    dialog.push(() => <DialogServerV2 mode="edit" server={server} />)
+    void dialog.push(() => <DialogServerV2 mode="edit" server={server} />)
   }
 
   return (

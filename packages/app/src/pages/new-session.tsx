@@ -1,4 +1,4 @@
-import { Show, createEffect, createMemo, createResource, createSignal, onCleanup, untrack } from "solid-js"
+import { Show, createEffect, createMemo, createResource, createSignal, untrack } from "solid-js"
 import { createStore } from "solid-js/store"
 import { Portal } from "solid-js/web"
 import { useSearchParams } from "@solidjs/router"
@@ -37,7 +37,6 @@ import { createPromptModelSelection } from "@/pages/session/composer/prompt-mode
 
 const workspaceBarEnabled = import.meta.env.VITE_DALAM_CHANNEL !== "prod"
 const providerTipDismissalDuration = 30 * 24 * 60 * 60 * 1000
-const providerTipExitDuration = 250
 
 /**
  * The `/new-session` draft page. Unlike `session.tsx`, this only renders the prompt
@@ -110,7 +109,7 @@ const model = createPromptModelSelection({ agent: local.agent.current })
     onDone: promptInputV2Controller.restoreFocus,
   })
 
-  command.register("new-session", () => [
+  command.register("command.palette", () => [
     {
       id: "command.palette",
       title: language.t("command.palette"),

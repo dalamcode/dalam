@@ -118,7 +118,7 @@ async function renderDiffViewer(vcsDiff: unknown[], height = 20, initialRoute?: 
     }
     const base = createTuiPluginApi({
       keymap,
-      client: void {
+      client: {
         vcs: {
           diff: async (input: unknown) => {
             vcsDiffInput = input

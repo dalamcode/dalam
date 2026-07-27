@@ -1,6 +1,7 @@
 import { defineConfig } from "electron-vite"
 import appPlugin from "@uthakkan/app/vite"
 import * as fs from "node:fs/promises"
+import * as path from "node:path"
 
 const DALAM_SERVER_DIST = "../dalam/dist/node"
 
@@ -73,7 +74,36 @@ const require = __cjs_mod__.createRequire(import.meta.url);
     },
   },
   renderer: {
-    plugins: [appPlugin],
+    plugins: [
+      appPlugin,
+      {
+        name: "dalam:pet-assets",
+        configureServer(server) {
+          const petsDir = path.resolve(__dirname, "pets")
+          server.middlewares.use("/pets", (req, res, next) => {
+            const url = req.url ?? ""
+            const ext = path.extname(url).toLowerCase()
+            if (ext !== ".webp" && ext !== ".png") return next()
+            const safe = url.replace(/\.\./g, "").replace(/[<>"|]/g, "")
+            const filePath = path.join(petsDir, safe)
+            if (filePath.startsWith(petsDir)) {
+              return void (async () => {
+                try {
+                  const data = await fs.readFile(filePath)
+                  const types: Record<string, string> = { ".webp": "image/webp", ".png": "image/png" }
+                  res.setHeader("Content-Type", types[ext] ?? "application/octet-stream")
+                  res.end(data)
+                } catch {
+                  res.statusCode = 404
+                  res.end()
+                }
+              })()
+            }
+            next()
+          })
+        },
+      },
+    ],
     publicDir: "../../../app/public",
     root: "src/renderer",
     build: {

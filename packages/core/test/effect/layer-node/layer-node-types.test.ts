@@ -33,7 +33,7 @@ const c = make({ service: C, layer: cLayer, deps: [a, b] })
 const failing = make({ service: A, layer: failingA, deps: [] })
 const dependent = make({ service: B, layer: bLayer, deps: [failing] })
 const inputA = LayerNode.unbound(A, tags.values.app)
-const inputDependent = make({ service: B, layer: bLayer, deps: [inputA] })
+const _inputDependent = make({ service: B, layer: bLayer, deps: [inputA] })
 
 make({ name: "manual-a", layer: aLayer, deps: [] })
 
@@ -51,7 +51,7 @@ make({ service: C, layer: cLayer, deps: [a] })
 
 const closed = build(LayerNode.group([c]))
 const closedWithError = build(LayerNode.group([dependent]))
-const checkClosed: Layer.Layer<C, never> = closed
+const checkClosed: Layer.Layer<C> = closed
 const checkError: Layer.Layer<B, LayerError> = closedWithError
 void checkClosed
 void checkError

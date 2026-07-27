@@ -10,15 +10,11 @@ import {
   createMemo,
   createSignal,
   createResource,
-  Switch,
-  Match,
-  type JSX,
 } from "solid-js"
 import { selectionFromLines, type SelectedLineRange, useFile } from "@/context/file"
 import {
   ContentPart,
   DEFAULT_PROMPT,
-  isCommentItem,
   isPromptEqual,
   Prompt,
   usePrompt,
@@ -35,18 +31,11 @@ import { DockShellForm, DockTray } from "@uthakkan/ui/dock-surface"
 import { Icon } from "@uthakkan/ui/icon"
 import { ProviderIcon } from "@uthakkan/ui/provider-icon"
 import { Tooltip, TooltipKeybind } from "@uthakkan/ui/tooltip"
-import { ButtonV2 } from "@uthakkan/ui/v2/button-v2"
-import { Icon as IconV2 } from "@uthakkan/ui/v2/icon"
-import { IconButtonV2 } from "@uthakkan/ui/v2/icon-button-v2"
-import { KeybindV2 } from "@uthakkan/ui/v2/keybind-v2"
-import { MenuV2 } from "@uthakkan/ui/v2/menu-v2"
-import { TooltipV2 } from "@uthakkan/ui/v2/tooltip-v2"
 import { IconButton } from "@uthakkan/ui/icon-button"
 import { Select } from "@uthakkan/ui/select"
 import { useDialog } from "@uthakkan/ui/context/dialog"
-import { ModelSelectorPopover, ModelSelectorPopoverV2 } from "@/components/dialog-select-model"
+import { ModelSelectorPopover } from "@/components/dialog-select-model"
 import { DialogSelectModelUnpaid } from "@/components/dialog-select-model-unpaid"
-import { DialogSelectModelUnpaidV2 } from "@/components/dialog-select-model-unpaid-v2"
 import { useCommand } from "@/context/command"
 import { usePermission } from "@/context/permission"
 import { useLanguage } from "@/context/language"
@@ -78,7 +67,7 @@ import { PromptPopover, type AtOption, type SlashCommand } from "./prompt-input/
 import { PromptContextItems } from "./prompt-input/context-items"
 import { PromptImageAttachments } from "./prompt-input/image-attachments"
 import { PromptDragOverlay } from "./prompt-input/drag-overlay"
-import { promptDesignPlaceholder, promptPlaceholder } from "./prompt-input/placeholder"
+import { promptPlaceholder } from "./prompt-input/placeholder"
 import { createPromptInputTransientState } from "./prompt-input/transient-state"
 import { showToast } from "@/utils/toast"
 import { ImagePreview } from "@uthakkan/ui/image-preview"
@@ -1175,21 +1164,6 @@ export const PromptInput: Component<PromptInputProps> = (props) => {
       getPathForFile: (file: File) => platform.getPathForFile?.(file) ?? "",
   })
 
-  const fileAttachmentInput = () => (
-    <input
-      ref={(el) => (fileInputRef = el)}
-      type="file"
-      multiple
-      accept={ACCEPTED_FILE_TYPES.join(",")}
-      class="hidden"
-      onChange={(e) => {
-        const list = e.currentTarget.files
-        if (list) void addAttachments(Array.from(list))
-        e.currentTarget.value = ""
-      }}
-    />
-  )
-
   const variants = createMemo(() => ["default", ...props.controls.model.selection.variant.list()])
   // Check provider variants directly: `variants` also includes the UI-only default option.
   const showVariantControl = createMemo(() => props.controls.model.selection.variant.list().length > 0)
@@ -1697,7 +1671,7 @@ export const PromptInput: Component<PromptInputProps> = (props) => {
                               class="min-w-0 max-w-[320px] text-13-regular text-text-base group"
                               style={control()}
                               onClick={() => {
-                                dialog.show(() => <DialogSelectModelUnpaid model={props.controls.model.selection} />)
+                                void dialog.show(() => <DialogSelectModelUnpaid model={props.controls.model.selection} />)
                               }}
                             >
                               <Show when={props.controls.model.selection.current()?.provider?.id}>

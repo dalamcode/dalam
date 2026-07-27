@@ -51,7 +51,7 @@ function createHarness(
   const requests: RequestPermissionRequest[] = []
   const updates: SessionUpdateParams[] = []
   const session = makeSessionService()
-  const sdk = void {
+  const sdk = {
     permission: {
       reply: (params: PermissionReplyParams) => {
         replies.push(params)

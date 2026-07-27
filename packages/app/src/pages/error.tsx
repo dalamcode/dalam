@@ -1,7 +1,7 @@
 import { TextField } from "@uthakkan/ui/text-field"
 import { Logo } from "@uthakkan/ui/logo"
 import { Button } from "@uthakkan/ui/button"
-import { Component, createSignal, onMount, Show } from "solid-js"
+import { Component, onMount, Show } from "solid-js"
 import { createStore } from "solid-js/store"
 import { usePlatform } from "@/context/platform"
 import { useLanguage } from "@/context/language"

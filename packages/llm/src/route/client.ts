@@ -218,8 +218,8 @@ export interface MakeTransportInput<Body, Prepared, Frame, Event, State> {
 }
 
 const streamError = (route: string, message: string, cause: Cause.Cause<unknown>) => {
-  const failed = cause.reasons.find(Cause.isFailReason)?.error
-  if (failed instanceof LLMErrorClass) return failed
+  const error = Cause.findErrorOption(cause)
+  if (Option.isSome(error) && error.value instanceof LLMErrorClass) return error.value
   return ProviderShared.eventError(route, message, Cause.pretty(cause))
 }
 
@@ -227,7 +227,7 @@ function makeFromTransport<Body, Prepared, Frame, Event, State>(
   input: MakeTransportInput<Body, Prepared, Frame, Event, State>,
 ): Route<Body, Prepared> {
   const protocol = input.protocol
-  const encodeBody = Schema.encodeSync(Schema.fromJsonString(protocol.body.schema))
+  const encodeBody = Schema.encodeSync(Schema.fromJsonString(protocol.body.schema)) as (body: unknown) => string
   const decodeEventEffect = Schema.decodeUnknownEffect(protocol.stream.event)
   const decodeEvent = (route: string) => (frame: Frame) =>
     decodeEventEffect(frame).pipe(

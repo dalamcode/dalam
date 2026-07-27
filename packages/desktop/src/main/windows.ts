@@ -260,7 +260,30 @@ export function registerRendererProtocol() {
       return new Response("Not found", { status: 404 })
     }
 
-    const file = resolve(rendererRoot, `.${decodeURIComponent(url.pathname)}`)
+    const pathname = decodeURIComponent(url.pathname)
+
+    // Serve pet images from the pets/ directory (packages/desktop/pets/)
+    if (pathname.startsWith("/pets/")) {
+      const petsRoot = join(root, "../../pets")
+      const file = resolve(petsRoot, `.${pathname}`)
+      const rel = relative(petsRoot, file)
+      if (rel.startsWith("..") || isAbsolute(rel)) {
+        writeLog("protocol", "rejected pets path", { url: request.url, file }, "warn")
+        return new Response("Not found", { status: 404 })
+      }
+      try {
+        const response = await net.fetch(pathToFileURL(file).toString())
+        if (response.status >= 400) {
+          writeLog("protocol", "pets fetch failed", { url: request.url, file, status: response.status }, "error")
+        }
+        return response
+      } catch (error) {
+        writeLog("protocol", "pets fetch error", { url: request.url, file, error }, "error")
+        return new Response("Not found", { status: 404 })
+      }
+    }
+
+    const file = resolve(rendererRoot, `.${pathname}`)
     const rel = relative(rendererRoot, file)
     if (rel.startsWith("..") || isAbsolute(rel)) {
       writeLog("protocol", "rejected path", { url: request.url, file }, "warn")
@@ -403,7 +426,11 @@ function wireWindowRecovery(win: BrowserWindow, name: string) {
     writeLog("window", "renderer responsive", { window: name, currentURL: safeWindowURL(win) }, "error")
     sampler.stopAndFlush()
   })
-  win.webContents.on("console-message", (_event, level, message, line, sourceId) => {
+  win.webContents.on("console-message", (event, level, message, line, sourceId) => {
+    if (message.includes("Content Security Policy") || message.includes("unsafe-eval")) {
+      event.preventDefault()
+      return
+    }
     if (message.toLowerCase().includes("terminal") || sourceId.toLowerCase().includes("terminal")) {
       writeLog("pty", "console", { window: name, level, message, line, sourceId })
     }

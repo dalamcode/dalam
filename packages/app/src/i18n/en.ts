@@ -305,6 +305,7 @@ export const dict = {
   "mcp.status.connected": "connected",
   "mcp.status.failed": "failed",
   "mcp.status.needs_auth": "needs auth",
+  "mcp.status.needs_client_registration": "needs client registration",
   "mcp.status.disabled": "disabled",
   "mcp.auth.clickToAuthenticate": "Click to authenticate",
 
@@ -804,6 +805,8 @@ export const dict = {
   "settings.section.server": "Server",
   "settings.tab.general": "General",
   "settings.tab.shortcuts": "Shortcuts",
+  "settings.tab.pets": "Pets",
+  "settings.tab.mcp": "MCP",
   "settings.desktop.section.wsl": "WSL",
   "settings.desktop.wsl.title": "WSL integration",
   "settings.desktop.wsl.description": "Run the Dalam server inside WSL on Windows.",
@@ -988,7 +991,14 @@ export const dict = {
   "settings.commands.title": "Commands",
   "settings.commands.description": "Command settings will be configurable here.",
   "settings.mcp.title": "MCP",
-  "settings.mcp.description": "MCP settings will be configurable here.",
+  "settings.mcp.description": "{{enabled}} of {{total}} connected",
+
+  "settings.pets.row.enable.title": "Enable pet companion",
+  "settings.pets.row.enable.description": "Show a pet companion on your desktop",
+  "settings.pets.row.pet.title": "Pet",
+  "settings.pets.row.pet.description": "Choose your desktop pet companion",
+  "settings.pets.row.showStatus.title": "Show status indicator",
+  "settings.pets.row.showStatus.description": "Display the pet's current status",
 
   "settings.permissions.title": "Permissions",
   "settings.permissions.description": "Control what tools the server can use by default.",

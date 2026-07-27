@@ -301,7 +301,7 @@ export const { use: useLocal, provider: LocalProvider } = createSimpleContext({
         model.set({ providerID: entry.provider.id, modelID: entry.id })
       },
       set(item: ModelKey | undefined, options?: { recent?: boolean }) {
-        startTransition(() =>
+        void startTransition(() =>
           batch(() => {
             setStore("last", {
               type: "model",
@@ -344,7 +344,7 @@ export const { use: useLocal, provider: LocalProvider } = createSimpleContext({
           return Object.keys(item.variants)
         },
         set(value: string | undefined) {
-          startTransition(() =>
+          void startTransition(() =>
             batch(() => {
               const model = current()
               setStore("last", {

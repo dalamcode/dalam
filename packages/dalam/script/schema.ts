@@ -1,6 +1,5 @@
 #!/usr/bin/env bun
 
-import { Config } from "@/config/config"
 import { ConfigV1 } from "@uthakkan/core/v1/config/config"
 import { TuiConfig } from "@uthakkan/tui/config"
 import { Schema } from "effect"

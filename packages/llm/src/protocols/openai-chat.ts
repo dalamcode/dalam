@@ -297,13 +297,15 @@ const lowerMessages = Effect.fn("OpenAIChat.lowerMessages")(function* (request: 
   const pendingImages: Array<Schema.Schema.Type<typeof OpenAIChatUserContent>> = []
   const flushImages = () => {
     if (pendingImages.length === 0) return
-    messages.push({ role: "user", content: pendingImages.splice(0) })
+    messages.push({ role: "user", content: [...pendingImages] })
+    pendingImages.length = 0
   }
   for (const message of request.messages) {
     if (message.role === "system") {
       const part = yield* ProviderShared.wrappedSystemUpdate("OpenAI Chat", message)
       if (pendingImages.length > 0) {
-        messages.push({ role: "user", content: [...pendingImages.splice(0), { type: "text", text: part.text }] })
+        messages.push({ role: "user", content: [...pendingImages, { type: "text", text: part.text }] })
+        pendingImages.length = 0
         continue
       }
       const previous = messages.at(-1)

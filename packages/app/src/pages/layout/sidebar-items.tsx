@@ -1,6 +1,5 @@
 import type { Session } from "@uthakkan/sdk/v2/client"
 import { Avatar } from "@uthakkan/ui/avatar"
-import { Icon } from "@uthakkan/ui/icon"
 import { Icon as IconV2 } from "@uthakkan/ui/v2/icon"
 import { IconButton } from "@uthakkan/ui/icon-button"
 import { Spinner } from "@uthakkan/ui/spinner"

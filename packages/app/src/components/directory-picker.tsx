@@ -40,6 +40,6 @@ export function useDirectoryPicker() {
       void dialog.show(() => <DialogSelectDirectoryV2 {...input} onSelect={onSelect} />, cancel)
       return
     }
-    dialog.show(() => <DialogSelectDirectory {...input} onSelect={onSelect} />, cancel)
+    void dialog.show(() => <DialogSelectDirectory {...input} onSelect={onSelect} />, cancel)
   }
 }

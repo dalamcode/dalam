@@ -13,7 +13,6 @@ import {
   Navigate,
   Route,
   Router,
-  useLocation,
   useNavigate,
   useParams,
   useSearchParams,
@@ -37,7 +36,6 @@ import {
   Show,
 } from "solid-js"
 import { Dynamic } from "solid-js/web"
-import { makeEventListener } from "@solid-primitives/event-listener"
 import { CommandProvider, useCommand, type CommandOption } from "@/context/command"
 import { CommentsProvider } from "@/context/comments"
 import { FileProvider } from "@/context/file"
@@ -96,7 +94,7 @@ const SessionRoute = () => {
     if (!settings.general.newLayoutDesigns()) return
     if (params.id || search.draftId) return
     if (!tabs.ready() || !sdk().directory) return
-    tabs.newDraft({ server: server.key, directory: sdk().directory }, search.prompt)
+    void tabs.newDraft({ server: server.key, directory: sdk().directory }, search.prompt)
   })
 
   return (

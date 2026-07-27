@@ -66,7 +66,7 @@ function runAll(list: Array<() => Promise<unknown>>) {
   return Promise.allSettled(list.map((item) => item()))
 }
 
-function showErrors(input: {
+function _showErrors(input: {
   errors: unknown[]
   title: string
   translate: (key: string, vars?: Record<string, string | number>) => string
@@ -235,7 +235,7 @@ export async function bootstrapDirectory(input: {
   const revKey = ScopedKey.from(input.scope, input.directory)
   const rev = (providerRev.get(revKey) ?? 0) + 1
   providerRev.set(revKey, rev)
-  ;(async () => {
+  void (async () => {
     const slow = [
       () => Promise.resolve(input.loadSessions(input.directory)),
       () =>

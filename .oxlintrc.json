@@ -36,7 +36,11 @@
     // Type-aware: catch unhandled promises
     "typescript/no-floating-promises": "warn",
     // Warn when spreading non-plain objects (Headers, class instances, etc.)
-    "typescript/no-misused-spread": "warn"
+    "typescript/no-misused-spread": "warn",
+
+    // Suppress intentional Effect/TypeScript conventions
+    "typescript/no-unsafe-type-assertion": "off",
+    "typescript/no-redundant-type-constituents": "off"
   },
   "options": {
     "typeAware": true

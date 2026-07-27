@@ -573,7 +573,7 @@ export async function XaiAuthPlugin(input: PluginInput, options: XaiAuthPluginOp
                     access: tokens.access_token,
                     expires: Date.now() + (tokens.expires_in ?? 3600) * 1000,
                   }
-                } catch (err) {
+                } catch {
                   return { type: "failed" as const }
                 } finally {
                   stopOAuthServer()
@@ -609,7 +609,7 @@ export async function XaiAuthPlugin(input: PluginInput, options: XaiAuthPluginOp
                     access: tokens.access_token,
                     expires: Date.now() + (tokens.expires_in ?? 3600) * 1000,
                   }
-                } catch (err) {
+                } catch {
                   return { type: "failed" as const }
                 }
               },

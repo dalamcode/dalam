@@ -9,7 +9,7 @@ import type {
 import { showToast } from "@/utils/toast"
 import { getFilename } from "@uthakkan/core/util/path"
 import { type Accessor, batch, createMemo, getOwner, onCleanup, onMount, untrack } from "solid-js"
-import { createStore, produce, reconcile } from "solid-js/store"
+import { createStore, reconcile } from "solid-js/store"
 import { useLanguage } from "@/context/language"
 import type { InitError } from "../pages/error"
 import { ServerSDK } from "./server-sdk"
@@ -389,7 +389,7 @@ export function createServerSyncContextInner(serverSDK: ServerSDK) {
         project: globalStore.project,
         refresh: () => {
           if (recent) return
-          bootstrap.refetch()
+          void bootstrap.refetch()
         },
         setGlobalProject: setProjects,
       })
@@ -474,7 +474,7 @@ export function createServerSyncContextInner(serverSDK: ServerSDK) {
       // Invalidate all provider queries so newly configured custom providers
       // appear immediately in the available provider list across all directories.
       void queryClient.invalidateQueries({ queryKey: [serverSDK.scope, null, "providers"] })
-      queryClient.invalidateQueries({
+      void queryClient.invalidateQueries({
         predicate: (query) => query.queryKey[0] === serverSDK.scope && query.queryKey[2] === "providers",
       })
     },

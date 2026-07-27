@@ -1,7 +1,6 @@
 import { Agent } from "@/agent/agent"
 import { Command } from "@/command"
 import { InstanceRef } from "@/effect/instance-ref"
-import { InstanceBootstrap } from "@/project/bootstrap"
 import { InstanceStore } from "@/project/instance-store"
 import { LayerNode } from "@uthakkan/core/effect/layer-node"
 import { ProviderV2 } from "@uthakkan/core/provider"

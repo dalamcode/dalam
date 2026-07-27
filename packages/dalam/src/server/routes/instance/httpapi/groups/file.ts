@@ -1,4 +1,3 @@
-import { FileSystem } from "@uthakkan/core/filesystem"
 import { NonNegativeInt } from "@uthakkan/core/schema"
 import { LSP } from "@/lsp/lsp"
 import { Schema } from "effect"

@@ -6,7 +6,7 @@ let tray: Tray | null = null
 export function createTray(mainWindow: BrowserWindow) {
   if (tray) return tray
 
-  const iconPath = path.join(__dirname, "../../resources/icon.png")
+  const iconPath = path.join(__dirname, "../../resources/icons/icon.png")
   const icon = nativeImage.createFromPath(iconPath)
 
   tray = new Tray(icon)

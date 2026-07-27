@@ -3,7 +3,6 @@ import { SessionID } from "./schema"
 
 import { NonNegativeInt } from "@uthakkan/core/schema"
 import { MessageError } from "./message-error"
-import { AuthError, OutputLengthError } from "./message-error"
 import { ProviderV2 } from "@uthakkan/core/provider"
 import { ModelV2 } from "@uthakkan/core/model"
 export { AuthError, OutputLengthError } from "./message-error"

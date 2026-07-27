@@ -58,6 +58,7 @@ export function createLatestWorkerQueue<T extends { key: string }>(input: {
     },
     pending: () => slots.size,
     async idle() {
+      // oxlint-disable-next-line no-unmodified-loop-condition
       while (running) await running
     },
   }

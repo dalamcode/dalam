@@ -34,7 +34,6 @@ const transport = createWorkerTransport<Extract<MarkdownWorkerRequest, { type: "
 })
 
 export function highlightStreamingCode(key: string, text: string, language: string, complete = false) {
-  const instance = getWorker()
   const id = ++nextID
   latest.set(key, id)
   keys.delete(key)
@@ -63,7 +62,7 @@ export class MarkdownWorkerDisposedError extends Error {}
 export class MarkdownWorkerSupersededError extends Error {}
 export class MarkdownWorkerUnavailableError extends Error {}
 
-function getWorker() {
+function _getWorker() {
   if (worker) return worker
   if (disabled) throw new MarkdownWorkerUnavailableError(disabled.message)
   try {

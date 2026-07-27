@@ -60,7 +60,6 @@ import { SessionContextUsage } from "@/components/session-context-usage"
 import { useDialog } from "@uthakkan/ui/context/dialog"
 import { useLanguage } from "@/context/language"
 import { useSessionKey } from "@/pages/session/session-layout"
-import { usePlatform } from "@/context/platform"
 import { useSettings } from "@/context/settings"
 import { useTabs } from "@/context/tabs"
 import { legacySessionHref, requireServerKey, sessionHref } from "@/utils/session-route"
@@ -269,7 +268,6 @@ export function MessageTimeline(props: {
   const cached = timelineCache.get(ownerSessionKey)
   const initialMeasurements = cached?.measurements
   const coldBottomMount = !initialMeasurements?.length && props.shouldAnchorBottom()
-  const platform = usePlatform()
 
   const [listRoot, setListRoot] = createSignal<HTMLDivElement>()
   const sessionID = createMemo(() => params.id)
@@ -544,7 +542,7 @@ export function MessageTimeline(props: {
   })
   let titleRef: HTMLInputElement | undefined
 
-  let more: HTMLButtonElement | undefined
+  let _more: HTMLButtonElement | undefined
 
   const bindListRoot = (root: HTMLDivElement) => {
     if (root === listRoot()) return
@@ -720,10 +718,10 @@ export function MessageTimeline(props: {
       return
     }
     if (params.serverKey) {
-      tabs.newDraft({ server: requireServerKey(params.serverKey), directory: sdk().directory })
+      void tabs.newDraft({ server: requireServerKey(params.serverKey), directory: sdk().directory })
       return
     }
-    navigate(`/${params.dir}/session`)
+    void navigate(`/${params.dir}/session`)
   }
 
   const archiveSession = async (sessionID: string) => {
@@ -1438,7 +1436,7 @@ export function MessageTimeline(props: {
                               class="size-6 rounded-md data-[expanded]:bg-surface-base-active"
                               aria-label={language.t("common.moreOptions")}
                               ref={(el: HTMLButtonElement) => {
-                                more = el
+                                _more = el
                               }}
                             />
                             <DropdownMenu.Portal>
@@ -1490,7 +1488,7 @@ export function MessageTimeline(props: {
                             size="large"
                             aria-label={language.t("common.moreOptions")}
                             ref={(el: HTMLButtonElement) => {
-                              more = el
+                              _more = el
                             }}
                           />
                           <MenuV2.Portal>

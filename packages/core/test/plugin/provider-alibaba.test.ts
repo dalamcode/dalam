@@ -14,7 +14,7 @@ const it = testEffect(PluginTestLayer)
 
 const addPlugin = Effect.fn(function* () {
   const plugin = yield* PluginV2.Service
-  const aisdk = yield* AISDK.Service
+  const _aisdk = yield* AISDK.Service
   const host = yield* PluginHost.make(plugin)
   yield* AlibabaPlugin.effect(host)
 })
@@ -22,7 +22,7 @@ const addPlugin = Effect.fn(function* () {
 describe("AlibabaPlugin", () => {
   it.effect("creates an Alibaba SDK for @ai-sdk/alibaba", () =>
     Effect.gen(function* () {
-      const plugin = yield* PluginV2.Service
+      const _plugin = yield* PluginV2.Service
       const aisdk = yield* AISDK.Service
       yield* addPlugin()
       const result = yield* aisdk.runSDK({
@@ -39,7 +39,7 @@ describe("AlibabaPlugin", () => {
 
   it.effect("ignores non-Alibaba SDK packages", () =>
     Effect.gen(function* () {
-      const plugin = yield* PluginV2.Service
+      const _plugin = yield* PluginV2.Service
       const aisdk = yield* AISDK.Service
       yield* addPlugin()
       const result = yield* aisdk.runSDK({
@@ -56,7 +56,7 @@ describe("AlibabaPlugin", () => {
 
   it.effect("matches the old bundled Alibaba SDK provider naming", () =>
     Effect.gen(function* () {
-      const plugin = yield* PluginV2.Service
+      const _plugin = yield* PluginV2.Service
       const aisdk = yield* AISDK.Service
       yield* addPlugin()
       const result = yield* aisdk.runSDK({
@@ -65,9 +65,9 @@ describe("AlibabaPlugin", () => {
           api: { id: ModelV2.ID.make("qwen"), type: "aisdk", package: "test-provider" },
         }),
         package: "@ai-sdk/alibaba",
-        options: { name: "custom-alibaba", apiKey: "test" },
+        options: { apiKey: "test" },
       })
-      const expected = createAlibaba({ apiKey: "test", ...{ name: "custom-alibaba" } }).languageModel("qwen")
+      const expected = createAlibaba({ apiKey: "test" }).languageModel("qwen")
       const actual = result.sdk?.languageModel("qwen")
       expect(actual?.provider).toBe(expected.provider)
       expect(actual?.modelId).toBe(expected.modelId)
@@ -76,7 +76,7 @@ describe("AlibabaPlugin", () => {
 
   it.effect("uses the old default languageModel(api.id) behavior", () =>
     Effect.gen(function* () {
-      const plugin = yield* PluginV2.Service
+      const _plugin = yield* PluginV2.Service
       const aisdk = yield* AISDK.Service
       yield* addPlugin()
       const item = ModelV2.Info.make({

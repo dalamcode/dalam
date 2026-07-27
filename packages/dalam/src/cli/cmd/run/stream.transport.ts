@@ -560,7 +560,7 @@ function createLayer(input: StreamInput) {
 
           recovering.add(partID)
           try {
-            while (!closed && !abort.signal.aborted && !input.footer.isClosed) {
+            while (!abort.signal.aborted && !input.footer.isClosed) {
               if (state.data.questions.length > 0 || !state.data.tools.has(partID)) {
                 return
               }
@@ -865,7 +865,7 @@ function createLayer(input: StreamInput) {
         })
 
         const poll = Effect.fn("RunStreamTransport.poll")(function* (next: Wait, signal: AbortSignal) {
-          while (state.wait === next && !signal.aborted && !input.footer.isClosed && !closed) {
+          while (state.wait === next && !signal.aborted && !input.footer.isClosed) {
             yield* Effect.sleep("250 millis")
             yield* complete(next, false)
           }

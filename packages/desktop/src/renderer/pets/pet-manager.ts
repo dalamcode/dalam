@@ -1,5 +1,5 @@
 import { createSignal, createEffect, onCleanup } from "solid-js"
-import { type PetName, type PetState, PET_STATES, DEFAULT_PET, getPetAnimationUrl } from "./pets"
+import { type PetName, type PetState, PET_STATES, DEFAULT_PET, ALL_PET_NAMES, getPetAnimationUrl } from "./pets"
 
 const STORAGE_KEY_PET = "dalam.desktop.pet.name"
 const STORAGE_KEY_POSITION = "dalam.desktop.pet.position"
@@ -33,7 +33,7 @@ function loadEnabled(): boolean {
 }
 
 function isValidPetName(value: string): value is PetName {
-  return ["codepix", "dewey", "fireball", "hoots", "null-signal", "rocky", "seedy", "stacky"].includes(value)
+  return ALL_PET_NAMES.includes(value as PetName)
 }
 
 export interface PetManager {
@@ -105,8 +105,38 @@ export function createPetManager(): PetManager {
     } catch {}
   })
 
+  const handleStorage = (e: StorageEvent) => {
+    if (e.key === STORAGE_KEY_PET && e.newValue && isValidPetName(e.newValue)) {
+      setPet(e.newValue)
+    }
+    if (e.key === STORAGE_KEY_ENABLED && e.newValue !== null) {
+      setEnabledRaw(e.newValue === "true")
+    }
+    if (e.key === STORAGE_KEY_POSITION && e.newValue) {
+      try {
+        const parsed = JSON.parse(e.newValue)
+        if (typeof parsed.x === "number" && typeof parsed.y === "number") setPositionRaw(parsed)
+      } catch {}
+    }
+  }
+
+  const handlePetChange = (e: Event) => {
+    const detail = (e as CustomEvent).detail
+    if (detail?.key === "name" && isValidPetName(detail.value)) {
+      setPet(detail.value)
+    }
+    if (detail?.key === "enabled") {
+      setEnabledRaw(detail.value === "true")
+    }
+  }
+
+  window.addEventListener("storage", handleStorage)
+  window.addEventListener("dalam.desktop.pet.change", handlePetChange)
+
   onCleanup(() => {
     clearAnimationTimeout()
+    window.removeEventListener("storage", handleStorage)
+    window.removeEventListener("dalam.desktop.pet.change", handlePetChange)
   })
 
   return {

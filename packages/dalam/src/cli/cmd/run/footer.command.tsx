@@ -733,7 +733,7 @@ export function RunQueuedPromptSelectBody(props: {
       setQuery,
       select: () => {
         const item = selected()
-        if (item) props.onEdit(item.prompt)
+        if (item) void props.onEdit(item.prompt)
       },
       close: props.onClose,
     })

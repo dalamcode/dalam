@@ -19,7 +19,7 @@ dalam.tool.add({
     },
     required: ["command"],
   },
-  execute(input, ctx) {},
+  execute(_input, _ctx) {},
 })
 
 dalam.auth.add({
